@@ -1,1 +1,1 @@
-# nix-westie
+# nix-wsl

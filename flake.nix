@@ -1,22 +1,49 @@
+# For sources of inspiration see:
+# [Rebuilding my NixOS config - Part 0: ≡ƒöº NixOS Flakes & Git Basics: Everything You Need to Know](https://www.youtube.com/watch?v=43VvFgPsPtY)
+# [m3tam3re/nixcfg](https://code.m3tam3re.com/m3tam3re/nixcfg.git)
+# [YouTube/](https://www.youtube.com/@m3tam3re)
+#
+# based on:
+# [Misterio77/nix-starter-configs](https://github.com/Misterio77/nix-starter-configs)
+# [standard/flake.nix](https://github.com/Misterio77/nix-starter-configs/blob/main/standard/flake.nix)
+# [Misterio77nix-config](https://github.com/Misterio77/nix-config)
+#
+# NixOS-WSL specific options are documented on the NixOS-WSL repository:
+# https://github.com/nix-community/NixOS-WSL
+# https://nix-community.github.io/NixOS-WSL/
+# https://nix-community.github.io/NixOS-WSL/install.html
+# https://nix-community.github.io/NixOS-WSL/options.html
+# https://nix-community.github.io/NixOS-WSL/how-to/nix-flakes.html
+# https://nix-community.github.io/NixOS-WSL/how-to/vscode.html
+# https://wiki.nixos.org/wiki/WSL
+
 {
-  description = "Your new nix config";
+  description = "My NixOS configuration";
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # You can access packages and modules from different nixpkgs revs
     # at the same time. Here's an working example:
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+        url = "github:nix-community/home-manager/release-24.11";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
+    nixos-wsl,
     home-manager,
     ...
   } @ inputs: let
@@ -51,11 +78,19 @@
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
+    # TODO: nixpkgs.hostPlatform versus the legacy option nixpkgs.system
     nixosConfigurations = {
-      # FIXME replace with your hostname
-      your-hostname = nixpkgs.lib.nixosSystem {
+      # your hostname
+      nix-wsl = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
+        system = "x86_64-linux";
         modules = [
+          # NixOS-WSL.nixosModules.wsl
+          nixos-wsl.nixosModules.default
+          {
+            system.stateVersion = "24.11";
+            wsl.enable = true;
+          }
           # > Our main nixos configuration file <
           ./nixos/configuration.nix
         ];
@@ -65,8 +100,8 @@
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      # FIXME replace with your username@hostname
-      "your-username@your-hostname" = home-manager.lib.homeManagerConfiguration {
+      # replace with your username@hostname
+      "mwoodpatrick@nix-wsl" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
