@@ -231,7 +231,7 @@
   };
   
 
-#   environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
 #     # nix # default is 2.18.5
 #     nixVersions.nix_2_25
 #     # it provides the command `nom` works just like `nix`
@@ -244,7 +244,7 @@
 #     spice-vdagent # [Spice](https://www.spice-space.org/)
 #     # Flakes clones its dependencies through the git command,
 #     # so git must be installed first
-#     git
+     git
 #     neovim
 #     wget
 #     curl
@@ -266,7 +266,7 @@
 # 
 #     # [quickgui](https://github.com/quickemu-project/quickgui)
 #     # quickgui
-#   ];
+   ];
 
   # Set the default editor to vim
   environment.variables = {
