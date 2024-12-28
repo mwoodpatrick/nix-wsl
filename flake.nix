@@ -16,6 +16,12 @@
 # https://nix-community.github.io/NixOS-WSL/how-to/nix-flakes.html
 # https://nix-community.github.io/NixOS-WSL/how-to/vscode.html
 # https://wiki.nixos.org/wiki/WSL
+#
+# [Wombat’s Book of Nix](https://mhwombat.codeberg.page/nix-book/)
+# [nix-book](https://github.com/mwoodpatrick/nix-book)
+# [NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/)
+# [nixos-and-flakes-book](https://github.com/mwoodpatrick/nixos-and-flakes-book)
+
 
 {
   description = "My NixOS configuration";
@@ -34,6 +40,11 @@
     };
 
     # Home manager
+    # [Questions about system-level flake on a multi-user setup - Help - NixOS Discourse](
+    #  https://discourse.nixos.org/t/questions-about-system-level-flake-on-a-multi-user-setup/27562)
+	# Allow each user to control their own home-manager flake so they own their own files.
+    # [Workstation set-up with multiple users](https://www.reddit.com/r/NixOS/comments/1arf373/workstation_setup_with_multiple_users/?rdt=59466)
+
     home-manager = {
         url = "github:nix-community/home-manager/release-24.11";
         inputs.nixpkgs.follows = "nixpkgs";
@@ -50,11 +61,11 @@
     inherit (self) outputs;
     # Supported systems for your flake packages, shell, etc.
     systems = [
-      "aarch64-linux"
-      "i686-linux"
+      # "aarch64-linux"
+      # "i686-linux"
       "x86_64-linux"
-      "aarch64-darwin"
-      "x86_64-darwin"
+      # "aarch64-darwin"
+      # "x86_64-darwin"
     ];
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
