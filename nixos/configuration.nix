@@ -239,7 +239,6 @@
       spice-vdagent # Enhanced SPICE integration for linux QEMU guest [Spice](https://www.spice-space.org/)
       # Flakes clones its dependencies through the git command, so git must be installed first
       git # Distributed version control system
-      neovim # Vim text editor fork focused on extensibility and agility
       # Handle none NixOS binaries
       # [Dec 2022 Nix-ld: A clean solution for issues with pre-compiled executables on NixOS](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/)
       # [nix-community/nix-ld](https://github.com/nix-community/nix-ld?tab=readme-ov-file#nix-ld)

@@ -58,7 +58,7 @@
     home-manager,
     ...
   } @ inputs: let
-    inherit (self) outputs;
+    inherit (self) outputs inputs;
     # Supported systems for your flake packages, shell, etc.
     systems = [
       # "aarch64-linux"
