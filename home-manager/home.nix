@@ -7,7 +7,13 @@
   config,
   pkgs,
   ...
-}: {
+}: 
+      let
+        GIT_ROOT = "/mnt/wsl/projects/git";
+      	NIX_CFG_DIR = "${GIT_ROOT}/nix-wsl";
+      	# NIX_CFG_DIR = builtins.trace "my hack NIX_CFG_DIR=${xx}" xx; 
+      	HM_CFG = "#mwoodpatrick@nix-wsl";
+      in  {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -272,11 +278,11 @@
         h  = "history";
         hl = "history|less";
         ht = "history|tail -40";
-        he = "home-manager edit";
-        hs = "home-manager switch;source ~/.bashrc";
+        he = "home-manager -f $NIX_CFG_DIR/home-manager/home.nix edit";
+        hs = "home-manager --flake ${NIX_CFG_DIR}${HM_CFG} switch;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
-        ne = "nvim $HOME/config/nix/configuration.nix";
-        ns = "sudo nixos-rebuild switch --flake $HOME/config/nix#nixos";
+        ne = "nvim $NIX_CFG_DIR/flake.nix";
+        ns = "sudo nixos-rebuild switch --flake $NIX_CFG";
         ngc = "nix-collect-garbage -d";
         j = "jobs";
         k = "kubectl";

@@ -270,7 +270,8 @@
     variables = rec {
       EDITOR = "nvim";
       GIT_ROOT = "/mnt/wsl/projects/git";
-      NIX_CFG = "${GIT_ROOT}/nix-wsl#nix-wsl";
+      NIX_CFG_DIR = "${GIT_ROOT}/nix-wsl";
+      NIX_CFG = "${NIX_CFG_DIR}#nix-wsl";
       HOME = "/home/mwoodpatrick";
     };
 
