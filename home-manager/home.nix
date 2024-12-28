@@ -7,13 +7,12 @@
   config,
   pkgs,
   ...
-}: 
-      let
-        GIT_ROOT = "/mnt/wsl/projects/git";
-      	NIX_CFG_DIR = "${GIT_ROOT}/nix-wsl";
-      	# NIX_CFG_DIR = builtins.trace "my hack NIX_CFG_DIR=${xx}" xx; 
-      	HM_CFG = "#mwoodpatrick@nix-wsl";
-      in  {
+}: let
+  GIT_ROOT = "/mnt/wsl/projects/git";
+  NIX_CFG_DIR = "${GIT_ROOT}/nix-wsl";
+  # NIX_CFG_DIR = builtins.trace "my hack NIX_CFG_DIR=${xx}" xx;
+  HM_CFG = "#mwoodpatrick@nix-wsl";
+in {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -61,10 +60,10 @@
 
   # [Declarative GNOME configuration with NixOS](https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/)
   dconf.settings = {
-        "org/virt-manager/virt-manager/connections" = {
-            autoconnect = ["qemu:///system"];
-            uris = ["qemu:///system"];
-        };
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
   };
 
   # link the configuration file in current directory to the specified location in home directory
@@ -145,12 +144,12 @@
     # networking tools
     mtr # A network diagnostic tool
     iperf3 # Tool to measure IP bandwidth using UDP or TCP
-    dnsutils  # `dig` + `nslookup`
+    dnsutils # `dig` + `nslookup`
     ldns # replacement of `dig`, it provide the command `drill`
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing
-    ipcalc  # it is a calculator for the IPv4/v6 addresses
+    ipcalc # it is a calculator for the IPv4/v6 addresses
 
     # misc
     cowsay # Program which generates ASCII pictures of a cow with a message
@@ -169,7 +168,7 @@
     hugo # static site generator
     glow # markdown previewer in terminal
 
-    btop  # replacement of htop/nmon
+    btop # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
 
@@ -246,9 +245,12 @@
     LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
     PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
     # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
-    DIRENV_LOG_FORMAT=""; # disable direnv output
-    # TODO: Check if running on WSL does not appear to work (check for some other env var) 
-    WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
+    DIRENV_LOG_FORMAT = ""; # disable direnv output
+    # TODO: Check if running on WSL does not appear to work (check for some other env var)
+    WSL =
+      if pkgs.hostPlatform.isWindows
+      then "true"
+      else "false";
   };
 
   programs = {
@@ -274,8 +276,8 @@
 
       # set some aliases, feel free to add more or remove some
       shellAliases = {
-        c  = "clear";
-        h  = "history";
+        c = "clear";
+        h = "history";
         hl = "history|less";
         ht = "history|tail -40";
         he = "home-manager -f $NIX_CFG_DIR/home-manager/home.nix edit";
@@ -297,40 +299,40 @@
     firefox.enable = true;
 
     neovim = {
-	    enable = true;
+      enable = true;
 
-        # automatically add vi and vim aliases
-        viAlias = true;
-        vimAlias = true;
+      # automatically add vi and vim aliases
+      viAlias = true;
+      vimAlias = true;
 
-        # Define your Neovim plugins (optional) 
-        # [flake-awesome-neovim-plugins](https://github.com/m15a/flake-awesome-neovim-plugins)
-        # [Awesome Neovim](https://github.com/rockerBOO/awesome-neovim)
-        # [NixNeovimPlugins](https://github.com/NixNeovim/NixNeovimPlugins)
+      # Define your Neovim plugins (optional)
+      # [flake-awesome-neovim-plugins](https://github.com/m15a/flake-awesome-neovim-plugins)
+      # [Awesome Neovim](https://github.com/rockerBOO/awesome-neovim)
+      # [NixNeovimPlugins](https://github.com/NixNeovim/NixNeovimPlugins)
 
-        # plugins = { 
-            # lualine.enable = true; 
-            # telescope.enable = true; 
-            # harpoon.enable = true; 
-            # pkgs.vimPlugins.nvim-tree-lua
-            # {
-                # plugin = pkgs.vimPlugins.vim-startify;
-                # config = "let g:startify_change_to_vcs_root = 0";
-            # }
-        # };
+      # plugins = {
+      # lualine.enable = true;
+      # telescope.enable = true;
+      # harpoon.enable = true;
+      # pkgs.vimPlugins.nvim-tree-lua
+      # {
+      # plugin = pkgs.vimPlugins.vim-startify;
+      # config = "let g:startify_change_to_vcs_root = 0";
+      # }
+      # };
 
-        # The Home Manager module does not expose many configuration options. 
-        # Therefore, the easiest way to get started is to use the extraConfig option. 
-        # You can copy your old config or directly load your default Neovim config via:
-	
-	    # extraConfig = ''
-        #   lib.fileContents ./init.vim;
-	    #   augroup NixFiles
-	    #     autocmd!
-	    #     autocmd FileType nix setlocal tabstop=2 shiftwidth=2 expandtab
-	    #   augroup END
-	    # '';
-	};
+      # The Home Manager module does not expose many configuration options.
+      # Therefore, the easiest way to get started is to use the extraConfig option.
+      # You can copy your old config or directly load your default Neovim config via:
+
+      # extraConfig = ''
+      #   lib.fileContents ./init.vim;
+      #   augroup NixFiles
+      #     autocmd!
+      #     autocmd FileType nix setlocal tabstop=2 shiftwidth=2 expandtab
+      #   augroup END
+      # '';
+    };
 
     # [](https://wiki.nixos.org/wiki/Starship)
     # [starship](https://starship.rs) - an customizable prompt for any shell
@@ -357,14 +359,14 @@
 
     # [home-manager/modules/programs/vim.nix](https://github.com/nix-community/home-manager/blob/master/modules/programs/vim.nix)
     vim = {
-     enable = true;
-     plugins = with pkgs.vimPlugins; [ vim-airline ];
-     settings = { ignorecase = true; };
-     # See the Vim documentation for detailed descriptions of these
-     # [vim documentation](https://www.vim.org/docs.php)
-     extraConfig = ''
-       set mouse=a
-     '';
+      enable = true;
+      plugins = with pkgs.vimPlugins; [vim-airline];
+      settings = {ignorecase = true;};
+      # See the Vim documentation for detailed descriptions of these
+      # [vim documentation](https://www.vim.org/docs.php)
+      extraConfig = ''
+        set mouse=a
+      '';
     };
 
     # basic configuration of git
@@ -373,7 +375,7 @@
     #   userName = "mwoodpatrick";
     #   userEmail = "mwoodpatrick@gmail.com";
     # };
-    };
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
