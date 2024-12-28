@@ -7,20 +7,16 @@
 # Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 # search fot option definitions using:
-# https://search.nixos.org/options?channel=24.05
+#
+# [Search nix options](https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=etc)
+# [NixOS-WSL specific options](https://nix-community.github.io/NixOS-WSL/options.html)
 # 
 # see: 
 #   [The Nix configuration file](https://nixos.substack.com/p/the-nix-configuration-file)
 #   [Options](https://mynixos.com/nixpkgs/options)
 #
-# NixOS-WSL specific options are documented on the NixOS-WSL repository:
-# https://github.com/nix-community/NixOS-WSL
-# https://nix-community.github.io/NixOS-WSL/
-# https://nix-community.github.io/NixOS-WSL/install.html
-# https://nix-community.github.io/NixOS-WSL/options.html
-# https://nix-community.github.io/NixOS-WSL/how-to/nix-flakes.html
-# https://nix-community.github.io/NixOS-WSL/how-to/vscode.html
-# https://wiki.nixos.org/wiki/WSL
+# [Search for packages to install](https://search.nixos.org/packages)
+# [Search for functions](https://noogle.dev/)
 
 {
   inputs,
@@ -126,19 +122,12 @@
   # TODO: Set your hostname
   networking.hostName = "nix-wsl";
 
-  # Handle none NixOS binaries
-  # [Dec 2022 Nix-ld: A clean solution for issues with pre-compiled executables on NixOS](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/)
-  # [nix-community/nix-ld](https://github.com/nix-community/nix-ld?tab=readme-ov-file#nix-ld)
-  # The module in this repository defines a new module under (programs.nix-ld.dev) instead of (programs.nix-ld)
-  # to not collide with the nixpkgs version.
-  # programs.nix-ld.dev.enable = true;
-
   users.users.mwoodpatrick = {
     # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
     # TODO: You can set an initial password for your user.
     # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
     # Be sure to change it (using passwd) after rebooting!
-    initialPassword = "wsl4Mrk";
+    # initialPassword = "";
 
     isNormalUser  = true;
     home  = "/home/mwoodpatrick";
@@ -150,6 +139,7 @@
     ];
   };
 
+  # [NixOS-WSL specific options](https://nix-community.github.io/NixOS-WSL/options.html)
   wsl = {
     enable = true;
     defaultUser = "mwoodpatrick";
@@ -187,113 +177,127 @@
     # log journalctl -xeu nginx.service|less
     # generated config file: /nix/store/<hash>-nginx.conf
 
-#     nginx = {
-#       enable = true;
-#       statusPage = true;
-#       # logError = "/srv/http/test.local.westie.org/error.log debug"; 
-#       defaultHTTPListenPort=80; # 8080;
-#       defaultSSLListenPort=443; # 8443;
-#   
-#       # [Mozilla SSL SSL Configuration Generator](https://ssl-config.mozilla.org/#server=nginx&config=intermediate)
-#       recommendedTlsSettings = true;
-#   
-#       recommendedOptimisation = true;
-#       recommendedGzipSettings = true;
-#       recommendedProxySettings = true;
-#   
-#       virtualHosts = { # aka server blocks
-#           localhost = { 
-#               root = "/mnt/wsl/projects/www";
-#   
-#   	    serverAliases = ["westie.org" "www.westie.org"];
-#   
-#               locations."/ping" = {
-#                   return = "200 '<html><body>It works</body></html>'";
-#                   extraConfig = ''
-#                       default_type text/html;
-#                   '';
-#               };
-#   
-#               locations."/test" = {
-#           	# error_log = "/srv/http/test.local.westie.org/error.log"; 
-#           	# access_log = "/srv/http/test.local.westie.org/access.log";
-#               };
-#           };
-#   
-#           # "hydra.example.com" = {
-#           #   forceSSL = true;
-#           #   enableACME = true;
-#           #   locations."/" = {
-#           #       proxyPass = "http://localhost:3000";
-#           #   };
-#           };
-#     };    
+       nginx = {
+         enable = true;
+         statusPage = true;
+         # logError = "/srv/http/test.local.westie.org/error.log debug"; 
+         defaultHTTPListenPort=80; # 8080;
+         defaultSSLListenPort=443; # 8443;
+     
+         # [Mozilla SSL SSL Configuration Generator](https://ssl-config.mozilla.org/#server=nginx&config=intermediate)
+         recommendedTlsSettings = true;
+     
+         recommendedOptimisation = true;
+         recommendedGzipSettings = true;
+         recommendedProxySettings = true;
+     
+         virtualHosts = { # aka server blocks
+             localhost = { 
+                 root = "/mnt/wsl/projects/www";
+     
+     	    serverAliases = ["westie.org" "www.westie.org"];
+     
+                 locations."/ping" = {
+                     return = "200 '<html><body>It works</body></html>'";
+                     extraConfig = ''
+                         default_type text/html;
+                     '';
+                 };
+     
+                 locations."/test" = {
+             	# error_log = "/srv/http/test.local.westie.org/error.log"; 
+             	# access_log = "/srv/http/test.local.westie.org/access.log";
+                 };
+             };
+     
+             # "hydra.example.com" = {
+             #   forceSSL = true;
+             #   enableACME = true;
+             #   locations."/" = {
+             #       proxyPass = "http://localhost:3000";
+             #   };
+             };
+       };    
   };
   
 
-  environment.systemPackages = with pkgs; [
-#     # nix # default is 2.18.5
-#     nixVersions.nix_2_25
-#     # it provides the command `nom` works just like `nix`
-#     # with more details log output
-#     nix-direnv
-#     # nixVersions.nix_2_25
-#     nix-prefetch-github # get hash and other info from GitHub package
-#     nix-output-monitor
-#     niv
-#     spice-vdagent # [Spice](https://www.spice-space.org/)
-#     # Flakes clones its dependencies through the git command,
-#     # so git must be installed first
-     git
-#     neovim
-#     wget
-#     curl
-#     direnv
-#     home-manager
-#     # kmod is a set of tools to handle common tasks with Linux kernel modules like insert, remove, 
-#     # list, check properties, resolve dependencies and aliases. These tools are designed on 
-#     # top of libkmod, a library that is shipped with kmod.
-#     # [kmod](https://search.nixos.org/packages?channel=unstable&show=kmod&from=0&size=50&sort=relevance&type=packages&query=kmod)
-#     kmod
-# 
-#     # Extra tools for accessing and modifying virtual machine disk images
-#     # [libguestfs](https://libguestfs.org/)
-#     guestfs-tools
-# 
-#     # [Quickemu Project](https://github.com/quickemu-project)
-#     # [A quick look at Quickemu](https://www.lorenzobettini.it/2024/03/a-quick-look-at-quickemu/)
-#     quickemu
-# 
-#     # [quickgui](https://github.com/quickemu-project/quickgui)
-#     # quickgui
+  # Gloabl OS settings
+  environment = {
+      # List of packages that should be installed system-wide
+      systemPackages = with pkgs; [
+        nixVersions.nix_2_25 # package manager
+        # provides the command `nom` (nix output monitor) works just like `nix` with more details log output
+        nix-output-monitor
+        nix-direnv # Fast, persistent use_nix implementation for direnv
+        nix-prefetch-github # get hash and other info from GitHub package
+        niv # Easy dependency management for Nix projects
+        spice-vdagent # Enhanced SPICE integration for linux QEMU guest [Spice](https://www.spice-space.org/)
+        # Flakes clones its dependencies through the git command, so git must be installed first
+        git # Distributed version control system
+        neovim # Vim text editor fork focused on extensibility and agility
+        # Handle none NixOS binaries
+        # [Dec 2022 Nix-ld: A clean solution for issues with pre-compiled executables on NixOS](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/)
+        # [nix-community/nix-ld](https://github.com/nix-community/nix-ld?tab=readme-ov-file#nix-ld)
+        # The module in this repository defines a new module under (programs.nix-ld.dev) instead of (programs.nix-ld)
+        # to not collide with the nixpkgs version.
+        # programs.nix-ld.dev.enable = true;
+        nix-ld # Run unpatched dynamic binaries on NixOS
+        wget # Tool for retrieving files using HTTP, HTTPS, and FTP
+        curl # Command line tool for transferring files with URL syntax
+        home-manager # Nix-based user environment configurator
+        # kmod # a set of tools to handle common tasks with Linux kernel modules like insert, remove, 
+        # list, check properties, resolve dependencies and aliases. These tools are designed on 
+        # top of libkmod, a library that is shipped with kmod.
+        # [kmod](https://search.nixos.org/packages?channel=unstable&show=kmod&from=0&size=50&sort=relevance&type=packages&query=kmod)
+
+        # Extra tools for accessing and modifying virtual machine disk images
+        # [libguestfs](https://libguestfs.org/)
+        guestfs-tools # Extra tools for accessing and modifying virtual machine disk images
+
+        # [Quickemu Project](https://github.com/quickemu-project)
+        # [A quick look at Quickemu](https://www.lorenzobettini.it/2024/03/a-quick-look-at-quickemu/)
+        quickemu
+ 
+        # [quickgui](https://github.com/quickemu-project/quickgui)
+        # quickgui
    ];
 
-  # Set the default editor to vim
-  environment.variables = {
+  # environment variables that should be set globally.
+  variables = rec {
     EDITOR = "nvim";
     GIT_ROOT= "/mnt/wsl/projects/git";
+    NIX_CFG="${GIT_ROOT}/nix-wsl#nix-wsl";
     HOME="/home/mwoodpatrick";
   };
+
+  # Sets environment variables for user sessions.
+  sessionVariables = { 
+      # TERM = "xterm-256color"; 
+  };
+
+  # List of directories to be symlinked in /run/current-system/sw.
+  pathsToLink = [ "/usr/share/doc" ];
+};
 
   # Enable virtualization
   # [Virt-manager](https://nixos.wiki/wiki/Virt-manager)
   # [Libvirt](https://nixos.wiki/wiki/Libvirt)
-#   virtualisation.libvirtd = {
-#     enable = true;
-#     qemu = {
-#       package = pkgs.qemu_kvm;
-#       runAsRoot = true;
-#       swtpm.enable = true;
-#       ovmf = {
-#         enable = true;
-#         packages = [(pkgs.OVMF.override {
-#           secureBoot = true;
-#           tpmSupport = true;
-#         }).fd];
-#       };
-#     };
-#   };
-# programs.virt-manager.enable = true;
+     virtualisation.libvirtd = {
+       enable = true;
+       qemu = {
+         package = pkgs.qemu_kvm;
+         runAsRoot = true;
+         swtpm.enable = true;
+         ovmf = {
+           enable = true;
+           packages = [(pkgs.OVMF.override {
+             secureBoot = true;
+             tpmSupport = true;
+           }).fd];
+         };
+       };
+     };
+   programs.virt-manager.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
