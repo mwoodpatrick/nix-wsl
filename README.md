@@ -34,11 +34,17 @@ sudo nixos-rebuild switch
 
 # Configuring GitHub
 
+Configure Git to remember my credentials (username and password) by saving them in plain text in a file located at ~/.git-credentials.
+
+Specify that Git should merge changes to maintain the context of branch merges & show
+a complete history.
+
 ```
 git config --global user.name mwoodpatrick
 git config --global user.email mwoodpatrick@gmail.com
 git config --global credential.helper store
 git config --global core.editor nvim
+git config pull.rebase false
 git config --list
 ```
 
