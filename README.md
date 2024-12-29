@@ -1,7 +1,7 @@
 # A Flake for intslling & running NixOS on WSL-2
 
 ```
-cd \$GIT_ROOT
+cd $GIT_ROOT
 mkdir nix-wsl
 cd !$
 nix flake init -t github:misterio77/nix-starter-config#standard
