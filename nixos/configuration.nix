@@ -305,7 +305,11 @@
       };
     };
   };
-  programs.virt-manager.enable = true;
+
+  programs = {
+    nix-ld.enable = true;
+    virt-manager.enable = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

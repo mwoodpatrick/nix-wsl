@@ -1,5 +1,6 @@
-# A Flake for intslling & running NixOS on WSL-2
+# A Flake for installing & running NixOS on WSL-2
 
+# Create GIT Repository
 ```
 cd \$GIT_ROOT
 mkdir nix-wsl
