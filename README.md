@@ -1,6 +1,6 @@
 # A Flake for installing & running NixOS on WSL-2
 
-# Create GIT Repository
+## Create GIT Repository
 ```
 cd $GIT_ROOT
 mkdir nix-wsl
@@ -16,7 +16,7 @@ git push -u origin main
 nix flake check
 ```
 
-# Install WSL Distro
+## Install WSL Distro
 
 ```
 cd /mnt/c/Users/mlwp/Distros/NixOS
@@ -32,7 +32,7 @@ sudo nix-channel --update
 sudo nixos-rebuild switch
 ```
 
-# Configuring GitHub
+## Configuring GitHub
 
 Configure Git to remember my credentials (username and password) by saving them in plain text in a file located at ~/.git-credentials.
 
@@ -48,7 +48,7 @@ git config pull.rebase false
 git config --list
 ```
 
-# Switching to Flakes
+## Switching to Flakes
 
 ```
 cd /mnt/wsl/projects/git/nix-westie
@@ -56,3 +56,12 @@ nix-shell -p git
 sudo nixos-rebuild switch --flake .#nix-wsl
 home-manager --flake .#mwoodpatrick@nix-wsl switch
 ```
+
+## Installing Fonts
+
+See [Fonts](https://nixos.wiki/wiki/Fonts)
+
+## References
+
+1. [Setting Up NixOS on Windows Subsystem for Linux (WSL2)](https://www.greghilston.com/post/nixos-on-wsl/)
+2. [Markdown Guide](https://www.markdownguide.org/)

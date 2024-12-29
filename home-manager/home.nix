@@ -334,12 +334,16 @@ in {
       # '';
     };
 
+    # TODO: Fix presets
     # [](https://wiki.nixos.org/wiki/Starship)
     # [starship](https://starship.rs) - an customizable prompt for any shell
+    # [Nix Starship options](https://search.nixos.org/options?channel=unstable&show=programs.starship.settings&from=0&size=50&sort=relevance&type=packages&query=starship)
     # [github:startship](https://github.com/spaceship-prompt/spaceship-prompt)
     starship = {
       enable = true;
+
       # custom settings
+
       settings = {
         add_newline = true;
         command_timeout = 1300;
@@ -355,6 +359,12 @@ in {
         direnv.disabled = false;
         hostname.ssh_only = false;
       };
+
+      # custom presets
+      # error: The option `programs.starship.presets' does not exist
+      # presets = [
+      #   "nerd-font-symbols"
+      # ];
     };
 
     # [home-manager/modules/programs/vim.nix](https://github.com/nix-community/home-manager/blob/master/modules/programs/vim.nix)
@@ -375,7 +385,7 @@ in {
     #   userName = "mwoodpatrick";
     #   userEmail = "mwoodpatrick@gmail.com";
     # };
-  };
+  }; # programs
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
