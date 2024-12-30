@@ -268,7 +268,7 @@
 
     # environment variables that should be set globally.
     variables = rec {
-      EDITOR = "nvim";
+      # EDITOR = "nvim";
       GIT_ROOT = "/mnt/wsl/projects/git";
       NIX_CFG_DIR = "${GIT_ROOT}/nix-wsl";
       NIX_CFG = "${NIX_CFG_DIR}#nix-wsl";

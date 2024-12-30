@@ -12,6 +12,11 @@
   NIX_CFG_DIR = "${GIT_ROOT}/nix-wsl";
   # NIX_CFG_DIR = builtins.trace "my hack NIX_CFG_DIR=${xx}" xx;
   HM_CFG = "#mwoodpatrick@nix-wsl";
+  nixvim = import (builtins.fetchGit {
+    url = "https://github.com/nix-community/nixvim";
+    ref = "main";
+  });
+  myNixVIMModule = import my-nixvim-module/default.nix;
 in {
   # You can import other home-manager modules here
   imports = [
@@ -23,7 +28,12 @@ in {
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+    nixvim.homeManagerModules.nixvim
+    myNixVIMModule
   ];
+
+  mynixvim.enable = false; 
+  mynixvim.message = "Hello, Home Manager!";
 
   nixpkgs = {
     # You can add overlays here
@@ -281,8 +291,11 @@ in {
         hl = "history|less";
         ht = "history|tail -40";
         he = "home-manager -f $NIX_CFG_DIR/home-manager/home.nix edit";
+        hf = "nix fmt $NIX_CFG_DIR/home-manager/home.nix";
         hs = "home-manager --flake ${NIX_CFG_DIR}${HM_CFG} switch;source ~/.bashrc";
+	hsi = "home-manager --impure --flake ${NIX_CFG_DIR}${HM_CFG} switch;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
+        cdn = "cd $NIX_CFG_DIR";
         ne = "nvim $NIX_CFG_DIR/flake.nix";
         ns = "sudo nixos-rebuild switch --flake $NIX_CFG";
         ngc = "nix-collect-garbage -d";
@@ -299,39 +312,30 @@ in {
     firefox.enable = true;
 
     neovim = {
-      enable = true;
-
+      enable = false; # disable neovim use nixvim
+      defaultEditor = true; # configures neovim to be the default editor using the EDITOR environment variable
       # automatically add vi and vim aliases
-      viAlias = true;
-      vimAlias = true;
-
-      # Define your Neovim plugins (optional)
-      # [flake-awesome-neovim-plugins](https://github.com/m15a/flake-awesome-neovim-plugins)
-      # [Awesome Neovim](https://github.com/rockerBOO/awesome-neovim)
-      # [NixNeovimPlugins](https://github.com/NixNeovim/NixNeovimPlugins)
-
-      # plugins = {
-      # lualine.enable = true;
-      # telescope.enable = true;
-      # harpoon.enable = true;
-      # pkgs.vimPlugins.nvim-tree-lua
-      # {
-      # plugin = pkgs.vimPlugins.vim-startify;
-      # config = "let g:startify_change_to_vcs_root = 0";
-      # }
-      # };
+      viAlias = true; # Symlink vi to nvim binary.
+      vimAlias = true; # Symlink vim to nvim binary.
 
       # The Home Manager module does not expose many configuration options.
       # Therefore, the easiest way to get started is to use the extraConfig option.
       # You can copy your old config or directly load your default Neovim config via:
 
-      # extraConfig = ''
-      #   lib.fileContents ./init.vim;
-      #   augroup NixFiles
-      #     autocmd!
-      #     autocmd FileType nix setlocal tabstop=2 shiftwidth=2 expandtab
-      #   augroup END
-      # '';
+      extraConfig = ''
+        lib.fileContents ./init.vim;
+        augroup NixFiles
+          autocmd!
+          autocmd FileType nix setlocal tabstop=2 shiftwidth=2 expandtab
+        augroup END
+      '';
+    };
+
+    nixvim = {
+      enable = true;
+
+      colorschemes.catppuccin.enable = true;
+      plugins.lualine.enable = true;
     };
 
     # TODO: Fix presets
@@ -340,7 +344,7 @@ in {
     # [Nix Starship options](https://search.nixos.org/options?channel=unstable&show=programs.starship.settings&from=0&size=50&sort=relevance&type=packages&query=starship)
     # [github:starship](https://github.com/spaceship-prompt/spaceship-prompt)
     # [Configuration](https://starship.rs/config/)
-    # By default starship logs warnings and errors into a file named 
+    # By default starship logs warnings and errors into a file named
     #	~/.cache/starship/session_${STARSHIP_SESSION_KEY}.log
     starship = {
       enable = true;
@@ -348,14 +352,14 @@ in {
       # custom settings
 
       settings = {
-      	# Inserts a blank line between shell prompts
+        # Inserts a blank line between shell prompts
         add_newline = true;
         command_timeout = 1300;
         scan_timeout = 50;
         # format = "$all$nix_shell$nodejs$lua$golang$rust$php$git_branch$git_commit$git_state$git_status\n$username$hostname$directory";
         character = {
-	  success_symbol = "[](bold green) ";
-	  error_symbol = "[✗](bold red) ";
+          success_symbol = "[](bold green) ";
+          error_symbol = "[✗](bold red) ";
         };
         # aws.disabled = true;
         # gcloud.disabled = true;
