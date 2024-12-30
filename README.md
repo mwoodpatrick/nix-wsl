@@ -61,6 +61,16 @@ home-manager --flake .#mwoodpatrick@nix-wsl switch
 
 See [Fonts](https://nixos.wiki/wiki/Fonts)
 
+## Enable VSCode
+
+See [Setup VSCode Remote](https://nix-community.github.io/NixOS-WSL/how-to/vscode.html) use option 1 and set:
+
+    programs.nix-ld.enable = true;
+    
+Set path for neovim in VSCode extension settings to:
+
+    /home/mwoodpatrick/.nix-profile/bin/nvim
+
 ## References
 
 1. [Setting Up NixOS on Windows Subsystem for Linux (WSL2)](https://www.greghilston.com/post/nixos-on-wsl/)

@@ -32,6 +32,8 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
+    # [NixOS-WSL](https://nix-community.github.io/NixOS-WSL/)
+    # [NixOS-WSL](https://github.com/nix-community/NixOS-WSL)
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
