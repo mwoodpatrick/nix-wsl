@@ -338,20 +338,24 @@ in {
     # [](https://wiki.nixos.org/wiki/Starship)
     # [starship](https://starship.rs) - an customizable prompt for any shell
     # [Nix Starship options](https://search.nixos.org/options?channel=unstable&show=programs.starship.settings&from=0&size=50&sort=relevance&type=packages&query=starship)
-    # [github:startship](https://github.com/spaceship-prompt/spaceship-prompt)
+    # [github:starship](https://github.com/spaceship-prompt/spaceship-prompt)
+    # [Configuration](https://starship.rs/config/)
+    # By default starship logs warnings and errors into a file named 
+    #	~/.cache/starship/session_${STARSHIP_SESSION_KEY}.log
     starship = {
       enable = true;
 
       # custom settings
 
       settings = {
+      	# Inserts a blank line between shell prompts
         add_newline = true;
         command_timeout = 1300;
         scan_timeout = 50;
-        format = "$all$nix_shell$nodejs$lua$golang$rust$php$git_branch$git_commit$git_state$git_status\n$username$hostname$directory";
+        # format = "$all$nix_shell$nodejs$lua$golang$rust$php$git_branch$git_commit$git_state$git_status\n$username$hostname$directory";
         character = {
-          success_symbol = "[∩âÜ](bold green) ";
-          error_symbol = "[Γ£ù](bold red) ";
+	  success_symbol = "[](bold green) ";
+	  error_symbol = "[✗](bold red) ";
         };
         # aws.disabled = true;
         # gcloud.disabled = true;
