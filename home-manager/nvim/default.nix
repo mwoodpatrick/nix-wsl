@@ -1,26 +1,32 @@
-{ inputs, outputs, lib, config, pkgs, ... }: let
-#   nixvim = import (builtins.fetchGit {
-#     url = "https://github.com/nix-community/nixvim";
-#     ref = "main";
-#   });
-
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: let
+  #   nixvim = import (builtins.fetchGit {
+  #     url = "https://github.com/nix-community/nixvim";
+  #     ref = "main";
+  #   });
 in {
   # You can import other home-manager modules here
   imports = [
     # nixvim.homeManagerModules.nixvim
   ];
 
-#    config.nixvim = {
-#       # enable = true;
-# 
-#       # colorschemes.catppuccin.enable = true;
-#       # plugins.lualine.enable = true;
-#     };
+  #    config.nixvim = {
+  #       # enable = true;
+  #
+  #       # colorschemes.catppuccin.enable = true;
+  #       # plugins.lualine.enable = true;
+  #     };
 
-    # [Neovim and Nix home-manager: Supercharge Your Development Environment](https://www.youtube.com/watch?v=YZAnJ0rwREA)
-    # [nvim-nix-video](https://github.com/vimjoyer/nvim-nix-video)
-    # {Nixvim: Neovim Distro Powered By Nix](https://www.youtube.com/watch?v=b641h63lqy0)
-    # [nixvim-video](https://github.com/vimjoyer/nixvim-video)
+  # [Neovim and Nix home-manager: Supercharge Your Development Environment](https://www.youtube.com/watch?v=YZAnJ0rwREA)
+  # [nvim-nix-video](https://github.com/vimjoyer/nvim-nix-video)
+  # {Nixvim: Neovim Distro Powered By Nix](https://www.youtube.com/watch?v=b641h63lqy0)
+  # [nixvim-video](https://github.com/vimjoyer/nixvim-video)
 
   programs = {
     neovim = let
@@ -123,5 +129,4 @@ in {
       # '';
     };
   };
-
 }
