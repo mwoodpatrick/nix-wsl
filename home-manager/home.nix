@@ -12,11 +12,6 @@
   NIX_CFG_DIR = "${GIT_ROOT}/nix-wsl";
   # NIX_CFG_DIR = builtins.trace "my hack NIX_CFG_DIR=${xx}" xx;
   HM_CFG = "#mwoodpatrick@nix-wsl";
-  nixvim = import (builtins.fetchGit {
-    url = "https://github.com/nix-community/nixvim";
-    ref = "main";
-  });
-  myNixVIMModule = import my-nixvim-module/default.nix;
 in {
   # You can import other home-manager modules here
   imports = [
@@ -28,12 +23,11 @@ in {
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
-    nixvim.homeManagerModules.nixvim
-    myNixVIMModule
+    # myNixVIMModule
   ];
 
-  mynixvim.enable = false; 
-  mynixvim.message = "Hello, Home Manager!";
+  # mynixvim.enable = false;
+  # mynixvim.message = "Hello, Home Manager!";
 
   nixpkgs = {
     # You can add overlays here
@@ -293,7 +287,7 @@ in {
         he = "home-manager -f $NIX_CFG_DIR/home-manager/home.nix edit";
         hf = "nix fmt $NIX_CFG_DIR/home-manager/home.nix";
         hs = "home-manager --flake ${NIX_CFG_DIR}${HM_CFG} switch;source ~/.bashrc";
-	hsi = "home-manager --impure --flake ${NIX_CFG_DIR}${HM_CFG} switch;source ~/.bashrc";
+        hsi = "home-manager --impure --flake ${NIX_CFG_DIR}${HM_CFG} switch;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
         cdn = "cd $NIX_CFG_DIR";
         ne = "nvim $NIX_CFG_DIR/flake.nix";
@@ -311,31 +305,109 @@ in {
     # [Firefox](https://nixos.wiki/wiki/Firefox)
     firefox.enable = true;
 
-    neovim = {
-      enable = false; # disable neovim use nixvim
+    # [Neovim and Nix home-manager: Supercharge Your Development Environment](https://www.youtube.com/watch?v=YZAnJ0rwREA)
+    # [nvim-nix-video](https://github.com/vimjoyer/nvim-nix-video)
+    # {Nixvim: Neovim Distro Powered By Nix](https://www.youtube.com/watch?v=b641h63lqy0)
+    # [nixvim-video](https://github.com/vimjoyer/nixvim-video)
+
+    neovim = let
+      toLua = str: "lua << EOF\n${str}\nEOF\n";
+      toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
+    in {
+      enable = true; # alternately use nixvim
       defaultEditor = true; # configures neovim to be the default editor using the EDITOR environment variable
-      # automatically add vi and vim aliases
-      viAlias = true; # Symlink vi to nvim binary.
-      vimAlias = true; # Symlink vim to nvim binary.
+
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+
+      extraPackages = with pkgs; [
+        lua-language-server
+        # A syntax-checking language server using [rnix](https://github.com/nix-community/rnix-parser)
+        #       # a parser for the [Nix language](https://nixos.org/)
+        # [rnix-lsp](https://github.com/nix-community/rnix-lsp)
+        # rnix-lsp
+
+        xclip
+        wl-clipboard
+      ];
+
+      plugins = with pkgs.vimPlugins; [
+        {
+          plugin = nvim-lspconfig;
+          config = toLuaFile ./nvim/plugin/lsp.lua;
+        }
+
+        {
+          plugin = comment-nvim;
+          config = toLua "require(\"Comment\").setup()";
+        }
+
+        {
+          plugin = gruvbox-nvim;
+          config = "colorscheme gruvbox";
+        }
+
+        neodev-nvim
+
+        nvim-cmp
+        {
+          plugin = nvim-cmp;
+          config = toLuaFile ./nvim/plugin/cmp.lua;
+        }
+
+        {
+          plugin = telescope-nvim;
+          config = toLuaFile ./nvim/plugin/telescope.lua;
+        }
+
+        telescope-fzf-native-nvim
+
+        cmp_luasnip
+        cmp-nvim-lsp
+
+        luasnip
+        friendly-snippets
+
+        lualine-nvim
+        nvim-web-devicons
+
+        {
+          plugin = nvim-treesitter.withPlugins (p: [
+            p.tree-sitter-nix
+            p.tree-sitter-vim
+            p.tree-sitter-bash
+            p.tree-sitter-lua
+            p.tree-sitter-python
+            p.tree-sitter-json
+          ]);
+          config = toLuaFile ./nvim/plugin/treesitter.lua;
+        }
+
+        vim-nix
+
+        # {
+        #   plugin = vimPlugins.own-onedark-nvim;
+        #   config = "colorscheme onedark";
+        # }
+      ];
 
       # The Home Manager module does not expose many configuration options.
       # Therefore, the easiest way to get started is to use the extraConfig option.
       # You can copy your old config or directly load your default Neovim config via:
 
-      extraConfig = ''
-        lib.fileContents ./init.vim;
-        augroup NixFiles
-          autocmd!
-          autocmd FileType nix setlocal tabstop=2 shiftwidth=2 expandtab
-        augroup END
+      extraLuaConfig = ''
+        ${builtins.readFile ./nvim/options.lua}
       '';
-    };
 
-    nixvim = {
-      enable = true;
-
-      colorschemes.catppuccin.enable = true;
-      plugins.lualine.enable = true;
+      # extraLuaConfig = ''
+      #   ${builtins.readFile ./nvim/options.lua}
+      #   ${builtins.readFile ./nvim/plugin/lsp.lua}
+      #   ${builtins.readFile ./nvim/plugin/cmp.lua}
+      #   ${builtins.readFile ./nvim/plugin/telescope.lua}
+      #   ${builtins.readFile ./nvim/plugin/treesitter.lua}
+      #   ${builtins.readFile ./nvim/plugin/other.lua}
+      # '';
     };
 
     # TODO: Fix presets

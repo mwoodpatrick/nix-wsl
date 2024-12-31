@@ -306,9 +306,12 @@
     };
   };
 
+  # https://github.com/hedning/nix-bash-completions.git
+  # does not seem to support nix fmt!
   programs = {
-    nix-ld.enable = true;
-    virt-manager.enable = true;
+    bash.enableCompletion = true; # enable bash completions
+    nix-ld.enable = true; # support none patched binaries
+    virt-manager.enable = true; # enable management of VM's
   };
 
   # [Fonts](https://nixos.wiki/wiki/Fonts)

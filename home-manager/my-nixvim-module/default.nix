@@ -1,22 +1,24 @@
-# { config, pkgs, ... }:
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 with lib; let
-#   nixvim = import (builtins.fetchGit {
-#     url = "https://github.com/nix-community/nixvim";
-#     ref = "main";
-#   });
+  nixvim = import (builtins.fetchGit {
+    url = "https://github.com/nix-community/nixvim";
+    ref = "main";
+  });
+
+  nixvimcfg = config.nixvim;
   cfg = config.mynixvim;
 in {
   imports = [
     # paths of other modules
-    # nixvim.homeManagerModules.nixvim
+    nixvim.homeManagerModules.nixvim
   ];
 
+  config.nixvim = {
+    enable = true;
+    colorschemes.catppuccin.enable = true;
+    plugins.lualine.enable = true;
+  };
+  
   options = {
     # option declarations
     mynixvim = {
@@ -34,27 +36,6 @@ in {
   };
 
   # config = mkIf cfg.enable {
-  config = mkIf cfg.enable {
-    # option definitions
-#     nixvim = {
-#       enable = true;
-#       colorschemes.catppuccin.enable = true;
-#       plugins.lualine.enable = true;
-#     };
-  };
+  # option definitions
+  #   };
 }
-# {
-#   options.services.  };
-#
-#     # home-manager --impure --flake /mnt/wsl/projects/git/nix-wsl#mwoodpatrick@nix-wsl switch
-#     services.myService = {
-#       description = "My Custom Service";
-#       wantedBy = [ "multi-user.target" ];
-#
-#       serviceConfig = {
-#         ExecStart = "${pkgs.coreutils}/bin/echo ${cfg.message}";
-#       };
-#     };
-#   };
-# }
-
