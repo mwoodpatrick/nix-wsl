@@ -1,5 +1,6 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
+# [example home file](https://github.com/bkp5190/Home-Manager-Configs/blob/main/home.nix)
 {
   inputs,
   outputs,
@@ -168,6 +169,11 @@ in {
     gawk # GNU implementation of the Awk programming language
     zstd # Zstandard real-time compression algorithm
     gnupg # Modern release of the GNU Privacy Guard, a GPL OpenPGP implementation
+    kitty-themes
+    # ripgrep
+    # tmux
+    # Telescope
+    xclip # Access an X server selection for reading or writing.
 
     # productivity
     hugo # static site generator
@@ -355,12 +361,34 @@ in {
       '';
     };
 
+    # Kitty terminal
+    kitty = {
+      enable = true;
+      font = {
+        name = "Cascadia Mono NF";
+        size = 14;
+      };
+      shellIntegration.enableZshIntegration = true;
+      themeFile = "Catppuccin-Macchiato";
+      settings = {
+        background_opacity = 0.9;
+        bold_font = "auto";
+        italic_font = "auto";
+        bold_italic_font = "auto";
+      };
+      };
+
+
     # basic configuration of git
     # git = {
     #   enable = true;
     #   userName = "mwoodpatrick";
     #   userEmail = "mwoodpatrick@gmail.com";
     # };
+
+
+
+
   }; # programs
 
   # Nicely reload system units when changing configs
