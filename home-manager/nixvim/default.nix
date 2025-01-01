@@ -6,10 +6,11 @@
   pkgs,
   ...
 }: let
-    nixvim = import (builtins.fetchGit {
-      url = "https://github.com/nix-community/nixvim";
-      ref = "main";
-     });
+  # see [fetchGit input with ref and narHash specified, is now considered unlocked. #12027](https://github.com/NixOS/nix/issues/12027)
+  nixvim = import (builtins.fetchGit {
+    url = "https://github.com/nix-community/nixvim";
+    ref = "main";
+  });
 in {
   # You can import other home-manager modules here
   imports = [
