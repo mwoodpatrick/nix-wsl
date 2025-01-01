@@ -1,3 +1,6 @@
+# [NixVim - A Neovim configuration system for nix](https://nix-community.github.io/nixvim/)
+# [nixvim - github](https://github.com/nix-community/nixvim)
+# [nixvim](https://nix-community.github.io/nixvim/user-guide/install.html)
 {
   inputs,
   outputs,
@@ -7,10 +10,11 @@
   ...
 }: let
   # see [fetchGit input with ref and narHash specified, is now considered unlocked. #12027](https://github.com/NixOS/nix/issues/12027)
-  nixvim = import (builtins.fetchGit {
-    url = "https://github.com/nix-community/nixvim";
-    ref = "main";
-  });
+  #   nixvim = import (builtins.fetchGit {
+  #     url = "https://github.com/nix-community/nixvim";
+  #     ref = "main";
+  #   });
+  nixvim = inputs.nixvim;
 in {
   # You can import other home-manager modules here
   imports = [

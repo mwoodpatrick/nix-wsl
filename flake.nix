@@ -49,6 +49,14 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # [nixvim](https://nix-community.github.io/nixvim/user-guide/install.html)
+    nixvim = {
+      # url = "github:nix-community/nixvim"; # unstable channel
+      # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
+      url = "github:nix-community/nixvim/nixos-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -56,6 +64,7 @@
     nixpkgs,
     nixos-wsl,
     home-manager,
+    nixvim,
     ...
   } @ inputs: let
     inherit (self) outputs inputs;

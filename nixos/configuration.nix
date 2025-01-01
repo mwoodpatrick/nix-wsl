@@ -309,7 +309,7 @@
   # https://github.com/hedning/nix-bash-completions.git
   # does not seem to support nix fmt!
   programs = {
-    bash.enableCompletion = true; # enable bash completions
+    bash.completion.enable = true; # enable bash completions
     nix-ld.enable = true; # support none patched binaries
     virt-manager.enable = true; # enable management of VM's
   };
