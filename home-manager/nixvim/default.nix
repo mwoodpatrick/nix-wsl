@@ -34,8 +34,12 @@ in {
   imports = [
     # Import all your configuration modules here
     nixvim.homeManagerModules.nixvim
-    ./options.nix
     ./autocommands.nix
+    ./completion.nix
+    ./keymappings.nix
+    ./options.nix
+    ./plugins
+    ./todo.nix
   ];
   programs = {
     nixvim = {
@@ -50,7 +54,6 @@ in {
       plugins = {
         bufferline.enable = false; # [bufferline.nvim](https://github.com/akinsho/bufferline.nvim/) emulate the aesthetics of GUI text editors/Doom Emacs
         lualine.enable = true; # [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim/) A blazing fast and easy to configure Neovim statusline written in Lua.
-        web-devicons.enable = false; # [nvim-tree nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons/) Provides Nerd Font [1] icons (glyphs) for use by neovim plugins
       };
     };
   };
