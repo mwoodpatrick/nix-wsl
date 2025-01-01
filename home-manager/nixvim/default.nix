@@ -34,6 +34,8 @@ in {
   imports = [
     # Import all your configuration modules here
     nixvim.homeManagerModules.nixvim
+    ./options.nix
+    ./autocommands.nix
   ];
   programs = {
     nixvim = {
