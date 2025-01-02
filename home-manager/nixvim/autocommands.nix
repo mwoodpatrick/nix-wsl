@@ -1,4 +1,4 @@
-# autocommands (autocmd) allow you to execute commands automatically based on events, 
+# autocommands (autocmd) allow you to execute commands automatically based on events,
 # such as opening a file of a specific type
 #
 # [autoCmd](https://nix-community.github.io/nixvim/NeovimOptions/autoCmd/index.html)
@@ -25,6 +25,13 @@
         "markdown"
       ];
       command = "setlocal spell spelllang=en";
+    }
+
+    # Set tabstops in nix FileType
+    {
+      event = "FileType";
+      pattern = "nix";
+      command = "setlocal tabstop=2 shiftwidth=2";
     }
   ];
 }
