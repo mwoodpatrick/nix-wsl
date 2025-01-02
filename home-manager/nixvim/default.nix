@@ -1,3 +1,4 @@
+# [The Best of My Neovim Config 2024](https://levelup.gitconnected.com/the-best-of-my-neovim-config-2024-68ab2357efe7)
 # [Configuration examples](https://nix-community.github.io/nixvim/user-guide/config-examples.html)
 # [Nixvim: Neovim Distro Powered By Nix](https://www.youtube.com/watch?v=b641h63lqy0)
 # [All code blocks from the video](https://github.com/vimjoyer/nixvim-video)
@@ -51,10 +52,8 @@ in {
       vimdiffAlias = true;
       luaLoader.enable = true;
 
-      plugins = {
-        bufferline.enable = false; # [bufferline.nvim](https://github.com/akinsho/bufferline.nvim/) emulate the aesthetics of GUI text editors/Doom Emacs
-        lualine.enable = true; # [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim/) A blazing fast and easy to configure Neovim statusline written in Lua.
-      };
+      extraLuaPackages = ps: [ ps.magick ];
+      extraPackages = [ pkgs.imagemagick ];
     };
   };
 }
