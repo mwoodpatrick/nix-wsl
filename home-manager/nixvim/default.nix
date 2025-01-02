@@ -42,18 +42,16 @@ in {
     ./plugins
     ./todo.nix
   ];
-  programs = {
-    nixvim = {
-      enable = true; # alternately use nixvim
-      colorschemes.catppuccin.enable = true;
-      defaultEditor = true; # configures neovim to be the default editor using the EDITOR environment variable
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      luaLoader.enable = true;
+  programs.nixvim = {
+    enable = true; # alternately use nixvim
+    colorschemes.catppuccin.enable = true;
+    defaultEditor = true; # configures neovim to be the default editor using the EDITOR environment variable
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    luaLoader.enable = true;
 
-      extraLuaPackages = ps: [ ps.magick ];
-      extraPackages = [ pkgs.imagemagick ];
-    };
+    extraLuaPackages = ps: [ps.magick];
+    extraPackages = [pkgs.imagemagick];
   };
 }
