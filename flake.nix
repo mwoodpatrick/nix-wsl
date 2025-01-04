@@ -1,3 +1,5 @@
+# Use nix flake update to update to latest version of packages
+# Use nix flake metadata to get last modified date and dependencies
 # For sources of inspiration see:
 # [Rebuilding my NixOS config - Part 0: ≡ƒöº NixOS Flakes & Git Basics: Everything You Need to Know](https://www.youtube.com/watch?v=43VvFgPsPtY)
 # [m3tam3re/nixcfg](https://code.m3tam3re.com/m3tam3re/nixcfg.git)

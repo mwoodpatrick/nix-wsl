@@ -113,6 +113,7 @@ in {
     # [Obsidian for Vim users](https://tomdeneire.medium.com/obsidian-for-vim-users-5979d571f71e)
     obsidian # Powerful knowledge base that works on top of a local folder of plain text Markdown files
     gh # GitHub CLI tool
+    ghostty # [ghostty](https://search.nixos.org/packages?channel=24.11&show=ghostty&from=0&size=50&sort=relevance&type=packages&query=Ghostty)
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     hello # Program that produces a familiar, friendly greeting
