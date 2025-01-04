@@ -23,6 +23,7 @@ in {
     # ./nvim
     ./bash.nix
     ./kitty.nix
+    ./tmux.nix
     ./nixvim
     # myNixVIMModule
   ];
@@ -143,7 +144,6 @@ in {
     eza # A modern replacement for ΓÇÿlsΓÇÖ
     fzf # A command-line fuzzy finder
     feh # [FEH - light-weight, configurable and versatile image viewer](https://feh.finalrewind.org/)
-    tmux # Terminal multiplexer
     htop # Interactive process viewer
     fortune # Program that displays a pseudorandom message from a database of quotations
 
@@ -171,7 +171,6 @@ in {
     gnupg # Modern release of the GNU Privacy Guard, a GPL OpenPGP implementation
     kitty-themes
     # ripgrep
-    # tmux
     # Telescope
     xclip # Access an X server selection for reading or writing.
 
@@ -313,17 +312,6 @@ in {
       # presets = [
       #   "nerd-font-symbols"
       # ];
-    };
-
-    # [Tmux](https://nixos.wiki/wiki/Tmux)
-    tmux = {
-      enable = true;
-      clock24 = true;
-      extraConfig = ''        # used for less common options, intelligently combines if defined in multiple places.
-           # ...
-           set -g status-right '#[fg=black,bg=color15] #{cpu_percentage}  %H:%M '
-           run-shell ${pkgs.tmuxPlugins.cpu}/share/tmux-plugins/cpu/cpu.tmux
-      '';
     };
 
     # [home-manager/modules/programs/vim.nix](https://github.com/nix-community/home-manager/blob/master/modules/programs/vim.nix)
