@@ -4,6 +4,7 @@
 # [tmux plugins](https://github.com/tmux-plugins/list?tab=readme-ov-file#tmux-plugins)
 # [Tmux](https://nixos.wiki/wiki/Tmux)
 # [tmuxPlugins - nix](https://search.nixos.org/packages?channel=24.11&from=0&size=50&sort=relevance&type=packages&query=tmuxPlugins)
+# [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
 # [The Best of My Neovim Config 2024](https://levelup.gitconnected.com/the-best-of-my-neovim-config-2024-68ab2357efe7)
 # [tmux Getting Started](https://github.com/tmux/tmux/wiki/Getting-Started?form=MG0AV3)
 # [Render Images Inside Neovim and Tmux](https://levelup.gitconnected.com/render-images-inside-neovim-and-tmux-bd59381d0746)
