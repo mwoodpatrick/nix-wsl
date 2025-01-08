@@ -17,6 +17,24 @@
 #
 # [Search for packages to install](https://search.nixos.org/packages)
 # [Search for functions](https://noogle.dev/)
+#
+#
+# see:
+#   [The Nix configuration file](https://nixos.substack.com/p/the-nix-configuration-file)
+#   [Options](https://mynixos.com/nixpkgs/options)
+#
+# NixOS-WSL specific options are documented on the NixOS-WSL repository:
+# https://github.com/nix-community/NixOS-WSL
+# https://nix-community.github.io/NixOS-WSL/
+# https://nix-community.github.io/NixOS-WSL/install.html
+# https://nix-community.github.io/NixOS-WSL/options.html
+# https://nix-community.github.io/NixOS-WSL/how-to/nix-flakes.html
+# https://nix-community.github.io/NixOS-WSL/how-to/vscode.html
+# https://wiki.nixos.org/wiki/WSL
+
+# list your channels using: sudo nix-channel --list
+# update channels using: sudo nix-channel --update
+# rebuild using: sudo nixos-rebuild switch
 {
   inputs,
   outputs,
