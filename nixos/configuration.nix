@@ -282,6 +282,8 @@
 
       # [quickgui](https://github.com/quickemu-project/quickgui)
       # quickgui
+
+      xorg.xdpyinfo
     ];
 
     # environment variables that should be set globally.
