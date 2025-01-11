@@ -1,5 +1,6 @@
 # Use nix flake update to update to latest version of packages
 # Use nix flake metadata to get last modified date and dependencies
+# Use nix fmt <path>.nix to format x nix file
 # For sources of inspiration see:
 # [Rebuilding my NixOS config - Part 0: ≡ƒöº NixOS Flakes & Git Basics: Everything You Need to Know](https://www.youtube.com/watch?v=43VvFgPsPtY)
 # [m3tam3re/nixcfg](https://code.m3tam3re.com/m3tam3re/nixcfg.git)
@@ -25,6 +26,11 @@
 # [nixos-and-flakes-book](https://github.com/mwoodpatrick/nixos-and-flakes-book)
 {
   description = "My NixOS configuration";
+
+  nixConfig = {
+    # extra-substituters = [ "https://microvm.cachix.org" ];
+    # extra-trusted-public-keys = [ "microvm.cachix.org-1:oXnBc6hRE3eX5rSYdRyMYXnfzcCxC7yKPTbZXALsqys=" ];
+  };
 
   inputs = {
     # Nixpkgs
@@ -59,6 +65,10 @@
       url = "github:nix-community/nixvim/nixos-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    microvm = {
+    url = "github:astro/microvm.nix";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
   };
 
   outputs = {
@@ -67,6 +77,7 @@
     nixos-wsl,
     home-manager,
     nixvim,
+    microvm,
     ...
   } @ inputs: let
     inherit (self) outputs inputs;
@@ -81,6 +92,7 @@
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
+    system = "x86_64-linux";
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
@@ -104,8 +116,8 @@
     nixosConfigurations = {
       # your hostname
       nix-wsl = nixpkgs.lib.nixosSystem {
+        inherit system;
         specialArgs = {inherit inputs outputs;};
-        system = "x86_64-linux";
         modules = [
           # NixOS-WSL.nixosModules.wsl
           nixos-wsl.nixosModules.default
@@ -117,7 +129,38 @@
           ./nixos/configuration.nix
         ];
       };
-    };
+
+       my-microvm = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            microvm.nixosModules.microvm
+            {
+              networking.hostName = "my-microvm";
+              users.users.root.password = "";
+              microvm = {
+                volumes = [ {
+                  mountPoint = "/var";
+                  image = "var.img";
+                  size = 256;
+                } ];
+                shares = [ {
+                  # use proto = "virtiofs" for MicroVMs that are started by systemd
+                  proto = "9p";
+                  tag = "ro-store";
+                  # a host's /nix/store will be picked up so that no
+                  # squashfs/erofs will be built for it.
+                  source = "/nix/store";
+                  mountPoint = "/nix/.ro-store";
+                } ];
+
+                # "qemu" has 9p built-in!
+                hypervisor = "qemu";
+                socket = "control.socket";
+              };
+            }
+          ];
+        };
+      };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
