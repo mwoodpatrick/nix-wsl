@@ -12,18 +12,18 @@
   microvm = {
     autostart = [
        "Example"
-#      "Minecraft"
+      # "Minecraft"
     ];
     vms = {
       # Minecraft = {
-      #   flake = self;
+      # flake = self;
       #   updateFlake = "git+file:///home/${user}/.nixconf";
       # };
 
-      Example = {
-        flake = self;
-        updateFlake = "git+file:///home/${user}/.nixconf";
-      };
+      # Example = {
+      #   flake = self;
+      #   # updateFlake = "git+file:///home/${user}/.nixconf";
+      # };
 
       # vmname = {
       #   flake = self;

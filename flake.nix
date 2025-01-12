@@ -64,10 +64,17 @@
     # [microvm.nix docs](https://astro.github.io/microvm.nix/)
     # [microvm.nix my fork](https://github.com/mwoodpatrick/microvm.nix)
     # [microvm.nix upstream repo](https://github.com/astro/microvm.nix)
+    # [microvm-examples](https://github.com/Soikr/microvm-examples/tree/main)
     microvm = {
       url = "github:mwoodpatrick/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # [nix-minecraft](https://github.com/Infinidoge/nix-minecraft)
+    # minecraft = {
+    #   url = "github:Infinidoge/nix-minecraft";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs = {
@@ -77,6 +84,7 @@
     home-manager,
     nixvim,
     microvm,
+    # minecraft,
     ...
   } @ inputs: let
     inherit (self) outputs inputs;
@@ -139,8 +147,19 @@
         modules = [
           microvm.nixosModules.microvm
           ./vms/Example
-       ];
+        ];
       };
+
+      # Minecraft = nixpkgs.lib.nixosSystem {
+      #   inherit system;
+      #   specialArgs = {inherit inputs user minecraft;};
+
+      #   modules = [
+      #     microvm.nixosModules.microvm
+      #     minecraft.nixosModules.minecraft-servers
+      #     ./vms/Minecraft
+      #   ];
+      # };
     };
 
     # Standalone home-manager configuration entrypoint
