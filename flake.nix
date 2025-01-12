@@ -25,12 +25,7 @@
 # [NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/)
 # [nixos-and-flakes-book](https://github.com/mwoodpatrick/nixos-and-flakes-book)
 {
-  description = "My NixOS configuration";
-
-  nixConfig = {
-    # extra-substituters = [ "https://microvm.cachix.org" ];
-    # extra-trusted-public-keys = [ "microvm.cachix.org-1:oXnBc6hRE3eX5rSYdRyMYXnfzcCxC7yKPTbZXALsqys=" ];
-  };
+  description = "My WSL-2 Flake based NixOS configuration";
 
   inputs = {
     # Nixpkgs
@@ -65,10 +60,14 @@
       url = "github:nix-community/nixvim/nixos-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    microvm = {
-    url = "github:astro/microvm.nix";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+
+    # [microvm.nix docs](https://astro.github.io/microvm.nix/)
+    # [microvm.nix my fork](https://github.com/mwoodpatrick/microvm.nix)
+    # [microvm.nix upstream repo](https://github.com/astro/microvm.nix)
+    # microvm = {
+    #   url = "github:mwoodpatrick/microvm.nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs = {
@@ -77,7 +76,7 @@
     nixos-wsl,
     home-manager,
     nixvim,
-    microvm,
+    # microvm,
     ...
   } @ inputs: let
     inherit (self) outputs inputs;
@@ -127,40 +126,19 @@
           }
           # > Our main nixos configuration file <
           ./nixos/configuration.nix
+          # microvm.nixosModules.host
+          # ./vms
         ];
       };
 
-       my-microvm = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            microvm.nixosModules.microvm
-            {
-              networking.hostName = "my-microvm";
-              users.users.root.password = "";
-              microvm = {
-                volumes = [ {
-                  mountPoint = "/var";
-                  image = "var.img";
-                  size = 256;
-                } ];
-                shares = [ {
-                  # use proto = "virtiofs" for MicroVMs that are started by systemd
-                  proto = "9p";
-                  tag = "ro-store";
-                  # a host's /nix/store will be picked up so that no
-                  # squashfs/erofs will be built for it.
-                  source = "/nix/store";
-                  mountPoint = "/nix/.ro-store";
-                } ];
-
-                # "qemu" has 9p built-in!
-                hypervisor = "qemu";
-                socket = "control.socket";
-              };
-            }
-          ];
-        };
-      };
+      # Example = nixpkgs.lib.nixosSystem {
+      #   inherit system;
+      #   modules = [
+      #     microvm.nixosModules.microvm
+      #     ./vms/Example
+      #  ];
+      # };
+    };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
