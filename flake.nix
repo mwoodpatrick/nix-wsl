@@ -64,10 +64,10 @@
     # [microvm.nix docs](https://astro.github.io/microvm.nix/)
     # [microvm.nix my fork](https://github.com/mwoodpatrick/microvm.nix)
     # [microvm.nix upstream repo](https://github.com/astro/microvm.nix)
-    # microvm = {
-    #   url = "github:mwoodpatrick/microvm.nix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    microvm = {
+      url = "github:mwoodpatrick/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -76,7 +76,7 @@
     nixos-wsl,
     home-manager,
     nixvim,
-    # microvm,
+    microvm,
     ...
   } @ inputs: let
     inherit (self) outputs inputs;
@@ -92,6 +92,8 @@
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
     system = "x86_64-linux";
+    user = "mwoodpatrick";
+    hostname = "nix-wsl";
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
@@ -114,9 +116,9 @@
     # TODO: nixpkgs.hostPlatform versus the legacy option nixpkgs.system
     nixosConfigurations = {
       # your hostname
-      nix-wsl = nixpkgs.lib.nixosSystem {
+      ${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit self inputs outputs user hostname;};
         modules = [
           # NixOS-WSL.nixosModules.wsl
           nixos-wsl.nixosModules.default
@@ -126,25 +128,26 @@
           }
           # > Our main nixos configuration file <
           ./nixos/configuration.nix
-          # microvm.nixosModules.host
-          # ./vms
+          # [Preparing a NixOS host for declarative MicroVMs](https://astro.github.io/microvm.nix/host.html)
+          microvm.nixosModules.host
+          ./vms
         ];
       };
 
-      # Example = nixpkgs.lib.nixosSystem {
-      #   inherit system;
-      #   modules = [
-      #     microvm.nixosModules.microvm
-      #     ./vms/Example
-      #  ];
-      # };
+      Example = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          microvm.nixosModules.microvm
+          ./vms/Example
+       ];
+      };
     };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
       # replace with your username@hostname
-      "mwoodpatrick@nix-wsl" = home-manager.lib.homeManagerConfiguration {
+      "${user}@${hostname}" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [

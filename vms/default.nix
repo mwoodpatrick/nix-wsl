@@ -1,5 +1,5 @@
 # Fully declarative implementation of microvm
-# https://astro.github.io/microvm.nix/declarative.html
+# [Declarative MicroVMs](https://astro.github.io/microvm.nix/declarative.html)
 
 {
   user,
@@ -7,11 +7,11 @@
   ...
 }: {
   imports = [
-    ./networking.nix
+    # ./networking.nix
   ];
   microvm = {
     autostart = [
-      "Example"
+       "Example"
 #      "Minecraft"
     ];
     vms = {

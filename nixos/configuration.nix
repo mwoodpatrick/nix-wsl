@@ -31,7 +31,6 @@
 # https://nix-community.github.io/NixOS-WSL/how-to/nix-flakes.html
 # https://nix-community.github.io/NixOS-WSL/how-to/vscode.html
 # https://wiki.nixos.org/wiki/WSL
-
 # list your channels using: sudo nix-channel --list
 # update channels using: sudo nix-channel --update
 # rebuild using: sudo nixos-rebuild switch
@@ -42,6 +41,8 @@
   config,
   pkgs,
   nixos-wsl,
+  user,
+  hostname,
   ...
 }: {
   # You can import other NixOS modules here
@@ -67,19 +68,28 @@
 
   # Configure networking
 
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [80 443];
-    allowedUDPPortRanges = [
-      {
-        from = 4000;
-        to = 4007;
-      }
-      {
-        from = 8000;
-        to = 8010;
-      }
-    ];
+  networking = {
+    hostName = hostname;
+    hostId = "cafebabe";
+    useDHCP = false;
+    # enabling this on WSL-2 causes error:
+    # systemd-resolved is enabled, but resolv.conf is managed by WSL (wsl.wslConf.network.generateResolvConf)
+    # systemctl start systemd-networkd-wait-online.services times out
+    useNetworkd = false;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [80 443];
+      allowedUDPPortRanges = [
+        {
+          from = 4000;
+          to = 4007;
+        }
+        {
+          from = 8000;
+          to = 8010;
+        }
+      ];
+    };
   };
 
   time.timeZone = "US/Pacific";
@@ -142,10 +152,7 @@
 
   # TODO: Add the rest of your current configuration
 
-  # TODO: Set your hostname
-  networking.hostName = "nix-wsl";
-
-  users.users.mwoodpatrick = {
+  users.users.${user} = {
     # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
     # TODO: You can set an initial password for your user.
     # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.

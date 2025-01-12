@@ -1,5 +1,5 @@
 # Fully declarative implementation of microvm
-# https://astro.github.io/microvm.nix/declarative.html
+# [Declarative MicroVMs](https://astro.github.io/microvm.nix/declarative.html)
 
 {
   user,
@@ -12,13 +12,13 @@
   microvm = {
     autostart = [
       "Example"
-      "Minecraft"
+    #  "Minecraft"
     ];
     vms = {
-      Minecraft = {
-        flake = self;
-        updateFlake = "git+file:///home/${user}/.nixconf";
-      };
+      # Minecraft = {
+      #   flake = self;
+      #   updateFlake = "git+file:///home/${user}/.nixconf";
+      # };
 
       Example = {
         flake = self;
