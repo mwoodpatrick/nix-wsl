@@ -53,5 +53,19 @@ in {
 
     extraLuaPackages = ps: [ps.magick];
     extraPackages = [pkgs.imagemagick];
+    extraPlugins = [(pkgs.vimUtils.buildVimPlugin {
+      name = "vim-just";
+      # [fetchFromGitHub](https://ryantm.github.io/nixpkgs/builders/fetchers/#fetchfromgithub)
+      # [vim-just](https://github.com/NoahTheDuke/vim-just)
+      src = pkgs.fetchFromGitHub {
+        owner = "NoahTheDuke";
+        repo = "vim-just";
+        rev = "e0978aa";
+        # [CAUTION! - Derivation variables ignored, installing from tarballs.nixos.org instead?](https://discourse.nixos.org/t/derivation-variables-ignored-installing-from-tarballs-nixos-org-instead/2349)
+        # sha256 = lib.fakeSha256;
+        # sha256 = "sha256-HiconMn6ZuXz1caYfwFZjn8kgIRlhpSH2kuNLKaMqdE=";
+        hash = "sha256-HiconMn6ZuXz1caYfwFZjn8kgIRlhpSH2kuNLKaMqdE=";
+      };
+    })];
   };
 }

@@ -324,6 +324,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1738435198,
+        "narHash": "sha256-5+Hmo4nbqw8FrW85FlNm4IIrRnZ7bn0cmXlScNsNRLo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "f6687779bf4c396250831aa5a32cbfeb85bb07a3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixvim": {
       "inputs": {
         "devshell": "devshell",
@@ -332,25 +348,20 @@
         "git-hooks": "git-hooks",
         "home-manager": "home-manager_2",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs_2",
         "nuschtosSearch": "nuschtosSearch",
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
         "lastModified": 1735993984,
         "narHash": "sha256-Syew+5yuzysUr07SrGD+GRfZjE11h36TSYbxzEHYyyc=",
-        "owner": "nix-community",
-        "repo": "nixvim",
+        "path": "/nix/store/xk28r9hbi31g6jiwxgvplkcf6had5fmp-source",
         "rev": "6bd1c7c5927fa9fdfdfd68f5aa772e6a62b9d779",
-        "type": "github"
+        "type": "path"
       },
       "original": {
-        "owner": "nix-community",
-        "ref": "nixos-24.11",
-        "repo": "nixvim",
-        "type": "github"
+        "id": "nixvim",
+        "type": "indirect"
       }
     },
     "nuschtosSearch": {
