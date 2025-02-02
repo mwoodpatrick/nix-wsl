@@ -113,6 +113,8 @@ in {
     neovim-gtk # Gtk ui for neovim
     # [Obsidian for Vim users](https://tomdeneire.medium.com/obsidian-for-vim-users-5979d571f71e)
     obsidian # Powerful knowledge base that works on top of a local folder of plain text Markdown files
+    just # Handy way to save and run project-specific commands
+    uv # Extremely fast Python package installer and resolver, written in Rust
     gh # GitHub CLI tool
     ghostty # [ghostty](https://search.nixos.org/packages?channel=24.11&show=ghostty&from=0&size=50&sort=relevance&type=packages&query=Ghostty)
     kdePackages.konsole
