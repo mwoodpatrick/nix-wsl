@@ -70,7 +70,8 @@
     # [microvm.nix upstream repo](https://github.com/astro/microvm.nix)
     # [microvm-examples](https://github.com/Soikr/microvm-examples/tree/main)
     microvm = {
-      url = "github:mwoodpatrick/microvm.nix";
+      # url = "github:mwoodpatrick/microvm.nix";
+      url = "github:astro/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
