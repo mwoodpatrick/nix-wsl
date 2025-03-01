@@ -1,76 +1,18 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-# [example home file](https://github.com/bkp5190/Home-Manager-Configs/blob/main/home.nix)
+{ config, pkgs, ... }:
+
 {
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: let
-  GIT_ROOT = "/mnt/wsl/projects/git";
-in {
-  # You can import other home-manager modules here
-  imports = [
-    # If you want to use modules your own flake exports (from modules/home-manager):
-    # outputs.homeManagerModules.example
-
-    # Or modules exported from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModules.default
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./nvim
-    ./bash.nix
-    ./kitty.nix
-    ./tmux.nix
-    ./nixvim
-    # myNixVIMModule
-  ];
-
-  # mynixvim.enable = false;
-  # mynixvim.message = "Hello, Home Manager!";
-
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-
-      # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-    };
-  };
-
-  # Set your username
-  home = {
-    username = "mwoodpatrick";
-    homeDirectory = "/home/mwoodpatrick";
-  };
-
-  # Add stuff for your user as you see fit:
+  # Home Manager needs a bit of information about you and the paths it should
+  # manage.
+  home.username = "mwoodpatrick";
+  home.homeDirectory = "/home/mwoodpatrick";
 
   # [Declarative GNOME configuration with NixOS](https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/)
-  # dconf.settings = {
-  #   "org/virt-manager/virt-manager/connections" = {
-  #     autoconnect = ["qemu:///system"];
-  #     uris = ["qemu:///system"];
-  #   };
-  # };
+  dconf.settings = {
+        "org/virt-manager/virt-manager/connections" = {
+            autoconnect = ["qemu:///system"];
+            uris = ["qemu:///system"];
+        };
+  };
 
   # link the configuration file in current directory to the specified location in home directory
   # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
@@ -100,29 +42,17 @@ in {
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "24.11";
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  # [Search packages](https://search.nixos.org/packages?channel=unstable)
   home.packages = with pkgs; [
-    # neovim # Vim text editor fork focused on extensibility and agility
-    neovim-qt # Neovim client library and GUI, in Qt5
-    neovim-gtk # Gtk ui for neovim
-    # [Obsidian for Vim users](https://tomdeneire.medium.com/obsidian-for-vim-users-5979d571f71e)
-    obsidian # Powerful knowledge base that works on top of a local folder of plain text Markdown files
-    just # Handy way to save and run project-specific commands
-    uv # Extremely fast Python package installer and resolver, written in Rust
-    gh # GitHub CLI tool
-    ghostty # [ghostty](https://search.nixos.org/packages?channel=24.11&show=ghostty&from=0&size=50&sort=relevance&type=packages&query=Ghostty)
-    kdePackages.konsole
+    gh
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    hello # Program that produces a familiar, friendly greeting
-    atool # Archive command line helper
-    httpie # Command line HTTP client whose goal is to make CLI human-friendly
+    hello
+    atool 
+    httpie
 
     # [AsciiDoc](https://asciidoc.org/)
     # Publish presentation-rich content from a concise and comprehensive authoring format.
@@ -131,57 +61,53 @@ in {
     # here is some command line tools I use frequently
     # feel free to add your own or remove some of them
 
-    neofetch # Fast, highly customizable system info script
-    nnn # terminal file manager, Small ncurses-based file browser forked from noice
+    neofetch
+    nnn # terminal file manager
 
     # archives
-    zip # Compressor/archiver for creating and modifying zipfiles
-    unzip # Extraction utility for archives compressed in .zip format
-    xz # General-purpose data compression software, successor of LZMA
-    p7zip # New p7zip fork with additional codecs and improvements (forked from https://sourceforge.net/projects/p7zip/)
+    zip
+    xz
+    unzip
+    p7zip
 
     # utils
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processor https://github.com/mikefarah/yq
-    eza # A modern replacement for ΓÇÿlsΓÇÖ
+    eza # A modern replacement for ‘ls’
     fzf # A command-line fuzzy finder
     feh # [FEH - light-weight, configurable and versatile image viewer](https://feh.finalrewind.org/)
-    htop # Interactive process viewer
-    fortune # Program that displays a pseudorandom message from a database of quotations
+    tmux
+    htop
+    fortune
 
     # networking tools
     mtr # A network diagnostic tool
-    iperf3 # Tool to measure IP bandwidth using UDP or TCP
-    dnsutils # `dig` + `nslookup`
+    iperf3
+    dnsutils  # `dig` + `nslookup`
     ldns # replacement of `dig`, it provide the command `drill`
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing
-    ipcalc # it is a calculator for the IPv4/v6 addresses
+    ipcalc  # it is a calculator for the IPv4/v6 addresses
 
     # misc
-    cowsay # Program which generates ASCII pictures of a cow with a message
-    ponysay # Cowsay reimplemention for ponies
-    lolcat # Rainbow version of cat
-    file # Program that shows the type of files
-    which # Shows the full path of (shell) commands
-    tree # Command to produce a depth indented directory listing
-    gnused # GNU sed, a batch stream editor
-    gnutar # GNU implementation of the `tar' archiver
-    gawk # GNU implementation of the Awk programming language
-    zstd # Zstandard real-time compression algorithm
-    gnupg # Modern release of the GNU Privacy Guard, a GPL OpenPGP implementation
-    kitty-themes
-    # ripgrep
-    # Telescope
-    xclip # Access an X server selection for reading or writing.
+    cowsay
+    lolcat
+    file
+    which
+    tree
+    gnused
+    gnutar
+    gawk
+    zstd
+    gnupg
 
     # productivity
     hugo # static site generator
     glow # markdown previewer in terminal
 
-    btop # replacement of htop/nmon
+    btop  # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
 
@@ -191,12 +117,12 @@ in {
     lsof # list open files
 
     # system tools
-    sysstat # Collection of performance monitoring tools for Linux (such as sar, iostat and pidstat)
+    sysstat
     lm_sensors # for `sensors` command
-    ethtool # Utility for controlling network drivers and hardware
-    pciutils # Collection of programs for inspecting and manipulating configuration of PCI devices including lspci
-    usbutils # Tools for working with USB devices, such as lsusb
-    binutils # Tools for manipulating binaries (linker, assembler, etc.) (wrapper script) including strings
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
+    binutils # strings etc.
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -212,13 +138,13 @@ in {
     # '')
 
     # VM related
-    libvirt # Toolkit to interact with the virtualization capabilities of recent versions of Linux and other OSes
-    virt-viewer # Viewer for remote virtual machines
+    libvirt
+    virt-viewer
 
     # kubernetes related
-    kubectl # Kubernetes CLI
-    k3d # Helper to run k3s (Lightweight Kubernetes. 5 less than k8s) in a docker container
-    minikube # Tool that makes it easy to run Kubernetes locally
+    kubectl
+    k3d
+    minikube
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -258,12 +184,9 @@ in {
     LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
     PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
     # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
-    DIRENV_LOG_FORMAT = ""; # disable direnv output
-    # TODO: Check if running on WSL does not appear to work (check for some other env var)
-    WSL =
-      if pkgs.hostPlatform.isWindows
-      then "true"
-      else "false";
+    DIRENV_LOG_FORMAT=""; # disable direnv output
+    # TODO: Check if running on WSL does not appear to work (check for some other env var) 
+    WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
   };
 
   programs = {
@@ -277,28 +200,89 @@ in {
       nix-direnv.enable = true;
     };
 
+    bash = {
+      enable = true;
+      enableCompletion = true;
+      # Add your custom bashrc here
+      bashrcExtra = ''
+        # added from home.nix
+        source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+        #end, added from home.nix
+      '';
+
+      # set some aliases, feel free to add more or remove some
+      shellAliases = {
+        c  = "clear";
+        h  = "history";
+        hl = "history|less";
+        ht = "history|tail -40";
+        he = "home-manager edit";
+        hs = "home-manager switch;source ~/.bashrc";
+        myps = "ps -w -f -u $USER";
+        ne = "nvim $HOME/config/nix/configuration.nix";
+        ns = "sudo nixos-rebuild switch --flake $HOME/config/nix#nixos";
+        ngc = "nix-collect-garbage -d";
+        j = "jobs";
+        k = "kubectl";
+        urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
+        urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+        wsl = "wsl.exe";
+        wterm = "/mnt/c/Program\\ Files/WezTerm/wezterm.exe &";
+      };
+    };
+
     # [Firefox](https://nixos.wiki/wiki/Firefox)
     firefox.enable = true;
 
-    # TODO: Fix presets
+    neovim = {
+	    enable = true;
+
+        # automatically add vi and vim aliases
+        viAlias = true;
+        vimAlias = true;
+
+        # Define your Neovim plugins (optional) 
+        # [flake-awesome-neovim-plugins](https://github.com/m15a/flake-awesome-neovim-plugins)
+        # [Awesome Neovim](https://github.com/rockerBOO/awesome-neovim)
+        # [NixNeovimPlugins](https://github.com/NixNeovim/NixNeovimPlugins)
+
+        # plugins = { 
+            # lualine.enable = true; 
+            # telescope.enable = true; 
+            # harpoon.enable = true; 
+            # pkgs.vimPlugins.nvim-tree-lua
+            # {
+                # plugin = pkgs.vimPlugins.vim-startify;
+                # config = "let g:startify_change_to_vcs_root = 0";
+            # }
+        # };
+
+        # The Home Manager module does not expose many configuration options. 
+        # Therefore, the easiest way to get started is to use the extraConfig option. 
+        # You can copy your old config or directly load your default Neovim config via:
+	
+	    # extraConfig = ''
+        #   lib.fileContents ./init.vim;
+	    #   augroup NixFiles
+	    #     autocmd!
+	    #     autocmd FileType nix setlocal tabstop=2 shiftwidth=2 expandtab
+	    #   augroup END
+	    # '';
+	};
+
+	# neovim.qt.enable = true;
+
     # [](https://wiki.nixos.org/wiki/Starship)
     # [starship](https://starship.rs) - an customizable prompt for any shell
-    # [Nix Starship options](https://search.nixos.org/options?channel=unstable&show=programs.starship.settings&from=0&size=50&sort=relevance&type=packages&query=starship)
-    # [github:starship](https://github.com/spaceship-prompt/spaceship-prompt)
-    # [Configuration](https://starship.rs/config/)
-    # By default starship logs warnings and errors into a file named
-    #	~/.cache/starship/session_${STARSHIP_SESSION_KEY}.log
+    # [github:startship](https://github.com/spaceship-prompt/spaceship-prompt)
     starship = {
       enable = true;
-
       # custom settings
-
       settings = {
-        # Inserts a blank line between shell prompts
         add_newline = true;
         command_timeout = 1300;
         scan_timeout = 50;
-        # format = "$all$nix_shell$nodejs$lua$golang$rust$php$git_branch$git_commit$git_state$git_status\n$username$hostname$directory";
+        format = "$all$nix_shell$nodejs$lua$golang$rust$php$git_branch$git_commit$git_state$git_status\n$username$hostname$directory";
         character = {
           success_symbol = "[](bold green) ";
           error_symbol = "[✗](bold red) ";
@@ -309,34 +293,28 @@ in {
         direnv.disabled = false;
         hostname.ssh_only = false;
       };
-
-      # custom presets
-      # error: The option `programs.starship.presets' does not exist
-      # presets = [
-      #   "nerd-font-symbols"
-      # ];
     };
 
     # [home-manager/modules/programs/vim.nix](https://github.com/nix-community/home-manager/blob/master/modules/programs/vim.nix)
     vim = {
-      enable = true;
-      plugins = with pkgs.vimPlugins; [vim-airline];
-      settings = {ignorecase = true;};
-      # See the Vim documentation for detailed descriptions of these
-      # [vim documentation](https://www.vim.org/docs.php)
-      extraConfig = ''
-        set mouse=a
-      '';
+     enable = true;
+     plugins = with pkgs.vimPlugins; [ vim-airline ];
+     settings = { ignorecase = true; };
+     # See the Vim documentation for detailed descriptions of these
+     # [vim documentation](https://www.vim.org/docs.php)
+     extraConfig = ''
+       set mouse=a
+     '';
     };
 
     # basic configuration of git
-    # git = {
-    #   enable = true;
-    #   userName = "mwoodpatrick";
-    #   userEmail = "mwoodpatrick@gmail.com";
-    # };
-  }; # programs
+    git = {
+      enable = true;
+      userName = "mwoodpatrick";
+      userEmail = "mwoodpatrick@gmail.com";
+    };
 
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
+    # Let Home Manager install and manage itself.
+    home-manager.enable = true;
+  };
 }

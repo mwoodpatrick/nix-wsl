@@ -1,25 +1,12 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
-#
 # Edit this configuration file to define what should be installed on
-# your system.
+# your system. 
 #
 # Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 # search fot option definitions using:
-#
-# [Search nix options](https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=etc)
-# [NixOS-WSL specific options](https://nix-community.github.io/NixOS-WSL/options.html)
-#
-# see:
-#   [The Nix configuration file](https://nixos.substack.com/p/the-nix-configuration-file)
-#   [Options](https://mynixos.com/nixpkgs/options)
-#
-# [Search for packages to install](https://search.nixos.org/packages)
-# [Search for functions](https://noogle.dev/)
-#
-#
-# see:
+# https://search.nixos.org/options?channel=24.05
+## 
+# see: 
 #   [The Nix configuration file](https://nixos.substack.com/p/the-nix-configuration-file)
 #   [Options](https://mynixos.com/nixpkgs/options)
 #
@@ -31,214 +18,104 @@
 # https://nix-community.github.io/NixOS-WSL/how-to/nix-flakes.html
 # https://nix-community.github.io/NixOS-WSL/how-to/vscode.html
 # https://wiki.nixos.org/wiki/WSL
-# list your channels using: sudo nix-channel --list
+
+# list your channels using: sudo nix-channel --list 
 # update channels using: sudo nix-channel --update
 # rebuild using: sudo nixos-rebuild switch
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  nixos-wsl,
-  user,
-  hostname,
-  ...
-}: {
-  # You can import other NixOS modules here
-  imports = [
-    # If you want to use modules your own flake exports (from modules/nixos):
-    # outputs.nixosModules.example
 
+{ config, lib, pkgs, nixos-wsl, ... }:
+
+{
+  imports = [
     # <nix-ld/modules/nix-ld.nix>
     # include NixOS-WSL modules
     # nixos-wsl/modules
-
-    # Or modules from other flakes (such as nixos-hardware):
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
-    # Diaabled for WSL
-    # ./hardware-configuration.nix
   ];
 
   # Configure networking
 
-  networking = {
-    hostName = hostname;
-    hostId = "cafebabe";
-    useDHCP = false;
-    # enabling this on WSL-2 causes error:
-    # systemd-resolved is enabled, but resolv.conf is managed by WSL (wsl.wslConf.network.generateResolvConf)
-    # systemctl start systemd-networkd-wait-online.services times out
-    useNetworkd = false;
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [80 443];
-      allowedUDPPortRanges = [
-        {
-          from = 4000;
-          to = 4007;
-        }
-        {
-          from = 8000;
-          to = 8010;
-        }
-      ];
-    };
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPortRanges = [
+      { from = 4000; to = 4007; }
+      { from = 8000; to = 8010; }
+    ];
   };
 
   time.timeZone = "US/Pacific";
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+  # Handle none NixOS binaries
+  # [Dec 2022 Nix-ld: A clean solution for issues with pre-compiled executables on NixOS](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/)
+  # [nix-community/nix-ld](https://github.com/nix-community/nix-ld?tab=readme-ov-file#nix-ld)
+  # The module in this repository defines a new module under (programs.nix-ld.dev) instead of (programs.nix-ld)
+  # to not collide with the nixpkgs version.
+  # programs.nix-ld.dev.enable = true;
 
-      # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
+  users.users.mwoodpatrick = {
+        isNormalUser  = true;
+        home  = "/home/mwoodpatrick";
+        description  = "Mark L. Wood-Patrick";
+        extraGroups  = [ "nopasswdlogin" "wheel" "networkmanager"  "libvirtd" ];
+        # openssh.authorizedKeys.keys  = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
 
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-    };
+        # The state version is required and should stay at the version you
+        # originally installed.
+        # home.stateVersion = "24.05";
   };
 
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  in {
-    settings = {
-      # Enable the Flakes feature and the accompanying new nix command-line tool
-      # experimental-features = "nix-command flakes";
-      experimental-features = ["nix-command" "flakes"];
-      warn-dirty = false;
-      # Opinionated: disable global registry
-      flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
-      nix-path = config.nix.nixPath;
-
-      allowed-users = [
-        "@wheel"
-        "@builders"
-        "moodpatrick"
-      ];
-
-      substituters = ["https://nixos-homepage.cachix.org"];
-      trusted-public-keys = ["nixos-homepage.cachix.org-1:NHKBt7NjLcWfgkX4OR72q7LVldKJe/JOsfIWFDAn/tE="];
-    };
-
-    # Opinionated: disable channels
-    channel.enable = false;
-
-    # Opinionated: make flake registry and nix path match flake inputs
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-  };
-
-  # TODO: Add the rest of your current configuration
-
-  users.users.${user} = {
-    # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
-    # TODO: You can set an initial password for your user.
-    # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-    # Be sure to change it (using passwd) after rebooting!
-    # initialPassword = "";
-
-    isNormalUser = true;
-    home = "/home/mwoodpatrick";
-    description = "Mark L. Wood-Patrick";
-    extraGroups = ["wheel" "networkmanager" "libvirtd" "video"];
-    # openssh.authorizedKeys.keys  = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
-    openssh.authorizedKeys.keys = [
-      # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-    ];
-  };
-
-  # [NixOS-WSL specific options](https://nix-community.github.io/NixOS-WSL/options.html)
   wsl = {
     enable = true;
     defaultUser = "mwoodpatrick";
     startMenuLaunchers = true;
   };
 
-  # my services
-  services = {
-    # This setups a SSH server. Very important if you're setting up a headless system.
-    # Feel free to remove if you don't need it.
-    openssh = {
-      enable = true;
-      settings = {
-        # Opinionated: forbid root login through SSH.
-        PermitRootLogin = "no";
-        # Opinionated: use keys only.
-        # Remove if you want to SSH using passwords
-        # PasswordAuthentication = false;
-      };
-    };
+  # TODO: review nix nginx configs & how they map into nginx configs
+  # Many other DO tutorials need to review 
+  # [Nginx - NixOS wiki](https://nixos.wiki/wiki/Nginx)
+  # [Trying to set up nginx on my home server](https://www.reddit.com/r/NixOS/comments/g31u03/trying_to_set_up_nginx_on_my_home_server/?rdt=49971)
+  # [Configuring Logging](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/)
+  # [services.nginx](https://search.nixos.org/options?query=services.nginx)
+  # [nginx/default.nix](https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/web-servers/nginx/default.nix)
+  # [nhinx tests](https://github.com/NixOS/nixpkgs/blob/master/nixos/tests) see nginx*.nix
+  # [nginx options](https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/web-servers/nginx/default.nix)
+  # [Understanding Nginx Server and Location Block Selection Algorithms](https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms#matching-location-blocks)
+  # [How To Set Up Nginx Server Blocks (Virtual Hosts) on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04)
+  # access log: /var/log/nginx/access.log
+  # error log: (/var/log/nginx/error.log)
+  # log journalctl -xeu nginx.service|less
+  # generated config file: /nix/store/<hash>-nginx.conf
+  services.nginx = {
+    enable = true;
+    statusPage = true;
+    # logError = "/srv/http/test.local.westie.org/error.log debug"; 
+    defaultHTTPListenPort=80; # 8080;
+    defaultSSLListenPort=443; # 8443;
 
-    # TODO: review nix nginx configs & how they map into nginx configs
-    # Many other DO tutorials need to review
-    # [Nginx - NixOS wiki](https://nixos.wiki/wiki/Nginx)
-    # [Trying to set up nginx on my home server](https://www.reddit.com/r/NixOS/comments/g31u03/trying_to_set_up_nginx_on_my_home_server/?rdt=49971)
-    # [Configuring Logging](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/)
-    # [services.nginx](https://search.nixos.org/options?query=services.nginx)
-    # [nginx/default.nix](https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/web-servers/nginx/default.nix)
-    # [nhinx tests](https://github.com/NixOS/nixpkgs/blob/master/nixos/tests) see nginx*.nix
-    # [nginx options](https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/web-servers/nginx/default.nix)
-    # [Understanding Nginx Server and Location Block Selection Algorithms](https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms#matching-location-blocks)
-    # [How To Set Up Nginx Server Blocks (Virtual Hosts) on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04)
-    # access log: /var/log/nginx/access.log
-    # error log: (/var/log/nginx/error.log)
-    # log journalctl -xeu nginx.service|less
-    # generated config file: /nix/store/<hash>-nginx.conf
+    # [Mozilla SSL SSL Configuration Generator](https://ssl-config.mozilla.org/#server=nginx&config=intermediate)
+    recommendedTlsSettings = true;
 
-    nginx = {
-      enable = true;
-      statusPage = true;
-      # logError = "/srv/http/test.local.westie.org/error.log debug";
-      defaultHTTPListenPort = 80; # 8080;
-      defaultSSLListenPort = 443; # 8443;
+    recommendedOptimisation = true;
+    recommendedGzipSettings = true;
+    recommendedProxySettings = true;
 
-      # [Mozilla SSL SSL Configuration Generator](https://ssl-config.mozilla.org/#server=nginx&config=intermediate)
-      recommendedTlsSettings = true;
+    virtualHosts = { # aka server blocks
+        localhost = { 
+            root = "/mnt/wsl/projects/www";
 
-      recommendedOptimisation = true;
-      recommendedGzipSettings = true;
-      recommendedProxySettings = true;
+	    serverAliases = ["westie.org" "www.westie.org"];
 
-      virtualHosts = {
-        # aka server blocks
-        localhost = {
-          root = "/mnt/wsl/projects/www";
+            locations."/ping" = {
+                return = "200 '<html><body>It works</body></html>'";
+                extraConfig = ''
+                    default_type text/html;
+                '';
+            };
 
-          serverAliases = ["westie.org" "www.westie.org"];
-
-          locations."/ping" = {
-            return = "200 '<html><body>It works</body></html>'";
-            extraConfig = ''
-              default_type text/html;
-            '';
-          };
-
-          locations."/test" = {
-            # error_log = "/srv/http/test.local.westie.org/error.log";
-            # access_log = "/srv/http/test.local.westie.org/access.log";
-          };
+            locations."/test" = {
+        	# error_log = "/srv/http/test.local.westie.org/error.log"; 
+        	# access_log = "/srv/http/test.local.westie.org/access.log";
+            };
         };
 
         # "hydra.example.com" = {
@@ -247,68 +124,74 @@
         #   locations."/" = {
         #       proxyPass = "http://localhost:3000";
         #   };
-      };
-    };
-  };
-
-  # Gloabl OS settings
-  environment = {
-    # List of packages that should be installed system-wide
-    systemPackages = with pkgs; [
-      nixVersions.nix_2_25 # package manager
-      # provides the command `nom` (nix output monitor) works just like `nix` with more details log output
-      nix-output-monitor
-      nix-direnv # Fast, persistent use_nix implementation for direnv
-      nix-prefetch-github # get hash and other info from GitHub package
-      niv # Easy dependency management for Nix projects
-      spice-vdagent # Enhanced SPICE integration for linux QEMU guest [Spice](https://www.spice-space.org/)
-      # Flakes clones its dependencies through the git command, so git must be installed first
-      git # Distributed version control system
-      # Handle none NixOS binaries
-      # [Dec 2022 Nix-ld: A clean solution for issues with pre-compiled executables on NixOS](https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/)
-      # [nix-community/nix-ld](https://github.com/nix-community/nix-ld?tab=readme-ov-file#nix-ld)
-      # The module in this repository defines a new module under (programs.nix-ld.dev) instead of (programs.nix-ld)
-      # to not collide with the nixpkgs version.
-      # programs.nix-ld.dev.enable = true;
-      nix-ld # Run unpatched dynamic binaries on NixOS
-      wget # Tool for retrieving files using HTTP, HTTPS, and FTP
-      curl # Command line tool for transferring files with URL syntax
-      home-manager # Nix-based user environment configurator
-      # kmod # a set of tools to handle common tasks with Linux kernel modules like insert, remove,
-      # list, check properties, resolve dependencies and aliases. These tools are designed on
-      # top of libkmod, a library that is shipped with kmod.
-      # [kmod](https://search.nixos.org/packages?channel=unstable&show=kmod&from=0&size=50&sort=relevance&type=packages&query=kmod)
-
-      # Extra tools for accessing and modifying virtual machine disk images
-      # [libguestfs](https://libguestfs.org/)
-      guestfs-tools # Extra tools for accessing and modifying virtual machine disk images
-
-      # [Quickemu Project](https://github.com/quickemu-project)
-      # [A quick look at Quickemu](https://www.lorenzobettini.it/2024/03/a-quick-look-at-quickemu/)
-      quickemu
-
-      # [quickgui](https://github.com/quickemu-project/quickgui)
-      # quickgui
-
-      xorg.xdpyinfo
-    ];
-
-    # environment variables that should be set globally.
-    variables = rec {
-      # EDITOR = "nvim";
-      GIT_ROOT = "/mnt/wsl/projects/git";
-      NIX_CFG_DIR = "${GIT_ROOT}/nix-wsl";
-      NIX_CFG = "${NIX_CFG_DIR}#nix-wsl";
-      HOME = "/home/mwoodpatrick";
+        };
+    };    
+  
+  # Enable the Flakes feature and the accompanying new nix command-line tool
+  nix.settings = {
+        experimental-features = [ "nix-command" "flakes" ];
+        warn-dirty = false;
+        allowed-users = [
+                        "@wheel"
+                        "@builders"
+                        "moodpatrick"
+                    ];
+        substituters = [ "https://nixos-homepage.cachix.org" ];
+        trusted-public-keys = [ "nixos-homepage.cachix.org-1:NHKBt7NjLcWfgkX4OR72q7LVldKJe/JOsfIWFDAn/tE=" ];
     };
 
-    # Sets environment variables for user sessions.
-    sessionVariables = {
-      # TERM = "xterm-256color";
-    };
+  environment.systemPackages = with pkgs; [
+    # nix # default is 2.18.5
+    nixVersions.nix_2_25
+    # simple Wayland Configuration
+    emptty
+    weston
+    wayland-utils
+    swaybg
+    hello-wayland
+    wlvncc
+    wlcs
+    # it provides the command `nom` works just like `nix`
+    wbg
+    cairo
+    # with more details log output
+    nix-direnv
+    # nixVersions.nix_2_25
+    nix-prefetch-github # get hash and other info from GitHub package
+    nix-output-monitor
+    niv
+    spice-vdagent # [Spice](https://www.spice-space.org/)
+    # Flakes clones its dependencies through the git command,
+    # so git must be installed first
+    git
+    neovim
+    wget
+    curl
+    direnv
+    home-manager
+    # kmod is a set of tools to handle common tasks with Linux kernel modules like insert, remove, 
+    # list, check properties, resolve dependencies and aliases. These tools are designed on 
+    # top of libkmod, a library that is shipped with kmod.
+    # [kmod](https://search.nixos.org/packages?channel=unstable&show=kmod&from=0&size=50&sort=relevance&type=packages&query=kmod)
+    kmod
 
-    # List of directories to be symlinked in /run/current-system/sw.
-    pathsToLink = ["/usr/share/doc"];
+    # Extra tools for accessing and modifying virtual machine disk images
+    # [libguestfs](https://libguestfs.org/)
+    guestfs-tools
+
+    # [Quickemu Project](https://github.com/quickemu-project)
+    # [A quick look at Quickemu](https://www.lorenzobettini.it/2024/03/a-quick-look-at-quickemu/)
+    quickemu
+
+    # [quickgui](https://github.com/quickemu-project/quickgui)
+    # quickgui
+  ];
+
+  # Set the default editor to vim
+  environment.variables = {
+    EDITOR = "nvim";
+    GIT_ROOT= "/mnt/wsl/projects/git";
+    HOME="/home/mwoodpatrick";
   };
 
   # Enable virtualization
@@ -322,37 +205,14 @@
       swtpm.enable = true;
       ovmf = {
         enable = true;
-        packages = [
-          (pkgs.OVMF.override {
-            secureBoot = true;
-            tpmSupport = true;
-          })
-          .fd
-        ];
+        packages = [(pkgs.OVMF.override {
+          secureBoot = true;
+          tpmSupport = true;
+        }).fd];
       };
     };
   };
-
-  # https://github.com/hedning/nix-bash-completions.git
-  # does not seem to support nix fmt!
-  programs = {
-    bash.completion.enable = true; # enable bash completions
-    nix-ld.enable = true; # support none patched binaries
-    virt-manager.enable = true; # enable management of VM's
-  };
-
-  # [Fonts](https://nixos.wiki/wiki/Fonts)
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-  ];
+  programs.virt-manager.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -360,7 +220,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "24.11";
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
