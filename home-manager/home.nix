@@ -42,16 +42,22 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    # audio
+    sound-theme-freedesktop
+    pulseaudioFull
+    
+    # git
     gh
+
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     hello
-    atool 
+    atool
     httpie
 
     # [AsciiDoc](https://asciidoc.org/)
@@ -182,10 +188,11 @@
     EDITOR = "nvim";
     GIT_ROOT = "/mnt/wsl/projects/git";
     LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
+    NIX_CFG_DIR="$GIT_ROOT/nix-wsl";
     PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
     # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
     DIRENV_LOG_FORMAT=""; # disable direnv output
-    # TODO: Check if running on WSL does not appear to work (check for some other env var) 
+    # TODO: Check if running on WSL does not appear to work (check for some other env var)
     WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
   };
 
@@ -241,15 +248,15 @@
         viAlias = true;
         vimAlias = true;
 
-        # Define your Neovim plugins (optional) 
+        # Define your Neovim plugins (optional)
         # [flake-awesome-neovim-plugins](https://github.com/m15a/flake-awesome-neovim-plugins)
         # [Awesome Neovim](https://github.com/rockerBOO/awesome-neovim)
         # [NixNeovimPlugins](https://github.com/NixNeovim/NixNeovimPlugins)
 
-        # plugins = { 
-            # lualine.enable = true; 
-            # telescope.enable = true; 
-            # harpoon.enable = true; 
+        # plugins = {
+            # lualine.enable = true;
+            # telescope.enable = true;
+            # harpoon.enable = true;
             # pkgs.vimPlugins.nvim-tree-lua
             # {
                 # plugin = pkgs.vimPlugins.vim-startify;
@@ -257,10 +264,10 @@
             # }
         # };
 
-        # The Home Manager module does not expose many configuration options. 
-        # Therefore, the easiest way to get started is to use the extraConfig option. 
+        # The Home Manager module does not expose many configuration options.
+        # Therefore, the easiest way to get started is to use the extraConfig option.
         # You can copy your old config or directly load your default Neovim config via:
-	
+
 	    # extraConfig = ''
         #   lib.fileContents ./init.vim;
 	    #   augroup NixFiles

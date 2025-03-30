@@ -69,11 +69,11 @@
     # [microvm.nix my fork](https://github.com/mwoodpatrick/microvm.nix)
     # [microvm.nix upstream repo](https://github.com/astro/microvm.nix)
     # [microvm-examples](https://github.com/Soikr/microvm-examples/tree/main)
-    microvm = {
+    # microvm = {
       # url = "github:mwoodpatrick/microvm.nix";
-      url = "github:astro/microvm.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #  url = "github:astro/microvm.nix";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # [nix-minecraft](https://github.com/Infinidoge/nix-minecraft)
     # minecraft = {
@@ -88,7 +88,7 @@
     nixos-wsl,
     home-manager,
     nixvim,
-    microvm,
+    # microvm,
     # minecraft,
     ...
   } @ inputs: let
@@ -136,24 +136,24 @@
           # NixOS-WSL.nixosModules.wsl
           nixos-wsl.nixosModules.default
           {
-            system.stateVersion = "24.11";
+            system.stateVersion = nixpkgs.lib.mkForce "24.11";
             wsl.enable = true;
           }
           # > Our main nixos configuration file <
           ./nixos/configuration.nix
           # [Preparing a NixOS host for declarative MicroVMs](https://astro.github.io/microvm.nix/host.html)
-          microvm.nixosModules.host
-          ./vms
+          # microvm.nixosModules.host
+          # ./vms
         ];
       };
 
-      Example = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          microvm.nixosModules.microvm
-          ./vms/Example
-        ];
-      };
+      # Example = nixpkgs.lib.nixosSystem {
+      #   inherit system;
+      #   modules = [
+      #     microvm.nixosModules.microvm
+      #     ./vms/Example
+      #   ];
+      # };
 
       # Minecraft = nixpkgs.lib.nixosSystem {
       #   inherit system;
