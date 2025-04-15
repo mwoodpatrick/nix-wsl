@@ -70,6 +70,13 @@
     startMenuLaunchers = true;
   };
 
+ # services.xserver = {
+ #   enable = true;
+ #   displayManager.gdm.enable = true;
+ #   desktopManager.gnome.enable = true;
+ # };
+
+
   # TODO: review nix nginx configs & how they map into nginx configs
   # Many other DO tutorials need to review 
   # [Nginx - NixOS wiki](https://nixos.wiki/wiki/Nginx)
