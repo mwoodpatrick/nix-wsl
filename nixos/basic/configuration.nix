@@ -30,6 +30,9 @@
 # [NixOS on WSL](https://forrestjacobs.com/nixos-on-wsl/)
 # [Nix Flakes on WSL](https://xeiaso.net/blog/nix-flakes-4-wsl-2022-05-01/)
 # [nixos-wsl](https://github.com/mifix/nixos-wsl)
+# [WSL, Neovim, Lua, and the Windows Clipboard](https://mitchellt.com/2022/05/15/WSL-Neovim-Lua-and-the-Windows-Clipboard.html)
+# [dotfiles](https://github.com/mitchpaulus/dotfiles)
+# [how to create a multiuser nixos flake based system](https://gemini.google.com/app/bb29eccbb15d6cd6)
 #
 # update channels using: sudo nix-channel --update
 # rebuild using: sudo nixos-rebuild switch
