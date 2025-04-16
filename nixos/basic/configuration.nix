@@ -14,6 +14,7 @@
 #
 # Configuration help:
 #
+# [Understanding NixOS Modules and Declaring Options](https://britter.dev/blog/2025/01/09/nixos-modules/)
 # [Configuration Options](https://nixos.org/manual/nixos/unstable/options.html#ch-options)
 # [The Nix configuration file](https://nixos.substack.com/p/the-nix-configuration-file)
 #
