@@ -55,6 +55,10 @@
       includePath = true; # Controls adding Windows PATH to NixOS $PATH
       register = true; # Explicitly register the (binfmt_misc handler)[https://en.wikipedia.org/wiki/Binfmt_misc] for Windows executables
     };
+
+    wslConf.network = {
+      hostname = "nix-wsl-temp2"; # The hostname of the WSL instance
+    };
   };
 
   # services.avahi = {
