@@ -83,21 +83,23 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
-  environment.systemPackages = with pkgs; [
-    # Flakes clones its dependencies through the git command,
-    # so git must be installed first
-    git
-    gh
-    home-manager
-    neovim
-    ripgrep
-    wget
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      # Flakes clones its dependencies through the git command,
+      # so git must be installed first
+      git
+      gh
+      home-manager
+      neovim
+      ripgrep
+      wget
+    ];
  
-  # Set the default editor to vim
-  environment.variables = {
-    EDITOR = "nvim";
-    GIT_ROOT= "/mnt/wsl/projects/git";
-    NIXOS_CONFIG_ROOT="/mnt/wsl/projects/git/nix-wsl/nixos/basic";
+    # Set the default editor to neovim
+    variables = {
+      EDITOR = "nvim";
+      GIT_ROOT= "/mnt/wsl/projects/git";
+      NIXOS_CONFIG_ROOT="/mnt/wsl/projects/git/nix-wsl/nixos/basic";
+    };
   };
 }
