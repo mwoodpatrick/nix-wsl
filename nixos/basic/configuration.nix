@@ -37,12 +37,12 @@
 #
 # update channels using: sudo nix-channel --update
 # rebuild using: sudo nixos-rebuild switch
-{ config, lib, pkgs, ... }:
+{ inputs, outputs, config, lib, pkgs, ... }:
 
 {
   imports = [
     # include NixOS-WSL modules
-    <nixos-wsl/modules>
+    # <nixos-wsl/modules>
   ];
 
   # (NixOS-WSL configuration options)[https://nix-community.github.io/NixOS-WSL/options.html)
@@ -92,6 +92,11 @@
     ripgrep
     wget
   ];
+ 
   # Set the default editor to vim
-  environment.variables.EDITOR = "nvim";
+  environment.variables = {
+    EDITOR = "nvim";
+    GIT_ROOT= "/mnt/wsl/projects/git";
+    NIXOS_CONFIG_ROOT="/mnt/wsl/projects/git/nix-wsl/nixos/basic";
+  };
 }
