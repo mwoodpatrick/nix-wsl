@@ -88,6 +88,7 @@
     # so git must be installed first
     git
     gh
+    home-manager
     neovim
     ripgrep
     wget
