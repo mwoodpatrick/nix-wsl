@@ -76,11 +76,34 @@
   #
   #  /etc/profiles/per-user/mwoodpatrick/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-    # EDITOR = "emacs";
-    FRED = "hello";
-  };
 
+  # Home Manager can also manage your environment variables through
+  # 'home.sessionVariables'. These will be explicitly sourced when using a
+  # shell provided by Home Manager. If you don't want to manage your shell
+  # through Home Manager then you have to manually source 'hm-session-vars.sh'
+  # located at either
+  #
+  #  /etc/profiles/per-user/mwoodpatrick/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  # Note these env vars are written to:
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    GIT_ROOT = "/mnt/wsl/projects/git";
+    LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
+    NIX_CFG_DIR="$GIT_ROOT/nix-wsl";
+    PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
+    # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
+    DIRENV_LOG_FORMAT=""; # disable direnv output
+    # TODO: Check if running on WSL does not appear to work (check for some other env var)
+    WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
+  };
   # Let Home Manager install and manage itself.
   programs = {
     home-manager.enable = true;
@@ -104,11 +127,11 @@
         h  = "history";
         hl = "history|less";
         ht = "history|tail -40";
-        he = "home-manager edit";
+        he = "home-manager edit --flake $NIXOS_CONFIG_ROOT/home";
         hs = "home-manager switch --flake $NIXOS_CONFIG_ROOT/home;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
-        ne = "nvim $HOME/config/nix/configuration.nix";
-        ns = "sudo nixos-rebuild switch --flake $HOME/config/nix#nixos";
+        ne = "nvim $NIXOS_CONFIG_ROOT/configuration.nix";
+        ns = "sudo nixos-rebuild switch --flake $NIXOS_CONFIG_ROOT#nixos";
         ngc = "nix-collect-garbage -d";
         j = "jobs";
         k = "kubectl";
