@@ -129,10 +129,10 @@
         h  = "history";
         hl = "history|less";
         ht = "history|tail -40";
-        he = "nvim $NIXOS_CONFIG_ROOT/home.nix";
+        he = "nvim $NIXOS_CONFIG_ROOT/home/home.nix";
         hs = "home-manager switch --flake $NIXOS_CONFIG_ROOT/home;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
-        necd = "cd $NIXOS_CONFIG_ROOT";
+        ncd = "cd $NIXOS_CONFIG_ROOT";
         ne = "nvim $NIXOS_CONFIG_ROOT/flake.nix";
         ns = "sudo nixos-rebuild switch --flake $NIXOS_CONFIG_ROOT#nixos";
         ngc = "nix-collect-garbage -d";
