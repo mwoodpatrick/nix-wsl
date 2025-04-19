@@ -17,10 +17,10 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    pkgs.hello
+    hello
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -32,8 +32,17 @@
     # # configuration. For example, this adds a command 'my-hello' to your
     # # environment:
     # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
+    #   echo "Hello, ${config.home# .username}!"
     # '')
+
+    jq # A lightweight and flexible command-line JSON processor
+    yq-go # yaml processor https://github.com/mikefarah/yq
+    eza # A modern replacement for ‘ls’
+    fzf # A command-line fuzzy finder
+    feh # [FEH - light-weight, configurable and versatile image viewer](https://feh.finalrewind.org/)
+    tmux
+    htop
+    fortune
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -73,5 +82,47 @@
   };
 
   # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  programs = {
+    home-manager.enable = true;
+    # [nix-direnv](https://github.com/nix-community/nix-direnv)
+    # [direnv](https://direnv.net/)
+    # [Effortless dev environments with Nix and direnv](https://determinate.systems/posts/nix-direnv/)
+    # [github:direnv](https://github.com/direnv/direnv)
+    bash = {
+      enable = true;
+      enableCompletion = true;
+      # Add your custom bashrc here
+      bashrcExtra = ''
+        # added from home.nix
+        source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+        #end, added from home.nix
+      '';
+
+      # set some aliases, feel free to add more or remove some
+      shellAliases = {
+        c  = "clear";
+        h  = "history";
+        hl = "history|less";
+        ht = "history|tail -40";
+        he = "home-manager edit";
+        hs = "home-manager switch --flake $NIXOS_CONFIG_ROOT/home;source ~/.bashrc";
+        myps = "ps -w -f -u $USER";
+        ne = "nvim $HOME/config/nix/configuration.nix";
+        ns = "sudo nixos-rebuild switch --flake $HOME/config/nix#nixos";
+        ngc = "nix-collect-garbage -d";
+        j = "jobs";
+        k = "kubectl";
+        urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
+        urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+        wsl = "wsl.exe";
+        wterm = "/mnt/c/Program\\ Files/WezTerm/wezterm.exe &";
+      };
+    };
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      nix-direnv.enable = true;
+  };
+  # [Firefox](https://nixos.wiki/wiki/Firefox)
+  firefox.enable = true;   };
 }
