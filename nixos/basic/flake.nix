@@ -8,9 +8,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    cursor.url = "github:omarcresp/cursor-flake/main";
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, ... }@inputs: {
+  outputs = { self, nixpkgs, nixos-wsl, cursor, ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

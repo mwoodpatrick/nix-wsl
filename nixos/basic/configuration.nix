@@ -37,7 +37,7 @@
 #
 # update channels using: sudo nix-channel --update
 # rebuild using: sudo nixos-rebuild switch
-{ inputs, outputs, config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -93,6 +93,7 @@
       neovim
       ripgrep
       wget
+      inputs.cursor.packages.${pkgs.system}.default
     ];
  
     # Set the default editor to neovim

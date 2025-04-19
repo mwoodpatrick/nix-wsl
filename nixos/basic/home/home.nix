@@ -43,6 +43,7 @@
     tmux
     htop
     fortune
+    uv
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -99,6 +100,7 @@
     LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
     NIX_CFG_DIR="$GIT_ROOT/nix-wsl";
     PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
+    UV_PYTHON_DOWNLOADS = "never"; # Normal python does not work in NixOS
     # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
     DIRENV_LOG_FORMAT=""; # disable direnv output
     # TODO: Check if running on WSL does not appear to work (check for some other env var)
@@ -127,10 +129,11 @@
         h  = "history";
         hl = "history|less";
         ht = "history|tail -40";
-        he = "home-manager edit --flake $NIXOS_CONFIG_ROOT/home";
+        he = "nvim $NIXOS_CONFIG_ROOT/home.nix";
         hs = "home-manager switch --flake $NIXOS_CONFIG_ROOT/home;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
-        ne = "nvim $NIXOS_CONFIG_ROOT/configuration.nix";
+        necd = "cd $NIXOS_CONFIG_ROOT";
+        ne = "nvim $NIXOS_CONFIG_ROOT/flake.nix";
         ns = "sudo nixos-rebuild switch --flake $NIXOS_CONFIG_ROOT#nixos";
         ngc = "nix-collect-garbage -d";
         j = "jobs";
