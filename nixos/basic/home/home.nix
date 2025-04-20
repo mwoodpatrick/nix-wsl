@@ -109,10 +109,6 @@
   # Let Home Manager install and manage itself.
   programs = {
     home-manager.enable = true;
-    # [nix-direnv](https://github.com/nix-community/nix-direnv)
-    # [direnv](https://direnv.net/)
-    # [Effortless dev environments with Nix and direnv](https://determinate.systems/posts/nix-direnv/)
-    # [github:direnv](https://github.com/direnv/direnv)
     bash = {
       enable = true;
       enableCompletion = true;
@@ -144,11 +140,24 @@
         wterm = "/mnt/c/Program\\ Files/WezTerm/wezterm.exe &";
       };
     };
+#    vscode = {
+#      enable = true;
+#      extensions = with pkgs.vscode-extensions; [
+#        dracula-theme.theme-dracula
+#        vscodevim.vim
+#        yzhang.markdown-all-in-one
+#      ];
+#    };
+    # [nix-direnv](https://github.com/nix-community/nix-direnv)
+    # [direnv](https://direnv.net/)
+    # [Effortless dev environments with Nix and direnv](https://determinate.systems/posts/nix-direnv/)
+    # [github:direnv](https://github.com/direnv/direnv)
     direnv = {
       enable = true;
       enableBashIntegration = true;
       nix-direnv.enable = true;
-  };
+    };
   # [Firefox](https://nixos.wiki/wiki/Firefox)
-  firefox.enable = true;   };
+    firefox.enable = true;   
+  };
 }

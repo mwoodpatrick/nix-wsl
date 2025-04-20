@@ -94,6 +94,7 @@
       ripgrep
       wget
       inputs.cursor.packages.${pkgs.system}.default
+      nix-ld # Run unpatched dynamic binaries on NixOS
     ];
  
     # Set the default editor to neovim

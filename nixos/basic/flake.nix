@@ -8,10 +8,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nix-ld.url = "github:Mic92/nix-ld";
+    # this line assume that you also have nixpkgs as an input
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
     cursor.url = "github:omarcresp/cursor-flake/main";
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, cursor, ... }@inputs: {
+  outputs = { self, nixpkgs, nixos-wsl, nix-ld, cursor, ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -23,6 +26,14 @@
         modules = [
           # This includes the options for the WSL specific settings.
           nixos-wsl.nixosModules.default
+          # (Setup VSCode Remote)[https://nix-community.github.io/NixOS-WSL/how-to/vscode.html]
+          # (nix-ld)[https://github.com/nix-community/nix-ld]
+          # ... add this line to the rest of your configuration modules
+          nix-ld.nixosModules.nix-ld
+
+          # The module in this repository defines a new module under (programs.nix-ld.dev) instead of (programs.nix-ld)
+          # to not collide with the nixpkgs version.
+          { programs.nix-ld.dev.enable = true; }
 
           # host configuration
           ./configuration.nix
