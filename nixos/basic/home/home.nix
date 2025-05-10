@@ -40,6 +40,7 @@
     eza # A modern replacement for ‘ls’
     fzf # A command-line fuzzy finder
     feh # [FEH - light-weight, configurable and versatile image viewer](https://feh.finalrewind.org/)
+    git-lfs
     tmux
     htop
     fortune
@@ -159,5 +160,9 @@
     };
   # [Firefox](https://nixos.wiki/wiki/Firefox)
     firefox.enable = true;   
+    git = {
+        enable = true;
+        lfs.enable = true;
+        };
   };
 }
