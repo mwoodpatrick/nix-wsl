@@ -35,9 +35,26 @@
     #   echo "Hello, ${config.home# .username}!"
     # '')
 
+    # utils
+
+    # (15 rust cli tools that will make you abandon bash scripts forever)[https://medium.com/@devlink/15-rust-cli-tools-that-will-make-you-abandon-bash-scripts-forever-0120bbfe473c]
+    ripgrep # recursively searches directories for a regex pattern
+    fd # find
+    bat # cat, but with syntax highlighting, line numbers, git diff
+    eza # tree view, color coded, git status, Human-readable file sizes
+    procs # Color-coded, Displays CPU & memory usage, PID, command, user, runtime, Supports JSON and YAML output
+    dust # du with Visual bar charts for file/folder size, color coded
+    # bottom # missing in nix? Real-time graphs for CPU, RAM, disk, network, and temperatures
+    tokei # Lines of code vs comments vs blanks, Total files and code stats
+    bandwhich # Shows real-time bandwidth usage per processes, Displays remote addresses, ports, and protocols
+    gping # Terminal-based latency graphs
+    hyperfine # measure execution times, gives mean, min, max, stddev, exporting results to JSON, Markdown, CSV
+    zoxide # cd with memory, Supports fuzzy matching
+    cargo # Rust's package manager
+    just # Modern build system supports variables, conditionals, and shell settings
+
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processor https://github.com/mikefarah/yq
-    eza # A modern replacement for ‘ls’
     fzf # A command-line fuzzy finder
     feh # [FEH - light-weight, configurable and versatile image viewer](https://feh.finalrewind.org/)
     git-lfs
@@ -52,6 +69,10 @@
     unzip
     p7zip
   ];
+
+  # [](https://wiki.nixos.org/wiki/Starship)
+  # [starship](https://starship.rs) - an customizable prompt for any shell
+  # [github:startship](https://github.com/spaceship-prompt/spaceship-prompt)
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -171,5 +192,26 @@
         enable = true;
         lfs.enable = true;
         };
+
+
+    starship = {
+      enable = true;
+      # custom settings
+      settings = {
+        add_newline = true;
+        command_timeout = 1300;
+        scan_timeout = 50;
+        format = "$all$nix_shell$nodejs$lua$golang$rust$php$git_branch$git_commit$git_state$git_status\n$username$hostname$directory";
+        character = {
+          success_symbol = "[](bold green) ";
+          error_symbol = "[✗](bold red) ";
+        };
+        # aws.disabled = true;
+        # gcloud.disabled = true;
+        # line_break.disabled = true;
+        direnv.disabled = false;
+        hostname.ssh_only = false;
+      };
+    };
   };
 }

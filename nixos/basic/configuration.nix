@@ -93,7 +93,6 @@
       kind
       kubectl
       neovim
-      ripgrep
       wget
       inputs.cursor.packages.${pkgs.system}.default
       nix-ld # Run unpatched dynamic binaries on NixOS
