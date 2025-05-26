@@ -45,6 +45,12 @@
     htop
     fortune
     uv
+
+    # archives
+    zip
+    xz
+    unzip
+    p7zip
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
