@@ -98,6 +98,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     GIT_ROOT = "/mnt/wsl/projects/git";
+    KIND_EXPERIMENTAL_PROVIDER = "podman";
     LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
     NIX_CFG_DIR="$GIT_ROOT/nix-wsl";
     PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";

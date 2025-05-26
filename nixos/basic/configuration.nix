@@ -90,6 +90,8 @@
       git
       gh
       home-manager
+      kind
+      kubectl
       neovim
       ripgrep
       wget
@@ -104,4 +106,19 @@
       NIXOS_CONFIG_ROOT="/mnt/wsl/projects/git/nix-wsl/nixos/basic";
     };
   };
+
+  # Allow unprivileged users to run Podman (rootless mode setup)
+  # This sets up user namespaces and subuids/subgids for rootless containers
+  users.users.mwoodpatrick.extraGroups = [ "podman" ]; # Replace "your-username"
+
+  # Enable Podman service a daemonless container engine for developing, managing, 
+  # and running OCI Containers on your Linux System.
+  virtualisation.podman.enable = true;
+
+  # Create an alias mapping docker to podman
+  virtualisation.podman.dockerCompat = true; # Enable Docker compatibility (optional, but good for tools expecting Docker socket)
+
+  # You might want to enable systemd in WSL2 for more robust service management,
+  # though Podman can often run without it.
+  # boot.enableSystemd = true;
 }
