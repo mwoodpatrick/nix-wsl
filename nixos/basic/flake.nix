@@ -9,9 +9,15 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nix-ld.url = "github:Mic92/nix-ld";
+    flake-utils.url = "github:numtide/flake-utils";
     # this line assume that you also have nixpkgs as an input
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
+
+    # AI
     cursor.url = "github:omarcresp/cursor-flake/main";
+    claude-desktop.url = "github:k3d3/claude-desktop-linux-flake";
+    claude-desktop.inputs.nixpkgs.follows = "nixpkgs";
+    claude-desktop.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = { self, nixpkgs, nixos-wsl, nix-ld, cursor, ... }@inputs: {

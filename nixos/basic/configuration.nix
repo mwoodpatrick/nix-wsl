@@ -94,7 +94,10 @@
       kubectl
       neovim
       wget
+
+      # AI
       inputs.cursor.packages.${pkgs.system}.default
+      inputs.claude-desktop.packages.${system}.claude-desktop
       nix-ld # Run unpatched dynamic binaries on NixOS
     ];
  
