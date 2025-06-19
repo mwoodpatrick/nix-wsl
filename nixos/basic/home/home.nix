@@ -52,6 +52,7 @@
     zoxide # cd with memory, Supports fuzzy matching
     cargo # Rust's package manager
     just # Modern build system supports variables, conditionals, and shell settings
+    nodejs_23
 
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processor https://github.com/mikefarah/yq

@@ -97,7 +97,8 @@
 
       # AI
       inputs.cursor.packages.${pkgs.system}.default
-      inputs.claude-desktop.packages.${system}.claude-desktop
+      # inputs.claude-desktop.packages.${system}.claude-desktop
+      # (pkgs.callPackage ./claude-code.nix {})
       nix-ld # Run unpatched dynamic binaries on NixOS
     ];
  
