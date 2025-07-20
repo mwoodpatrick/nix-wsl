@@ -129,7 +129,8 @@
       "podman"     # for podman
       "wheel"      # For sudo access
       "kvm"        # Crucial for direct access to /dev/kvm
-      "libvirtd"   # To manage VMs via libvirt (and virt-manager)
+      "libvirtd"   # To manage VMs via libvirt (virsh, and virt-manager)
+      "qemu-libvirtd" # Some setups may benefit from this for QEMU user permissions
     ];
   };
 
