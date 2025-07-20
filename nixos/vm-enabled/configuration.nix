@@ -95,6 +95,11 @@
       neovim
       wget
 
+      # Add QEMU and other virtualization packages
+      qemu_full
+      libvirt
+      virt-manager
+
       # AI
       inputs.cursor.packages.${pkgs.system}.default
       # inputs.claude-desktop.packages.${system}.claude-desktop
@@ -106,20 +111,25 @@
     variables = {
       EDITOR = "nvim";
       GIT_ROOT= "/mnt/wsl/projects/git";
-      NIXOS_CONFIG_ROOT="/mnt/wsl/projects/git/nix-wsl/nixos/basic";
+      NIXOS_CONFIG_ROOT="/mnt/wsl/projects/git/nix-wsl/nixos/vm-enabled";
     };
   };
 
   # Allow unprivileged users to run Podman (rootless mode setup)
   # This sets up user namespaces and subuids/subgids for rootless containers
-  users.users.mwoodpatrick.extraGroups = [ "podman" ]; # Replace "your-username"
+  users.users.mwoodpatrick.extraGroups = [ "podman" "libvirtd" ]; # Replace "your-username"
 
-  # Enable Podman service a daemonless container engine for developing, managing, 
-  # and running OCI Containers on your Linux System.
-  virtualisation.podman.enable = true;
+  virtualisation = {
+  	# Enable Podman service a daemonless container engine for developing, managing, 
+  	# and running OCI Containers on your Linux System.
+  	podman.enable = true;
 
-  # Create an alias mapping docker to podman
-  virtualisation.podman.dockerCompat = true; # Enable Docker compatibility (optional, but good for tools expecting Docker socket)
+  	# Create an alias mapping docker to podman
+  	podman.dockerCompat = true; # Enable Docker compatibility (optional, but good for tools expecting Docker socket)
+
+	# Enable the libvirt daemon for managing VMs
+        libvirtd.enable = true;
+  };
 
   # You might want to enable systemd in WSL2 for more robust service management,
   # though Podman can often run without it.
