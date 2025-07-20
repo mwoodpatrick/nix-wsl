@@ -95,10 +95,16 @@
       neovim
       wget
 
+      # Tools for loading and managing Linux kernel modules
+      kmod
+
       # Add QEMU and other virtualization packages
-      qemu_full
-      libvirt
-      virt-manager
+      qemu_full # or qemu
+      qemu-utils
+      libvirt # for libvirt CLI tools (virsh)
+      virt-manager # For the graphical VM manager
+      bridge-utils
+      dnsmasq
 
       # AI
       inputs.cursor.packages.${pkgs.system}.default
@@ -117,21 +123,45 @@
 
   # Allow unprivileged users to run Podman (rootless mode setup)
   # This sets up user namespaces and subuids/subgids for rootless containers
-  users.users.mwoodpatrick.extraGroups = [ "podman" "libvirtd" ]; # Replace "your-username"
+  users.users.mwoodpatrick = {
+    isNormalUser = true;
+    extraGroups = [ 
+      "podman"     # for podman
+      "wheel"      # For sudo access
+      "kvm"        # Crucial for direct access to /dev/kvm
+      "libvirtd"   # To manage VMs via libvirt (and virt-manager)
+    ];
+  };
 
   virtualisation = {
-  	# Enable Podman service a daemonless container engine for developing, managing, 
-  	# and running OCI Containers on your Linux System.
-  	podman.enable = true;
+    # Enable Podman service a daemonless container engine for developing, managing, 
+    # and running OCI Containers on your Linux System.
+    podman.enable = true;
 
-  	# Create an alias mapping docker to podman
-  	podman.dockerCompat = true; # Enable Docker compatibility (optional, but good for tools expecting Docker socket)
+    # Create an alias mapping docker to podman
+    podman.dockerCompat = true; # Enable Docker compatibility (optional, but good for tools expecting Docker socket)
 
-	# Enable the libvirt daemon for managing VMs
-        libvirtd.enable = true;
+    # Enable the libvirt daemon for managing VMs
+    libvirtd.enable = true;
   };
 
   # You might want to enable systemd in WSL2 for more robust service management,
   # though Podman can often run without it.
   # boot.enableSystemd = true;
+
+  # Optional: Enable graphical manager for VMs
+  programs.virt-manager.enable = true;
+
+  # Optional: Dconf support for GNOME-based tools like Virt-manager
+  programs.dconf.enable = true;
+
+  # Optional: Allow clipboard and display sharing with Spice
+  services.spice-vdagentd.enable = true;
+
+  # Optional: Useful if you plan to run NixOS inside a VM
+  services.qemuGuest.enable = true;
+
+  # Networking bridge for VMs (can also be configured via virsh)
+  networking.firewall.allowedTCPPorts = [ 5900 5901 ]; # Common VNC/SPICE ports
+  networking.firewall.allowedUDPPorts = [ 67 68 ];     # DHCP
 }
