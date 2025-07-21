@@ -103,6 +103,7 @@
       qemu-utils
       libvirt # for libvirt CLI tools (virsh)
       virt-manager # For the graphical VM manager
+      virt-viewer # Viewer for remote virtual machines
       bridge-utils
       dnsmasq
 
