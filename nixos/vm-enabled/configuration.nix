@@ -104,6 +104,7 @@
       libvirt # for libvirt CLI tools (virsh)
       virt-manager # For the graphical VM manager
       virt-viewer # Viewer for remote virtual machines
+      libosinfo # GObject based library API for managing information about operating systems, hypervisors and the (virtual) hardware devices they can support
       bridge-utils
       dnsmasq
 
