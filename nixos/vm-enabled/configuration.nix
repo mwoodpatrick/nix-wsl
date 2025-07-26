@@ -45,6 +45,9 @@
     # <nixos-wsl/modules>
   ];
 
+  # Allow unfree packages if you use NVIDIA drivers or other proprietary software
+  nixpkgs.config.allowUnfree = true;
+
   # (NixOS-WSL configuration options)[https://nix-community.github.io/NixOS-WSL/options.html)
   # (Advanced settings configuration in WSL)[https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig]
   wsl = {
@@ -60,6 +63,16 @@
     wslConf.network = {
       hostname = "nix-wsl-vm-enabled"; # The hostname of the WSL instance
     };
+  };
+
+   # Enable the Ollama service
+  services.ollama = {
+    enable = true;
+    # Choose your acceleration: "cuda" for NVIDIA GPUs, "rocm" for AMD GPUs, or "none" for CPU only
+    acceleration = "cuda"; # Or "rocm" or "none"
+    # To allow Ollama to be accessed from other machines/containers:
+    # host = "0.0.0.0";
+    # port = 11434; # Default port
   };
 
   # services.avahi = {
@@ -108,11 +121,10 @@
       bridge-utils
       dnsmasq
 
-      # nodejs
-      nodejs_23
-      # nodejs_24
+      nodejs_24
 
       # AI
+      ollama # This is the Ollama CLI client
       inputs.cursor.packages.${pkgs.system}.default
       # inputs.claude-desktop.packages.${system}.claude-desktop
       # (pkgs.callPackage ./claude-code.nix {})

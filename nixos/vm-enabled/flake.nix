@@ -6,8 +6,21 @@
   description = "Flake for VM enabled NixOS";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    # Nixpkgs
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    # You can access packages and modules from different nixpkgs revs
+    # at the same time. Here's an working example:
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    # [NixOS-WSL](https://nix-community.github.io/NixOS-WSL/)
+    # [NixOS-WSL](https://github.com/nix-community/NixOS-WSL)
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-ld.url = "github:Mic92/nix-ld";
     flake-utils.url = "github:numtide/flake-utils";
     # this line assume that you also have nixpkgs as an input
@@ -20,7 +33,16 @@
     # claude-desktop.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, nix-ld, cursor, ... }@inputs: {
+  outputs = { 
+    self, 
+    nixpkgs, 
+    nixos-wsl, 
+    nix-ld, 
+    cursor, 
+    # nixvim,
+    # microvm,
+    # minecraft,
+    ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
