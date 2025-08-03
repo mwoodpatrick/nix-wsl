@@ -45,6 +45,25 @@
     # <nixos-wsl/modules>
   ];
 
+  # Enable the XFCE desktop environment
+  services.xserver = {
+    enable = true;
+    displayManager.lightdm.enable = true; # A lightweight display manager
+    desktopManager.xfce.enable = true;
+  };
+
+  # Enable the xrdp service
+  services.xrdp = {
+    enable = true;
+    defaultWindowManager="xfce"; # Tell xrdp to launch XFCE
+    port=3000; # Specifies on which port the xrdp daemon listens (default 3389).
+    # You can also set a different port if needed
+    # port = "3390";
+    # If you experience connection issues, sometimes disabling TCP keepalives helps
+    # tcpKeepAlive = false;
+  };
+
+
   # Allow unfree packages if you use NVIDIA drivers or other proprietary software
   nixpkgs.config.allowUnfree = true;
 
@@ -123,6 +142,13 @@
 
       nodejs_24
 
+      # graphics
+      # The xrdp package is pulled in by services.xrdp, but it's good to be explicit
+      xrdp
+      # For a graphical terminal and other tools
+      xfce.thunar # File manager for XFCE
+      xfce.xfce4-terminal # A good terminal emulator
+
       # AI
       ollama # This is the Ollama CLI client
       inputs.cursor.packages.${pkgs.system}.default
@@ -143,12 +169,15 @@
   # This sets up user namespaces and subuids/subgids for rootless containers
   users.users.mwoodpatrick = {
     isNormalUser = true;
+     # Ensure your user's shell is defined
+    shell = pkgs.bash;
     extraGroups = [ 
       "podman"     # for podman
       "wheel"      # For sudo access
       "kvm"        # Crucial for direct access to /dev/kvm
       "libvirtd"   # To manage VMs via libvirt (virsh, and virt-manager)
       "qemu-libvirtd" # Some setups may benefit from this for QEMU user permissions
+      "video"     # Allows access to the X server
     ];
   };
 
