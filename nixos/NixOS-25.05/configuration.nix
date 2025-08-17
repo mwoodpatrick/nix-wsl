@@ -73,4 +73,22 @@
     git
     gh
   ];
+
+  programs = {
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+
+      # You can add a custom vimscript or Lua configuration here.
+      # For vimscript, use the `customRC` option.
+      configure = {
+        customRC = ''
+          set number relativenumber
+          set tabstop=2
+          set shiftwidth=2
+          set expandtab
+        '';
+      };
+    };
+  };
 }
