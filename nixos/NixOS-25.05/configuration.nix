@@ -8,6 +8,8 @@
 
 # [NixOS tutorial - Nix Packages](https://www.youtube.com/watch?v=CqFcl4BmbN4&t=958s)
 # [Ultimate NixOS Guide](https://www.youtube.com/playlist?list=PLko9chwSoP-15ZtZxu64k_CuTzXrFpxPE)
+# [Stable Nix Packages Manual](https://nixos.org/manual/nixpkgs/stable/#preface)
+# [Unstable Nix Packages Manual](https://nixos.org/manual/nixpkgs/unstable/#preface)
 # [Nix Packages Manual](https://ryantm.github.io/nixpkgs/#preface)
 
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
