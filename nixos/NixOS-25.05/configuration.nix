@@ -2,12 +2,13 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 
 # [nix[(https://nix.dev/manual/nix/)
-# [Manual](https://nix.dev/manual/nix/2.30/)
+# [Nix Manual](https://nix.dev/manual/nix)
 # [NixOS Search - Packages](https://search.nixos.org/packages)
 # [NixOS Search - Options](https://search.nixos.org/options)
 
 # [NixOS tutorial - Nix Packages](https://www.youtube.com/watch?v=CqFcl4BmbN4&t=958s)
 # [Ultimate NixOS Guide](https://www.youtube.com/playlist?list=PLko9chwSoP-15ZtZxu64k_CuTzXrFpxPE)
+# [Nix Packages Manual](https://ryantm.github.io/nixpkgs/#preface)
 
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL

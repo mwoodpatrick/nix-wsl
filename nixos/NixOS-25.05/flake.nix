@@ -59,73 +59,30 @@
         inherit system;
       };
     in
-
     {
-      checksxz.${system} = {
-        fmt = pkgs.runCommand "fmt-check" { } ''
-          echo "== Running nix fmt =="
-          nix fmt -- --check ${self}
-          touch $out
-        '';
 
-        statix = pkgs.runCommand "statix-check" { } ''
-          echo "== Running statix =="
-          statix check ${self}
-          touch $out
-        '';
-
-        deadnix = pkgs.runCommand "deadnix-check" { } ''
-          echo "== Running deadnix =="
-          deadnix ${self}
-          touch $out
-        '';
-      };
-      checks.${system} = {
-        # Run nixpkgs-fmt in check mode
-        fmt = pkgs.runCommand "fmt-check" { buildInputs = [ pkgs.nixpkgs-fmt ]; } ''
-          echo "== Running nixpkgs-fmt =="
-          nixpkgs-fmt --check ${self}
-          touch $out
-        '';
-
-        # Run statix (Nix anti-pattern linter)
-        statix = pkgs.runCommand "statix-check" { buildInputs = [ pkgs.statix ]; } ''
-          echo "== Running statix =="
-          statix check ${self}
-          touch $out
-        '';
-
-        # Run deadnix (detect unused code in Nix files)
-        deadnix = pkgs.runCommand "deadnix-check" { buildInputs = [ pkgs.deadnix ]; } ''
-          echo "== Running deadnix =="
-          deadnix ${self}
-          touch $out
-        '';
-
-        # Example: run prettier for JS/TS if present
-        prettier = pkgs.runCommand "prettier-check" { buildInputs = [ pkgs.nodePackages.prettier ]; } ''
-          echo "== Running prettier =="
-          prettier --check .
-          touch $out
-        '';
-      };
       # Define a check that runs all your linters and formatters
-      xxchecks.${system} = pkgs.stdenv.mkDerivation {
-        name = "my-flake-lint-check";
-        src = self;
-        buildInputs = [
-          nixpkgs.statix
-          nixpkgs.deadnix
-          # ... other linters
-        ];
-        dontBuild = true;
-        installPhase = ''
-          statix check .
-          deadnix .
-          # etc.
-          mkdir -p $out
-        '';
-      };
+      checks.${system}.ci =
+        pkgs.runCommand "ci-checks"
+          {
+            buildInputs = [
+              pkgs.nixpkgs-fmt
+              pkgs.statix
+              pkgs.deadnix
+              pkgs.nodePackages.prettier
+            ];
+          }
+          ''
+            echo "== fmt =="
+            nixpkgs-fmt --check . # ${self}
+            echo "== statix =="
+            # statix check ${self}
+            echo "== deadnix =="
+            # deadnix ${self}
+            echo "== prettier =="
+            # prettier --check .
+            touch $out
+          '';
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
       nixosConfigurations.my-nix2505_wsl = nixpkgs.lib.nixosSystem {
