@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 
-# [nix[(https://nix.dev/manual/nix/)
+# [nix.dev[(https://nix.dev)
 # [Nix Manual](https://nix.dev/manual/nix)
 # [NixOS Search - Packages](https://search.nixos.org/packages)
 # [NixOS Search - Options](https://search.nixos.org/options)
