@@ -5,7 +5,10 @@
 # [Nix Manual](https://nix.dev/manual/nix)
 # [NixOS Search - Packages](https://search.nixos.org/packages)
 # [NixOS Search - Options](https://search.nixos.org/options)
-
+#
+# [Home Manager Manual](https://nix-community.github.io/home-manager/)
+# [Home Manager Configuration Options](https://nix-community.github.io/home-manager/options.xhtml)
+#
 # [NixOS tutorial - Nix Packages](https://www.youtube.com/watch?v=CqFcl4BmbN4&t=958s)
 # [Ultimate NixOS Guide](https://www.youtube.com/playlist?list=PLko9chwSoP-15ZtZxu64k_CuTzXrFpxPE)
 # [Stable Nix Packages Manual](https://nixos.org/manual/nixpkgs/stable/#preface)
@@ -133,22 +136,31 @@
   
         extraPackages = with pkgs; [ nodejs_24 python3Packages.pip python3Packages.virtualenv ];
         plugins = with pkgs.vimPlugins; [
-          nvim-treesitter
+          # nvim-treesitter
+	  nvim-treesitter.withAllGrammars
+	  # nvim-treesitter.withPlugins (p: [ p.c p.python ])
           telescope-nvim
           plenary-nvim
           nvim-lspconfig
+	  # coc-pyright
         ];
 
+
+#          lua << EOF
+#            -- Setup LSP
+#            local lspconfig = require('lspconfig')
+#            lspconfig.pyright.setup {}
+#          EOF
+
         extraConfig = ''
+					set expandtab
+          set nobackup
           set number
           syntax on
           colorscheme desert
+          set tabstop=2
+          set shiftwidth=2
   
-          lua << EOF
-            -- Setup LSP
-            local lspconfig = require('lspconfig')
-            lspconfig.pyright.setup {}
-          EOF
         '';
   
         # You can add a custom vimscript or Lua configuration here.
