@@ -47,7 +47,13 @@
         # "Hello, world!" when run.
         git
         hello
-        neovim
+	gcc15
+	python314
+	vimPlugins.nvim-treesitter-parsers.python
+	ripgrep
+	tree-sitter
+	fd
+        vim-full
         tmux
 
         # checkers
@@ -119,6 +125,43 @@
           wsl = "wsl.exe";
           wterm = "/mnt/c/Program\\ Files/WezTerm/wezterm.exe &";
         };
+      };
+
+      neovim = {
+        enable = true;
+        defaultEditor = true;
+  
+        extraPackages = with pkgs; [ nodejs_24 python3Packages.pip python3Packages.virtualenv ];
+        plugins = with pkgs.vimPlugins; [
+          nvim-treesitter
+          telescope-nvim
+          plenary-nvim
+          nvim-lspconfig
+        ];
+
+        extraConfig = ''
+          set number
+          syntax on
+          colorscheme desert
+  
+          lua << EOF
+            -- Setup LSP
+            local lspconfig = require('lspconfig')
+            lspconfig.pyright.setup {}
+          EOF
+        '';
+  
+        # You can add a custom vimscript or Lua configuration here.
+        # For vimscript, use the `customRC` option.
+#         configure = {
+#           customRC = ''
+#             set number
+#             set number relativenumber
+#             set tabstop=2
+#             set shiftwidth=2
+#             set expandtab
+#           '';
+#         };
       };
 
       # Enable the Git program configuration
@@ -266,21 +309,5 @@
   ];
 
   programs = {
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-
-      # You can add a custom vimscript or Lua configuration here.
-      # For vimscript, use the `customRC` option.
-      configure = {
-        customRC = ''
-          set number
-          set number relativenumber
-          set tabstop=2
-          set shiftwidth=2
-          set expandtab
-        '';
-      };
-    };
   };
 }
