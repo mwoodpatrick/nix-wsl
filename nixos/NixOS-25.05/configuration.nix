@@ -160,7 +160,12 @@
           colorscheme desert
           set tabstop=2
           set shiftwidth=2
-  
+        '';
+
+        extraLuaConfig = ''
+             -- Setup LSP
+             local lspconfig = require('lspconfig')
+             lspconfig.pyright.setup {}
         '';
   
         # You can add a custom vimscript or Lua configuration here.
