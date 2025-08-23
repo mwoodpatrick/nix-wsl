@@ -28,17 +28,19 @@
 # of all the flake inputs, which I will pass to my NixOS configuration."
 
 {
-  description = "A basic NixOS flake for NixOS on WSL2";
+  description = "A basic NixOS flake for NixOS on WSL2 with modularized configuration";
 
   inputs = {
     # The NixOS package collection
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # The official NixOS-WSL project, which provides the necessary modules
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
 
     # An optional input for managing user-specific configurations
     home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Optional: Add other flakes here, like home-manager or nixos-wsl
   };
@@ -47,6 +49,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       nixos-wsl,
       home-manager,
       ...
@@ -57,6 +60,7 @@
       # Import nixpkgs with the correct system and config
       pkgs = import nixpkgs {
         inherit system;
+        config.allowUnfree = true;
       };
     in
     {
@@ -92,7 +96,7 @@
           nixos-wsl.nixosModules.default
 
           # Your main configuration file this is where you'll define your user, packages, and services.
-          ./configuration.nix
+          ./modules/configuration.nix
 
           # Optional: The home-manager module for user-specific config
           home-manager.nixosModules.home-manager
