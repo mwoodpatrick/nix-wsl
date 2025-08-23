@@ -1,43 +1,62 @@
 { config, pkgs, ... }:
 {
-  imports = [ 
-    # bring in the home-manager module
-    (import <home-manager/nixos>)
-  ];
-
-  home = {
+  home-manager = {
     # It's good practice to set this to a recent version
-    stateVersion = "25.05";
+    # stateVersion = "25.05";
+
+    # This value determines the Home Manager release that your configuration is
+    # compatible with. This helps avoid breakage when a new Home Manager release
+    # introduces backwards incompatible changes.
+    #
+    # You should not change this value, even if you update Home Manager. If you do
+    # want to update the value, then make sure to first check the Home Manager
+    # release notes.
+
 
     # Define a specific user for Home Manager to manage
-    home-manager.users.mwoodpatrick = { pkgs, ... }: {
+    users.mwoodpatrick = { pkgs, ... }: {
       home = {
         username = "mwoodpatrick";
         homeDirectory = "/home/mwoodpatrick";
         stateVersion = "25.05";
+
+        # Home Manager can also manage your environment variables through
+        # 'home.sessionVariables'. These will be explicitly sourced when using a
+        # shell provided by Home Manager. If you don't want to manage your shell
+        # through Home Manager then you have to manually source 'hm-session-vars.sh'
+        # located at either
+        #
+        #  /etc/profiles/per-user/mwoodpatrick/etc/profile.d/hm-session-vars.sh
+        #
+        # or
+        #
+        #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+        #
+        # or
+        #
+        # Note these env vars are written to:
+        #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+        sessionVariables = {
+          EDITOR = "nvim";
+          GIT_ROOT = "/mnt/wsl/projects/git";
+          KIND_EXPERIMENTAL_PROVIDER = "podman";
+          LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
+          NIX_CFG_DIR = "$GIT_ROOT/nix-wsl";
+          PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
+          UV_PYTHON_DOWNLOADS = "never"; # Normal python does not work in NixOS
+          # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
+          DIRENV_LOG_FORMAT = ""; # disable direnv output
+          # TODO: Check if running on WSL does not appear to work (check for some other env var)
+          WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
+        };
       };
-  
+
       programs = {
         # Let Home Manager install and manage itself.
         home-manager.enable = true;
         zsh.enable = true;
-        # The home.packages option allows you to install Nix packages into your
-        # environment.
-        # Adds the 'hello' command to your environment. It prints a friendly
-        # "Hello, world!" when run.
-        hello.enable =true;
-  	    gcc15.enable =true;
-  	    python314.enable =true;
-  	    vimPlugins.nvim-treesitter-parsers.python.enable =true;
   	    ripgrep.enable =true;
-  	    tree-sitter.enable =true;
   	    fd.enable =true;
-        vim-full.enable =true;
-        tmux.enable =true;
-  
-        # checkers.enable =true;
-        statix.enable =true;
-        deadnix.enable =true;
   
         bash = {
           enable = true;
@@ -225,35 +244,6 @@
           # ignores = [ ".DS_Store" "node_modules/" ]; # Global .gitignore entries
         };
       };
-      # Home Manager can also manage your environment variables through
-      # 'home.sessionVariables'. These will be explicitly sourced when using a
-      # shell provided by Home Manager. If you don't want to manage your shell
-      # through Home Manager then you have to manually source 'hm-session-vars.sh'
-      # located at either
-      #
-      #  /etc/profiles/per-user/mwoodpatrick/etc/profile.d/hm-session-vars.sh
-      #
-      # or
-      #
-      #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-      #
-      # or
-      #
-      # Note these env vars are written to:
-      #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-      sessionVariables = {
-        EDITOR = "nvim";
-        GIT_ROOT = "/mnt/wsl/projects/git";
-        KIND_EXPERIMENTAL_PROVIDER = "podman";
-        LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
-        NIX_CFG_DIR = "$GIT_ROOT/nix-wsl";
-        PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
-        UV_PYTHON_DOWNLOADS = "never"; # Normal python does not work in NixOS
-        # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
-        DIRENV_LOG_FORMAT = ""; # disable direnv output
-        # TODO: Check if running on WSL does not appear to work (check for some other env var)
-        WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
-      };
     };
   };
-};
+}

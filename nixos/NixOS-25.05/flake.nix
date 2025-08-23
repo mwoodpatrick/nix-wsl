@@ -97,6 +97,9 @@
 
           # Your main configuration file this is where you'll define your user, packages, and services.
           ./modules/configuration.nix
+          ./modules/wsl.nix
+          ./modules/home-manager.nix  
+          ./modules/users.nix
 
           # Optional: The home-manager module for user-specific config
           home-manager.nixosModules.home-manager
