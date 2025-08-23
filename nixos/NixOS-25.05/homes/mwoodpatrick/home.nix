@@ -50,15 +50,10 @@
           WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
         };
 
-        packages = with pkgs; [
-          bat
-          fzf
-          tree
-          jq
-       ];
       };
 
       imports = [ 
+         ./packages.nix
         ./neovim.nix
         # Import nvf’s home-manager module
         # nvf.homeManagerModules.default 
