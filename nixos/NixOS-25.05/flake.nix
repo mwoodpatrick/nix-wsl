@@ -43,6 +43,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Optional: Add other flakes here, like home-manager or nixos-wsl
+    # Add nvf
+    nvf.url = "github:notashelf/nvf";
+    nvf.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -98,11 +101,14 @@
           # Your main configuration file this is where you'll define your user, packages, and services.
           ./modules/configuration.nix
           ./modules/wsl.nix
-          ./modules/home-manager.nix  
           ./modules/users.nix
+          ./homes/mwoodpatrick/home.nix  
 
           # Optional: The home-manager module for user-specific config
           home-manager.nixosModules.home-manager
+    
+          # Import nvf into mwoodpatrick’s home config
+          # { home-manager.users.mwoodpatrick = import ./homes/mwoodpatrick/home.nix { inherit nvf; }; }
         ];
 
         # This line is crucial. It passes all the flake inputs
