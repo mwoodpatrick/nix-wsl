@@ -103,7 +103,6 @@
           ./modules/wsl.nix
           ./modules/users.nix
           ./homes/mwoodpatrick/home.nix  
-
           # Optional: The home-manager module for user-specific config
           home-manager.nixosModules.home-manager
     
