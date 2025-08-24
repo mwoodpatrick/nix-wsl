@@ -1,0 +1,12 @@
+# [NixVim - A Neovim configuration system for nix](https://nix-community.github.io/nixvim/)
+# [Nixvim options search](https://nix-community.github.io/nixvim/search/)
+# [Nixvim: Neovim Distro Powered By Nix - Vimjoyer](https://www.youtube.com/watch?v=b641h63lqy0)
+# [nixvim-video](https://github.com/vimjoyer/nixvim-video)
+{
+  programs.nixvim = {
+    enable = true;
+
+    colorschemes.catppuccin.enable = true;
+    plugins.lualine.enable = true;
+  };
+}
