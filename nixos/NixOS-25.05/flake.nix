@@ -61,16 +61,13 @@
     let
       # Use a specific system architecture
       system = "x86_64-linux";
+      lib = nixpkgs.lib;
       # Import nixpkgs with the correct system and config
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
       };
-      # auto-import modules from ./modules
-      moduleFiles =
-        builtins.filter (f: nixpkgs.lib.hasSuffix ".nix" f)
-          (builtins.attrNames (builtins.readDir ./modules));
-      modulePaths = map (f: ./modules + "/${f}") moduleFiles;
+      utils = import ./utils.nix { inherit lib; };
     in
     {
 
@@ -101,8 +98,7 @@
       nixosConfigurations.my-nix2505_wsl = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
-        modules =
-          modulePaths ++ [
+        modules = utils.importAll ./modules [] ++ [
             # The core module from the nixos-wsl project
             nixos-wsl.nixosModules.default
             # home-manager integration

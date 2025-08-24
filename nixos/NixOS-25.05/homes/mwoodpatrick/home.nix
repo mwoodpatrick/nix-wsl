@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 let
+  utils = import ./utils.nix { inherit lib; };
   # Read all files in this directory
   files = builtins.attrNames (builtins.readDir ./.);
 # Import every .nix file except home.nix itself
-  otherModules =
-    builtins.filter (f: f != "home.nix" && lib.hasSuffix ".nix" f) files;
+  otherModules = utils.importAll ./ ["home.nix"] 
 in
 {
   home-manager = {
