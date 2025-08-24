@@ -1,4 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+let
+  # Read all files in this directory
+  files = builtins.attrNames (builtins.readDir ./.);
+# Import every .nix file except home.nix itself
+  otherModules =
+    builtins.filter (f: f != "home.nix" && lib.hasSuffix ".nix" f) files;
+in
 {
   home-manager = {
     # It's good practice to set this to a recent version
@@ -52,16 +59,8 @@
 
       };
 
-      imports = [ 
-        ./packages.nix
-        ./bash.nix
-        ./neovim.nix
-        ./git.nix
-        ./zsh.nix
-        # Import nvf’s home-manager module
-        # nvf.homeManagerModules.default 
-        #  ./nvf.nix
-      ];
+      # [ nvf.homeManagerModules.default ] ++
+      imports = map (f: ./. + "/${f}") otherModules;
 
       programs = {
         # Let Home Manager install and manage itself.
