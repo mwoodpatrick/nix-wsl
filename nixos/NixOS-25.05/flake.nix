@@ -55,6 +55,7 @@
       nixpkgs-unstable,
       nixos-wsl,
       home-manager,
+      nvf,
       ...
     }@inputs:
     let
@@ -65,6 +66,11 @@
         inherit system;
         config.allowUnfree = true;
       };
+      # auto-import modules from ./modules
+      moduleFiles =
+        builtins.filter (f: nixpkgs.lib.hasSuffix ".nix" f)
+          (builtins.attrNames (builtins.readDir ./modules));
+      modulePaths = map (f: ./modules + "/${f}") moduleFiles;
     in
     {
 
@@ -94,21 +100,14 @@
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
       nixosConfigurations.my-nix2505_wsl = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          # The core module from the nixos-wsl project
-          nixos-wsl.nixosModules.default
 
-          # Your main configuration file this is where you'll define your user, packages, and services.
-          ./modules/configuration.nix
-          ./modules/wsl.nix
-          ./modules/users.nix
-          ./homes/mwoodpatrick/home.nix  
-          # Optional: The home-manager module for user-specific config
-          home-manager.nixosModules.home-manager
-    
-          # Import nvf into mwoodpatrick’s home config
-          # { home-manager.users.mwoodpatrick = import ./homes/mwoodpatrick/home.nix { inherit nvf; }; }
-        ];
+        modules =
+          modulePaths ++ [
+            # The core module from the nixos-wsl project
+            nixos-wsl.nixosModules.default
+            # home-manager integration
+            home-manager.nixosModules.home-manager
+          ];
 
         # This line is crucial. It passes all the flake inputs
         # as arguments to your modules, allowing you to access them.
