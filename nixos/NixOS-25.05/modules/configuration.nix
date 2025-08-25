@@ -72,8 +72,12 @@
     vim-full
   	vimPlugins.nvim-treesitter-parsers.python
     tmux
+    wget
   ];
 
   programs = {
+    # (Setup VSCode Remote)[https://nix-community.github.io/NixOS-WSL/how-to/vscode.html]
+    # (nix-ld)[https://github.com/nix-community/nix-ld]
+    nix-ld.enable = true;
   };
 }
