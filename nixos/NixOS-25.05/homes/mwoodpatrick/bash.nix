@@ -29,6 +29,7 @@
       urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
       wsl = "wsl.exe";
       wterm = "/mnt/c/Program\\ Files/WezTerm/wezterm.exe &";
+      xxx = "This just got added 9/7/2025"
     };
   };
 }
