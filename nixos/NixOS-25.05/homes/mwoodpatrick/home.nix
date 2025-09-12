@@ -49,6 +49,7 @@ in
           KIND_EXPERIMENTAL_PROVIDER = "podman";
           LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
           NIX_CFG_DIR = "$GIT_ROOT/nix-wsl";
+          NIXOS_CONFIG_ROOT="$NIX_CFG_DIR/nixos/NixOS-25.05"
           PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
           UV_PYTHON_DOWNLOADS = "never"; # Normal python does not work in NixOS
           # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
