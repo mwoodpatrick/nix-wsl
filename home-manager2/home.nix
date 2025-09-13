@@ -16,6 +16,12 @@
   # release notes.
   home.stateVersion = "25.05"; # Please read the comment before changing.
 
+  # fonts.packages = with pkgs; [
+  #   nerd-fonts.fira-code
+  #   nerd-fonts.jetbrains-mono
+  #   nerd-fonts.hack
+  # ];
+
   # Packages that should be installed to the user profile.
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -31,6 +37,9 @@
 
     # Nix docs + manpages
         nix-doc
+
+        # Nerd Fonts (pick one or more)
+        # (nerdfonts.override { fonts = [ "FiraCode" "Hack" "JetBrainsMono" ]; })
 
         # It is sometimes useful to fine-tune packages, for example, by applying
         # overrides. You can do that directly here, just don't forget the
@@ -52,7 +61,7 @@
   ];
 
   # Set Nerd Font as default terminal font if supported
-  # fonts.fontconfig.enable = true;
+  fonts.fontconfig.enable = true;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

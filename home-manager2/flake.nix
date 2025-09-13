@@ -1,3 +1,4 @@
+# https://home-manager-options.extranix.com/
 {
   description = "Home Manager configuration of mwoodpatrick";
 
