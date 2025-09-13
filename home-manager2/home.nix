@@ -35,7 +35,17 @@
         # neovim
         python3
 
-    # Nix docs + manpages
+      # Nix formatting
+      nil
+      alejandra
+      # TODO: compare nixpkgs-fmt
+      nixpkgs-fmt
+
+      # Nix Diagnostics
+      statix
+      deadnix
+
+      # Nix docs + manpages
         nix-doc
 
         # Nerd Fonts (pick one or more)
@@ -106,6 +116,12 @@
     WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
   };
 
+      # For a more extensive setup, it's often better to manage your Neovim 
+      # configuration as a separate directory and have Home Manager symlink it into your home folder. 
+      # This allows you to use a separate file for your configuration and keep it organized.
+      # Symlink your local nvim folder to the correct location
+      home.file.".config/nvim".source = ./nvim;
+
   # Let Home Manager install and manage itself.
   # Ensure manpages work inside WSL2
   programs = {
@@ -120,12 +136,12 @@
             vimAlias = true;
 
     # Vimscript configuration:
-     extraConfig = ''
-        set number relativenumber
-        set tabstop=2
-        set shiftwidth=2
-        set expandtab
-      '';
+#     extraConfig = ''
+#        set number relativenumber
+#        set tabstop=2
+#        set shiftwidth=2
+#        set expandtab
+#      '';
 
       # Lua configuration
       # extraConfigLua = ''
@@ -133,11 +149,6 @@
       #    vim.cmd('syntax on')
       #    '';
 
-      # For a more extensive setup, it's often better to manage your Neovim 
-      # configuration as a separate directory and have Home Manager symlink it into your home folder. 
-      # This allows you to use a separate file for your configuration and keep it organized.
-      # Symlink your local nvim folder to the correct location
-      # home.file.".config/nvim".source = ./nvim;
 
       # We'll use lazy.nvim for plugin management
       plugins = with pkgs.vimPlugins; [
