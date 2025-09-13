@@ -33,6 +33,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.keymap.set("n", "<leader>lu", function()
+  print("Got the funky key")
+end, { desc = "Mark's: Funky key" })
+
 -- print("After Lazy bootstrap")
 
 -- Load plugins from lua/plugins/

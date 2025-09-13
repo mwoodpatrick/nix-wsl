@@ -21,10 +21,10 @@ local function on_attach(client, bufnr)
       vim.lsp.buf.code_action()
     end
   end, "[LSP] Code Action")
-end
 
   bufmap("n", "<leader>ca", vim.lsp.buf.code_action, "[LSP] Code Action")
 end
+
 -- Default capabilities (completion, etc.)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- Shared config

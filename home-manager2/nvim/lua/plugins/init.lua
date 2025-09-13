@@ -1,5 +1,6 @@
 return {
   { "nvim-tree/nvim-web-devicons" },
+  require("plugins.conform"),
   require("plugins.lualine"),
   require("plugins.telescope"),
   require("plugins.nvim-tree"),
