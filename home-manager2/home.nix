@@ -27,6 +27,10 @@
   home.packages = with pkgs; [
     # missing formatters
 
+    go # includes gofmt
+    gotools # includes goimports
+    rustup
+    # rust-analyzer # includes rustfmt
     black
     isort
     prettier
@@ -45,7 +49,7 @@
     # neovim
     python3
 
-    # Nix formatting
+    # Nix Language Server Nix formatting
     nil
     alejandra
     # TODO: compare nixpkgs-fmt
