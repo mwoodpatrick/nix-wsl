@@ -25,6 +25,10 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    gcc_debug
+    git-lfs
+    libgcc
+    unzip
     nodejs_24
     ripgrep-all
 
@@ -32,6 +36,7 @@
 
     go # includes gofmt
     gotools # includes goimports
+    gopls
     rustup
     # rust-analyzer # includes rustfmt
     black
