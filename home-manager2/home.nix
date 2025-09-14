@@ -25,6 +25,9 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    nodejs_24
+    ripgrep-all
+
     # missing formatters
 
     go # includes gofmt
@@ -101,6 +104,7 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+  home.file.".config/nvim".source = ./nvim;
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -134,7 +138,7 @@
   # configuration as a separate directory and have Home Manager symlink it into your home folder.
   # This allows you to use a separate file for your configuration and keep it organized.
   # Symlink your local nvim folder to the correct location
-  home.file.".config/nvim".source = ./nvim;
+  # home.file.".config/nvim".source = ./nvim;
 
   # Let Home Manager install and manage itself.
   # Ensure manpages work inside WSL2
