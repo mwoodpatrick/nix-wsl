@@ -1,4 +1,5 @@
--- keymap
+-- keymap signature: set({mode}, {lhs}, {rhs}, {opts})
+-- 
 --------------------------------------------------------------------------------
 -- Navigate visual lines
 vim.keymap.set({ 'n', 'x' }, 'j', 'gj', { desc = 'Navigate down (visual line)' })
@@ -37,3 +38,28 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('n', '<leader>xx', '<Cmd>source %<CR>', { desc = 'Source current file' })
 vim.keymap.set('n', '<leader>x', '<Cmd>:.lua<CR>', { desc = 'Lua: execute current line' })
 vim.keymap.set('v', '<leader>x', '<Cmd>:lua<CR>', { desc = 'Lua: execute current selection' })
+
+
+
+-- local keymap = vim.keymap.set
+-- local default_opts = { noremap = true, silent = true }
+-- 
+-- -- --Remap space as leader key
+-- keymap("", "<Space>", "<Nop>", default_opts)
+-- vim.g.mapleader = " "
+-- vim.g.maplocalleader = "\\"
+-- 
+-- keymap("n", "hello", function() print('hello world') end, { desc = "my hello world" })
+-- 
+-- keymap('n', '<Leader>w', ':w<CR>', default_opts)
+-- 
+-- -- Save and quit
+-- keymap("n", "<C-s>", ":update<cr>", default_opts)
+-- keymap("n", "<C-q>", ":quit<cr>", default_opts)
+-- 
+-- -- Copy to system clipboard
+-- keymap("v", "<C-c>", '"+y', default_opts)
+-- 
+-- -- Add current date and time
+-- keymap("n", "<F2>", "a<C-R>=strftime('%c')<CR><Esc>", default_opts)
+-- 
