@@ -25,12 +25,17 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    ripgrep-all
+    fd
+    wget
     gcc_debug
     git-lfs
     libgcc
     unzip
     nodejs_24
+    ripgrep
     ripgrep-all
+    tree-sitter
 
     # missing formatters
 
@@ -53,9 +58,12 @@
     hello
     htop
     fortune
+    gh
     git
     # neovim
     python3
+    python313Packages.pynvim
+    python313Packages.pip
 
     # Nix Language Server Nix formatting
     nil
