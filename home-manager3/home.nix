@@ -25,6 +25,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    tree # Command to produce a depth indented directory listing
     ripgrep-all
     fd
     wget
