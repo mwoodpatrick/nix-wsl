@@ -37,6 +37,12 @@ opt.smartcase = true
 
 opt.termguicolors = true -- Enable 24-bit RGB colors
 
+opt.winborder = 'rounded'
+
+-- Set a shorter updatetime for a snappier hover experience
+-- Default is 4000ms (4 seconds); 500ms is a good starting point.
+opt.updatetime = 10000
+
 -- Synchronize the system clipboard
 -- with Neovim's clipboard
 if is_wsl then

@@ -26,6 +26,7 @@
   # environment.
   home.packages = with pkgs; [
     clang-tools
+    lua-language-server
     tree # Command to produce a depth indented directory listing
     ripgrep-all
     fd
