@@ -2,7 +2,7 @@
 --
 return {
   -- Command and arguments to start the server.
-  cmd = { vim.fn.expand("~/.nix-profile/bin/pyright") },
+  cmd = { "pylsp" },
 
   -- Filetypes to automatically attach to.
   filetypes = { "py" },
