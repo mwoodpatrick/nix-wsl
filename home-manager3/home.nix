@@ -25,8 +25,12 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    # Nix Language Server Nix formatting
+    nil
+    alejandra
     clang-tools
     lua-language-server
+    uv
     tree # Command to produce a depth indented directory listing
     ripgrep-all
     fd
@@ -68,9 +72,6 @@
     python313Packages.pynvim
     python313Packages.pip
 
-    # Nix Language Server Nix formatting
-    nil
-    alejandra
     # TODO: compare nixpkgs-fmt
     nixpkgs-fmt
 
