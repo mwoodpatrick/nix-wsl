@@ -2,10 +2,10 @@
 --
 return {
   -- Command and arguments to start the server.
-  cmd = { "pylsp" },
+  cmd = { vim.fn.expand("~/.nix-profile/bin/pylsp") },
 
   -- Filetypes to automatically attach to.
-  filetypes = { "py" },
+  filetypes = { "python" },
 
   -- Sets the "root directory" to the parent directory of the file in the
   -- current buffer that contains either a ".luarc.json" or a
