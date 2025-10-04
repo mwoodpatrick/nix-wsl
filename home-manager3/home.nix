@@ -34,6 +34,12 @@
     python313Packages.black
 
     # Nix Language Server Nix formatting
+    neovide
+    kitty
+    ghostty
+    xorg.xclock
+    xorg.xcalc
+    vim-full
     nil
     alejandra
     clang-tools

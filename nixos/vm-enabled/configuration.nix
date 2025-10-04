@@ -124,7 +124,6 @@
       home-manager
       kind
       kubectl
-      neovim
       wget
 
       # Tools for loading and managing Linux kernel modules
