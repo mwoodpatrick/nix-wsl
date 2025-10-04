@@ -9,4 +9,5 @@ return {
 	-- require("plugins.nvim-tree"),
 	-- require("plugins.lsp"),
 	-- require("plugins.null-ls"),
+  require("plugins.one-liners"),
 }
