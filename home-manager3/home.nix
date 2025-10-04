@@ -113,7 +113,6 @@
     '')
 
 
-    # XXXXXX
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     hello
@@ -160,10 +159,6 @@
     xz
     unzip
     p7zip
-
-  # [](https://wiki.nixos.org/wiki/Starship)
-  # [starship](https://starship.rs) - an cust
-    # YYYYYY
   ];
 
   # Set Nerd Font as default terminal font if supported
@@ -207,12 +202,9 @@
     LIBGL_ALWAYS_SOFTWARE = 1; # Need for Flutter since hardware render does not work on my laptops!
     NIX_CFG_DIR = "$GIT_ROOT/nix-wsl";
     PATH = "$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin";
-    # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
     DIRENV_LOG_FORMAT = ""; # disable direnv output
     # TODO: Check if running on WSL does not appear to work (check for some other env var)
     WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
-
-
     KIND_EXPERIMENTAL_PROVIDER = "podman";
     UV_PYTHON_DOWNLOADS = "never"; # Normal python does not work in NixOS
     # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
@@ -239,6 +231,14 @@
         # added from home.nix
         source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
         #end, added from home.nix
+
+        # Bash function 'n' to launch the Windows Neovide executable 
+        # with the --wsl flag and pass all arguments ($@).
+
+        n() {
+          # IMPORTANT: Verify this path is correct for your Windows installation!
+          neovide.exe --wsl "$@" &
+        }
       '';
 
       # set some aliases, feel free to add more or remove some
@@ -247,13 +247,14 @@
         h  = "history";
         hl = "history|less";
         ht = "history|tail -40";
-        he = "nvim $NIXOS_CONFIG_ROOT/home/home.nix";
-        hs = "home-manager switch --flake $NIXOS_CONFIG_ROOT/home;source ~/.bashrc";
+        he = "n $GIT_ROOT/nix-wsl/home-manager3/home.nix";
+				hs = "home-manager switch -v --flake $GIT_ROOT/nix-wsl/home-manager3;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
         ncd = "cd $NIXOS_CONFIG_ROOT";
         ne = "nvim $NIXOS_CONFIG_ROOT/flake.nix";
         ns = "sudo nixos-rebuild switch --flake $NIXOS_CONFIG_ROOT#nixos";
         ngc = "nix-collect-garbage -d";
+				nvd = "neovide.exe --wsl";
         j = "jobs";
         k = "kubectl";
         urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
@@ -263,6 +264,9 @@
       };
     };
 
+
+    # [](https://wiki.nixos.org/wiki/Starship)
+    # [starship](https://starship.rs) - an cust
     starship = {
       enable = true;
       # custom settings
