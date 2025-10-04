@@ -251,7 +251,7 @@
 				hs = "home-manager switch -v --flake $GIT_ROOT/nix-wsl/home-manager3;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
         ncd = "cd $NIXOS_CONFIG_ROOT";
-        ne = "nvim $NIXOS_CONFIG_ROOT/flake.nix";
+        ne = "n $NIXOS_CONFIG_ROOT/flake.nix";
         ns = "sudo nixos-rebuild switch --flake $NIXOS_CONFIG_ROOT#nixos";
         ngc = "nix-collect-garbage -d";
 				nvd = "neovide.exe --wsl";
