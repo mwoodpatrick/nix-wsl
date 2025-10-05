@@ -23,6 +23,9 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim
 require("lazy").setup({
+  -- GLOBAL OPTIONS: Disable lazy loading for debugging Set 'lazy' to false here
+  lazy = false,
+  
   spec = {
     -- import your plugins
     { import = "plugins" },

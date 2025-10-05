@@ -1,5 +1,6 @@
+print "Loading init.lua YYYYYYYYYYYYYYYYYYYYYYYYYYY"
 return {
--- "rebelot/kanagawa.nvim"
+    -- "rebelot/kanagawa.nvim"
 	require("plugins.kanagawa"),
 	-- { "nvim-tree/nvim-web-devicons" },
 	-- require("plugins.coc"),
@@ -9,5 +10,4 @@ return {
 	-- require("plugins.nvim-tree"),
 	-- require("plugins.lsp"),
 	-- require("plugins.null-ls"),
-  require("plugins.one-liners"),
 }
