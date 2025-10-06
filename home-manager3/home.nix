@@ -15,6 +15,17 @@
   # release notes.
   home.stateVersion = "25.05"; # Please read the comment before changing.
 
+  home.file.".config/luarocks/config.lua".text = ''
+              rocks_trees = {
+                { name = "user", root = home .. "/.luarocks" },
+              }
+
+              lua_interpreter = "lua5.1"
+              variables = {
+                LUA_DIR = "/nix/store",
+              }
+            '';
+
   # fonts.packages = with pkgs; [
   #   nerd-fonts.fira-code
   #   nerd-fonts.jetbrains-mono
@@ -34,8 +45,8 @@
     # Include LuaJIT interpreter (commonly used)
     # luajit
     # lua
-    # lua5_1
     # lua51Packages.luarocks
+    # lua5_1
     (lua5_1.withPackages (ps: with ps; [
       luarocks
       luafilesystem
@@ -223,6 +234,7 @@
     WSL = if pkgs.hostPlatform.isWindows then "true" else "false";
     KIND_EXPERIMENTAL_PROVIDER = "podman";
     UV_PYTHON_DOWNLOADS = "never"; # Normal python does not work in NixOS
+    LUAROCKS_CONFIG = "$HOME/.config/luarocks/config.lua";
     # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
   };
 

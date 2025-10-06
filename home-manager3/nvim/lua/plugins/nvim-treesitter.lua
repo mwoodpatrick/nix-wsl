@@ -1,4 +1,5 @@
 -- https://github.com/nvim-treesitter/nvim-treesitter
+-- Treesitter for syntax
 return {
   "nvim-treesitter/nvim-treesitter",
   -- CRITICAL: Force the core plugin to load immediately at startup
@@ -6,6 +7,7 @@ return {
   branch = 'main',
   -- version = false, -- last release is way too old and doesn't work on Windows
   build = ":TSUpdate",
+  opts = { ensure_installed = { "lua", "nix", "python" } },
 --   init = function(plugin)
 --     -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
 --     -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
