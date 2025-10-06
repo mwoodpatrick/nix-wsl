@@ -1,3 +1,5 @@
+-- [lazy.nvim - Getting Started](https://lazy.folke.io/)
+-- [lazy.nvim - github](https://github.com/folke/lazy.nvim)
 -- Sets up lazy.nvim
 -- [Getting Started](https://lazy.folke.io/)
 -- [lazy.nvim](https://github.com/folke/lazy.nvim)
@@ -23,9 +25,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim
 require("lazy").setup({
-  -- GLOBAL OPTIONS: Disable lazy loading for debugging Set 'lazy' to false here
-  lazy = false,
-  
   spec = {
     -- import your plugins
     { import = "plugins" },
@@ -39,3 +38,13 @@ require("lazy").setup({
 	-- This path should be in a user-writable directory like ~/.cache or ~/.local/share
 	lockfile = vim.fn.stdpath("cache") .. "/lazy-lock.json",
 })
+
+-- [luarocks](https://github.com/luarocks/luarocks/tree/main)
+-- [LuaRocks is the package manager for Lua modules](https://luarocks.org/)
+-- [Migrating to Rocks.nvim](https://drake.dev/posts/migrating-to-rocks-nvim)
+-- [rocks.nvim](https://neovimcraft.com/plugin/nvim-neorocks/rocks.nvim/)
+-- setup rocks.nvim
+-- require("rocks").setup {
+--   rocks_path = vim.fn.stdpath("data") .. "/rocks",
+--   luarocks_binary = "luarocks", -- provided by Nixpkgs if installed
+-- }

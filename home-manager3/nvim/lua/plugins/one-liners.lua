@@ -1,5 +1,10 @@
-print("XXXXXX Loading one-liners")
 return {
+    -- [luarocks.nvim](https://github.com/vhyrro/luarocks.nvim)
+    {
+      "vhyrro/luarocks.nvim",
+      priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+      config = true,
+    },
     { -- This helps with php/html for indentation
         'captbaritone/better-indent-support-for-php-with-html',
     },

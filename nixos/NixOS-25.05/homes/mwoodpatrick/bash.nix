@@ -5,9 +5,9 @@
     enableCompletion = true;
     # Add your custom bashrc here
     bashrcExtra = ''
-      # added from home.nix
+      # added from /mnt/wsl/projects/git/nix-wsl/nixos/NixOS-25.05/homes/mwoodpatrick/bash.nix
       source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-      #end, added from home.nix
+      #end, added from bash.nix
     '';
   
     # set some aliases, feel free to add more or remove some

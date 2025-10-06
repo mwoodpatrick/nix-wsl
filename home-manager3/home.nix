@@ -25,6 +25,22 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    gnumake # needed for make
+
+    # 2. Install the Lua package manager itself.
+    # We use lua5_1.luarocks for the Lua 5.1 version.
+    # determine correct version for nvin
+    # :lua = _VERSION
+    # Include LuaJIT interpreter (commonly used)
+    # luajit
+    # lua
+    # lua5_1
+    # lua51Packages.luarocks
+    (lua5_1.withPackages (ps: with ps; [
+      luarocks
+      luafilesystem
+    ]))
+
     uv
     python313
     python313Packages.python-lsp-server
@@ -400,11 +416,10 @@
       # We'll use lazy.nvim for plugin management
       plugins = with pkgs.vimPlugins; [
         lazy-nvim
+        rocks-nvim
         nvim-web-devicons
         lualine-nvim
       ];
     };
-
-
   };
 }
