@@ -1,8 +1,12 @@
 -- lsp
 --------------------------------------------------------------------------------
--- See https://gpanders.com/blog/whats-new-in-neovim-0-11/ for a nice overview
+-- [Lsp](https://neovim.io/doc/user/lsp.html)
+-- [What's New in Neovim 0.11](https://gpanders.com/blog/whats-new-in-neovim-0-11/) for a nice overview
 -- of how the lsp setup works in neovim 0.11+.
-
+-- [Configuring Neovim 0.11 LSP from scratch](https://blog.diovani.com/technology/2025/06/13/configuring-neovim-011-lsp.html)
+-- [Neovim LSP 0.11](https://davelage.com/posts/neovim-lsp-0.11/)
+-- [Native LSP config in Neovim V0.11](https://0xunicorn.com/neovim-native-lsp-config/)
+-- [LSP Configuration in Neovim 0.11[(https://goral.net.pl/post/lsp-configuration-in-neovim-011/)
 -- This actually just enables the lsp servers.
 -- The configuration is found in the lsp folder inside the nvim config folder,
 -- so in ~.config/lsp/lua_ls.lua for lua_ls, for example.
