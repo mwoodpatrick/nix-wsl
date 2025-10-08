@@ -1,6 +1,7 @@
+-- Sets up lazy.nvim
+-- lock file: /home/mwoodpatrick/.cache/nvim/lazy-lock.json
 -- [lazy.nvim - Getting Started](https://lazy.folke.io/)
 -- [lazy.nvim - github](https://github.com/folke/lazy.nvim)
--- Sets up lazy.nvim
 -- [Getting Started](https://lazy.folke.io/)
 -- [lazy.nvim](https://github.com/folke/lazy.nvim)
 -- [Nerd Fonts](https://www.nerdfonts.com/)
