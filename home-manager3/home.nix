@@ -1,3 +1,25 @@
+# By default home manager module gets these input attributes:
+# 
+# config	The result of the entire configuration evaluation up to this point. 
+# You usually refer to config attributes (like config.programs.git.enable) to set options 
+# in one place and reuse them elsewhere.
+# options	A reference to all possible Home Manager configuration options that can be set. This is used when defining new options (less common in home.nix).	Defines new configuration options.
+# 
+# pkgs: The complete set of Nix packages available to Home Manager. 
+# This is the package set you passed in using inherit pkgs;.
+#
+# lib	The Nixpkgs library (pkgs.lib), which contains essential helper functions like mkIf, mkDefault, map, filter, and many others.	Access utility functions.
+# pkgs	The complete set of Nix packages available to Home Manager. This is the package set you passed in using inherit pkgs;.	Install packages (e.g., pkgs.neovim).
+#
+# options: A reference to all possible Home Manager configuration options that can be set. 
+# This is used when defining new options (less common in home.nix).
+#
+# lib: The Nixpkgs library (pkgs.lib), which contains essential helper functions like 
+# mkIf, mkDefault, map, filter, and many others.
+#
+# Additional attributes specified in nextraSpecialArgs 
+
+
 { config, pkgs, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -106,7 +128,6 @@
     fortune
     gh
     git
-    # neovim
 
     # TODO: compare nixpkgs-fmt
     nixpkgs-fmt
@@ -237,12 +258,6 @@
     LUAROCKS_CONFIG = "$HOME/.config/luarocks/config.lua";
     # PS1=''\u@\h:\w\ myenv$ ''; # Currently trying out starship
   };
-
-  # For a more extensive setup, it's often better to manage your Neovim
-  # configuration as a separate directory and have Home Manager symlink it into your home folder.
-  # This allows you to use a separate file for your configuration and keep it organized.
-  # Symlink your local nvim folder to the correct location
-  # home.file.".config/nvim".source = ./nvim;
 
   # Let Home Manager install and manage itself.
   # Ensure manpages work inside WSL2
@@ -405,8 +420,15 @@
       # ignores = [ ".DS_Store" "node_modules/" ]; # Global .gitignore entries
     };
 
+    # For a more extensive setup, it's often better to manage your Neovim
+    # configuration as a separate directory and have Home Manager symlink it into your home folder.
+    # This allows you to use a separate file for your configuration and keep it organized.
+    # Symlink your local nvim folder to the correct location
+    # home.file.".config/nvim".source = ./nvim;
+
     neovim = {
       enable = true;
+      # package = pkgs.neovim-nightly;  # latest master build
       defaultEditor = true;
       viAlias = true;
       vimAlias = true;
