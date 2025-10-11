@@ -113,6 +113,10 @@
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
+
+    # Increase the download buffer size to 1 GiB (1073741824 bytes)
+    # This helps prevent the buffer-full warning during large downloads.
+    settings.download-buffer-size = 1073741824;
   };
 
   environment = {
