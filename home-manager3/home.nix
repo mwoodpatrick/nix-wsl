@@ -302,11 +302,11 @@
         k = "kubectl";
         urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
         urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+        vv = "NVIM_APPNAME=nvim-test nvim";
         wsl = "wsl.exe";
         wterm = "/mnt/c/Program\\ Files/WezTerm/wezterm.exe &";
       };
     };
-
 
     # [](https://wiki.nixos.org/wiki/Starship)
     # [starship](https://starship.rs) - an cust

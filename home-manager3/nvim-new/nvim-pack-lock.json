@@ -1,0 +1,37 @@
+{
+  "plugins": {
+    "blink.cmp": {
+      "rev": "327fff9",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": "1.0.0 - 2.0.0"
+    },
+    "command.nvim": {
+      "rev": "8bbc8fd",
+      "src": "https://github.com/vieitesss/command.nvim"
+    },
+    "fzf-lua": {
+      "rev": "db3ccff",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "gitsigns.nvim": {
+      "rev": "1ee5c1f",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "mason.nvim": {
+      "rev": "ad7146a",
+      "src": "https://github.com/mason-org/mason.nvim"
+    },
+    "miniharp.nvim": {
+      "rev": "29c50dd",
+      "src": "https://github.com/vieitesss/miniharp.nvim"
+    },
+    "techbase.nvim": {
+      "rev": "b5d1663",
+      "src": "https://github.com/mcauley-penney/techbase.nvim"
+    },
+    "vim-fugitive": {
+      "rev": "61b51c0",
+      "src": "https://github.com/tpope/vim-fugitive"
+    }
+  }
+}

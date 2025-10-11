@@ -1,4 +1,3 @@
-print "Loading init.lua YYYYYYYYYYYYYYYYYYYYYYYYYYY"
 return {
     -- "rebelot/kanagawa.nvim"
 	require("plugins.kanagawa"),

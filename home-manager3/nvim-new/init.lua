@@ -1,0 +1,11 @@
+-- [Minimal Neovim config v0.12 edition](https://vieitesss.github.io/posts/Neovim-new-config/)
+-- [nvim](https://github.com/vieitesss/nvim)
+print "Using new nvim config"
+vim.fn.input("Press ENTER to acknowledge: ")
+require('plugins')
+require('configs')
+require('keymaps')
+require('autocmds')
+require('statusline')
+require('lsp')
+-- require('command')
