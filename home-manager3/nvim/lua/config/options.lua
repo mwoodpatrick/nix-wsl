@@ -28,6 +28,10 @@ opt.scrolloff = 999
 
 opt.virtualedit = "block"
 
+opt.swapfile = false
+opt.undofile = true
+opt.undodir = vim.fn.stdpath("state") .. "/undo"
+
 -- Preview substitutions
 opt.inccommand = "split"
 
