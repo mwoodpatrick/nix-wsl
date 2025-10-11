@@ -38,11 +38,11 @@
       system = "x86_64-linux";
       # pkgs = nixpkgs.legacyPackages.${system};
       # Import the packages set for the defined system
-      # pkgs = import nixpkgs { inherit system; };
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ neovim-nightly-overlay.overlays.default ];
-      };
+      pkgs = import nixpkgs { inherit system; };
+      # pkgs = import nixpkgs {
+      #  inherit system;
+      #  overlays = [ neovim-nightly-overlay.overlays.default ];
+      # };
     in
     {
       homeConfigurations."mwoodpatrick" = home-manager.lib.homeManagerConfiguration {
