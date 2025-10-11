@@ -65,6 +65,18 @@ vim.pack.add({
 
 -- require('techbase').setup({vim.cmd.colorscheme("techbase")})
 
+-- [kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)
+vim.pack.add({
+    { src = "https://github.com/rebelot/kanagawa.nvim" },
+})
+
+--require('kanagawa').setup({vim.cmd.colorscheme("kanagawa-wave")})
+-- require('kanagawa').setup({vim.cmd.colorscheme("kanagawa-dragon")})
+-- require('kanagawa').setup({vim.cmd.colorscheme("kanagawa-lotus")})
+-- require("kanagawa").load("wave")
+require("kanagawa").load("dragon")
+-- require("kanagawa").load("lotus")
+
 -- ~/.config/nvim-new/lua/plugins.lua
 vim.pack.add({
     { src = "https://github.com/ibhagwan/fzf-lua" },
