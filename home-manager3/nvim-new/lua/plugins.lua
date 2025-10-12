@@ -1,7 +1,22 @@
 vim.g.mapleader = " "
 
+-- Log Level	Purpose
+-- "debug"	The recommended setting for troubleshooting; logs detailed internal steps and LSP requests/responses.
+-- "trace"	Logs extremely fine-grained information, including every single function call. 
+-- 		Useful for deep debugging, but generates very large files quickly.
+-- "warn"	The default setting; only logs significant issues.
+-- :lua vim.cmd.edit(vim.lsp.get_log_path())
+-- https://neovim.io/doc/user/vimfn.html#stdpath()
+-- :lua vim.cmd.edit(vim.fn.stdpath("log"))
+-- :lua = vim.fn.stdpath("config")
+-- :lua = vim.fn.stdpath("log")
+
+vim.log.set_level("debug")
+
 local HOME = vim.fn.expand("~")
-local local_dev = "file://" .. HOME
+local local_dev = "file://" .. vim.env.GIT_ROOT
+print(local_dev)
+vim.fn.input("Press ENTER to acknowledge local dev: ")
 vim.pack.add({
     { src = "https://github.com/mason-org/mason.nvim" },
     -- { src = "https://github.com/mcauley-penney/techbase.nvim" },
@@ -14,8 +29,9 @@ vim.pack.add({
     { src = "https://github.com/ibhagwan/fzf-lua" },
     { src = "https://github.com/lewis6991/gitsigns.nvim" },
     { src = "https://github.com/saghen/blink.cmp",            version = vim.version.range("^1") },
-    -- { src = local_dev .. "/personal/command.nvim", version = "feat/virtual-text" },
-    { src = "https://github.com/vieitesss/command.nvim" },
+    -- { src = local_dev .. "/nvim-greeter.nvim" },
+    { src = local_dev .. "/zzz/command.nvim", version = "feat/virtual-text" },
+    -- { src = "https://github.com/vieitesss/command.nvim" },
     { src = "https://github.com/tpope/vim-fugitive" },
     { src = "https://github.com/github/copilot.vim" },
     { src = "https://github.com/olimorris/codecompanion.nvim" },
@@ -26,7 +42,11 @@ vim.pack.add({
 
 vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
--- require('command').setup({})
+-- require('greeter').setup({
+--  message = "Welcome back, master of Vim!",
+--})
+
+require('command').setup({})
 require('miniharp').setup({ show_on_autoload = true })
 require('mason').setup({})
 -- require('techbase').setup({})

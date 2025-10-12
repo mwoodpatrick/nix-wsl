@@ -11,7 +11,8 @@
     },
     "command.nvim": {
       "rev": "8bbc8fd",
-      "src": "https://github.com/vieitesss/command.nvim"
+      "src": "https://github.com/vieitesss/command.nvim",
+      "version": "'feat/virtual-text'"
     },
     "copilot.vim": {
       "rev": "da369d9",
@@ -44,6 +45,9 @@
     "miniharp.nvim": {
       "rev": "29c50dd",
       "src": "https://github.com/vieitesss/miniharp.nvim"
+    },
+    "nvim-greeter.nvim": {
+      "src": "file:///mnt/wsl/projects/git/nvim-greeter.nvim"
     },
     "plenary.nvim": {
       "rev": "b9fd522",
