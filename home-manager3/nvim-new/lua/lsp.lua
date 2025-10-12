@@ -9,6 +9,7 @@ vim.lsp.enable({
   "helm_ls",
   "clangd",
   "nil",
+  "yamlls",
   "pylsp",
 })
 vim.diagnostic.config({ virtual_text = true })

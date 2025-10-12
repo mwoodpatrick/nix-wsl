@@ -5,13 +5,25 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
     },
+    "codecompanion.nvim": {
+      "rev": "94f9120",
+      "src": "https://github.com/olimorris/codecompanion.nvim"
+    },
     "command.nvim": {
       "rev": "8bbc8fd",
       "src": "https://github.com/vieitesss/command.nvim"
     },
+    "copilot.vim": {
+      "rev": "da369d9",
+      "src": "https://github.com/github/copilot.vim"
+    },
     "fzf-lua": {
       "rev": "db3ccff",
       "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "gh-permalink.nvim": {
+      "rev": "9e33727",
+      "src": "https://github.com/vieitesss/gh-permalink.nvim"
     },
     "gitsigns.nvim": {
       "rev": "1ee5c1f",
@@ -25,9 +37,17 @@
       "rev": "ad7146a",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "mcphub.nvim": {
+      "rev": "8ff40b5",
+      "src": "https://github.com/ravitemer/mcphub.nvim"
+    },
     "miniharp.nvim": {
       "rev": "29c50dd",
       "src": "https://github.com/vieitesss/miniharp.nvim"
+    },
+    "plenary.nvim": {
+      "rev": "b9fd522",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "techbase.nvim": {
       "rev": "b5d1663",
@@ -36,6 +56,10 @@
     "vim-fugitive": {
       "rev": "61b51c0",
       "src": "https://github.com/tpope/vim-fugitive"
+    },
+    "vimtex": {
+      "rev": "7c7880d8",
+      "src": "https://github.com/lervag/vimtex"
     }
   }
 }
