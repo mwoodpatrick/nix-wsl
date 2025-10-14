@@ -58,6 +58,12 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    yaml-language-server
+    typescript-language-server
+    texlab # language server for LaTeX
+    helm-ls
+    shellcheck
+    bash-language-server
     gnumake # needed for make
 
     # 2. Install the Lua package manager itself.
