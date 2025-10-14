@@ -16,6 +16,8 @@ vim.opt.packpath:prepend(vim.env.GIT_ROOT)
 local local_dev = "file://" .. vim.env.GIT_ROOT
 print(local_dev)
 vim.fn.input("Press ENTER to acknowledge local dev: ")
+local pkglog = require("util.pkglog")
+pkglog.setup({ clear = true })  -- start clean each session
 vim.pack.add({
     { src = "https://github.com/mason-org/mason.nvim" },
     -- { src = "https://github.com/mcauley-penney/techbase.nvim" },
