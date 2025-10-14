@@ -11,9 +11,8 @@ vim.g.mapleader = " "
 -- :lua = vim.fn.stdpath("config")
 -- :lua = vim.fn.stdpath("log")
 
-vim.log.set_level("debug")
-
 local HOME = vim.fn.expand("~")
+vim.opt.packpath:prepend(vim.env.GIT_ROOT)
 local local_dev = "file://" .. vim.env.GIT_ROOT
 print(local_dev)
 vim.fn.input("Press ENTER to acknowledge local dev: ")
@@ -40,13 +39,22 @@ vim.pack.add({
     { src = "https://github.com/lervag/vimtex" },
 })
 
+local logger = require("util.logger")
+logger.setup({ clear = true })  -- start clean each session
+-- Example usage:
+logger.info("Neovim started")
+logger.debug("LSP initializing...")
+logger.error("Failed to connect to pylsp")
+-- To also show notifications:
+logger.notify("XXXX Python LSP attached", vim.log.levels.INFO)
+
 vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
 -- require('greeter').setup({
 --  message = "Welcome back, master of Vim!",
 --})
 
-require('command').setup({})
+-- require('command').setup({})
 require('miniharp').setup({ show_on_autoload = true })
 require('mason').setup({})
 -- require('techbase').setup({})
