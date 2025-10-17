@@ -18,7 +18,22 @@ print(local_dev)
 vim.fn.input("Press ENTER to acknowledge local dev: ")
 local pkglog = require("util.pkglog")
 pkglog.setup({ clear = true })  -- start clean each session
+
+
+-- [nvim-dap](https://github.com/mfussenegger/nvim-dap)
+-- [mfussenegger/nvim-dap](https://codeberg.org/mfussenegger/nvim-dap]
+-- [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui)
+-- [nvim-dap-view](https://github.com/igorlfs/nvim-dap-view)
+-- [NVIM DAP](https://igorlfs.github.io/nvim-dap-view/home)
+-- [Debug Adapter installation](https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#user-content-neovim-lua)
+-- [Debugging Lua in Neovim](https://zignar.net/2023/06/10/debugging-lua-in-neovim/)
+-- [A Guide to Debugging Code in Neovim](https://tamerlan.dev/a-guide-to-debugging-applications-in-neovim/)
+-- "mfussenegger/nvim-dap",
+-- "rcarriga/nvim-dap-ui",
+-- "jbyuki/one-small-step-for-vimkind" -- Lua debug adapter
+
 vim.pack.add({
+    { src = "https://github.com/mfussenegger/nvim-dap" },
     { src = "https://github.com/mason-org/mason.nvim" },
     -- { src = "https://github.com/mcauley-penney/techbase.nvim" },
     -- { src = "https://github.com/blazkowolf/gruber-darker.nvim" },
@@ -55,6 +70,7 @@ vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 -- require('greeter').setup({
 --  message = "Welcome back, master of Vim!",
 --})
+
 
 -- require('command').setup({})
 require('miniharp').setup({ show_on_autoload = true })
