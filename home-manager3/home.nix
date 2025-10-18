@@ -64,6 +64,8 @@
     helm-ls
     shellcheck
     bash-language-server
+    shfmt
+    shellcheck
     gnumake # needed for make
 
     # 2. Install the Lua package manager itself.
