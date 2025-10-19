@@ -54,6 +54,8 @@ vim.pack.add({
     { src = "https://github.com/nvim-lua/plenary.nvim" },
     { src = "https://github.com/ravitemer/mcphub.nvim" },
     { src = "https://github.com/lervag/vimtex" },
+    -- Lightweight yet powerful formatter plugin for Neovim
+    { src = "https://github.com/stevearc/conform.nvim" },
 })
 
 local logger = require("util.logger")
@@ -170,6 +172,22 @@ require('codecompanion').setup({
             }
         }
     },
+})
+
+-- ~/.config/nvim/lua/formatters.lua
+
+require("conform").setup({
+  formatters_by_ft = {
+    sh = { "shfmt" },
+    bash = { "shfmt" },
+    python = { "black" },
+    nix = { "nixfmt" },
+    lua = { "stylua" },
+  },
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function() require("conform").format({ async = false }) end,
 })
 
 vim.g.vimtex_imaps_enabled = 0

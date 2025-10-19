@@ -53,42 +53,45 @@ keymap("n", "<C-n>", require("miniharp").next)
 keymap("n", "<C-p>", require("miniharp").prev)
 keymap({ "n", "x" }, "<leader>gy", require("gh-permalink").yank)
 keymap("n", "<leader>fr", function()
-    require("fzf-lua").files({
-        actions = {
-            ["default"] = function(selected)
-                local file = selected[1]
-                local rel_path = vim.fn.fnamemodify(file, ":.")
+	require("fzf-lua").files({
+		actions = {
+			["default"] = function(selected)
+				local file = selected[1]
+				local rel_path = vim.fn.fnamemodify(file, ":.")
 
-                rel_path = rel_path:gsub(" ", "\\ ")
-                if not rel_path:match("^%.?/") then
-                    rel_path = "./" .. rel_path
-                end
+				rel_path = rel_path:gsub(" ", "\\ ")
+				if not rel_path:match("^%.?/") then
+					rel_path = "./" .. rel_path
+				end
 
-                vim.api.nvim_put({ rel_path }, "l", true, false)
-            end,
-        },
-    })
+				vim.api.nvim_put({ rel_path }, "l", true, false)
+			end,
+		},
+	})
 end)
 
 -- keybindings for bash-language-server
 local function lsp_keymaps(bufnr)
-  local opts = { noremap = true, silent = true, buffer = bufnr }
--- Diagnostics/Hovers (Standard LSP Mappings)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)          -- Show hover info/documentation (Explainshell)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)    -- Go to Definition
-  vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts) -- Code Actions (e.g., suggested fixes from ShellCheck)
--- Formatting keybinding
-  vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format, opts) -- Format the current buffer
+	local opts = { noremap = true, silent = true, buffer = bufnr }
+	local map = vim.keymap.set
+	-- Diagnostics/Hovers (Standard LSP Mappings)
+	map("n", "K", vim.lsp.buf.hover, opts) -- Show hover info/documentation (Explainshell)
+	map("n", "gd", vim.lsp.buf.definition, opts) -- Go to Definition
+	map("n", "gr", vim.lsp.buf.references, opts) -- references
+	map("n", "<leader>la", vim.lsp.buf.code_action, opts) -- Code Actions (e.g., suggested fixes from ShellCheck)
+	map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+	map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+	-- Formatting keybinding
+	map("n", "<leader>cf", vim.lsp.buf.format, opts) -- Format the current buffer
 end
 -- LspAttach Autocommand: Executes when *any* LSP client attaches
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('CustomLspKeymaps', { clear = true }),
-  callback = function(args)
-    -- Check if the attached client is 'bashls' (or run for all clients if preferred)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client.name == 'bashls' then
-      lsp_keymaps(args.buf)
-    end
-  end
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("CustomLspKeymaps", { clear = true }),
+	callback = function(args)
+		-- Check if the attached client is 'bashls' (or run for all clients if preferred)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client and client.name == "bashls" then
+			lsp_keymaps(args.buf)
+		end
+	end,
 })
-

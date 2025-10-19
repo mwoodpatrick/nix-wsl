@@ -54,25 +54,3 @@ vim.api.nvim_create_autocmd("FileType", {
         map("n", "<leader>fo", cmd, { buffer = ev.buf })
     end,
 })
-
--- Modern way to find an attached client by name
-local function get_client_by_name(name)
-  for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
-    if client.name == name then
-      return client
-    end
-  end
-  return nil
-end
-
-vim.api.nvim_create_autocmd('BufWritePre', {
-  pattern = { "*.sh", "*.bash" },
-  callback = function(args)
-    -- Check if a bashls client is attached and supports formatting
-    local client = get_client_by_name('bashls')
-    if client and client.server_capabilities.documentFormattingProvider then
-      vim.lsp.buf.format({ bufnr = args.buf })
-    end
-  end
-})
-
