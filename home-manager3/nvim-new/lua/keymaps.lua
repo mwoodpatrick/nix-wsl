@@ -69,3 +69,26 @@ keymap("n", "<leader>fr", function()
         },
     })
 end)
+
+-- keybindings for bash-language-server
+local function lsp_keymaps(bufnr)
+  local opts = { noremap = true, silent = true, buffer = bufnr }
+-- Diagnostics/Hovers (Standard LSP Mappings)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)          -- Show hover info/documentation (Explainshell)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)    -- Go to Definition
+  vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts) -- Code Actions (e.g., suggested fixes from ShellCheck)
+-- Formatting keybinding
+  vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format, opts) -- Format the current buffer
+end
+-- LspAttach Autocommand: Executes when *any* LSP client attaches
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('CustomLspKeymaps', { clear = true }),
+  callback = function(args)
+    -- Check if the attached client is 'bashls' (or run for all clients if preferred)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == 'bashls' then
+      lsp_keymaps(args.buf)
+    end
+  end
+})
+

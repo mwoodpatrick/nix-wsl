@@ -7,7 +7,7 @@ local function log_pack_diagnostics()
     local ts = os.date("%Y-%m-%d_%H-%M-%S")
     local log_file = string.format("%s/nvim_pack_diagnostics_%s.log", state_dir, ts)
 
-    vim.notify("UUU pkglog logfile:" .. log_file , vim.log.levels.INFO)
+    vim.notify("pkglog logfile:" .. log_file , vim.log.levels.INFO)
 
     local function append(lines, header)
         table.insert(lines, "")
@@ -139,10 +139,10 @@ vim.api.nvim_create_autocmd("VimEnter", { callback = log_pack_diagnostics })
 
 function M.setup(opts)
     print "in pkglog"
-    vim.fn.input("Press ENTER to acknowledge: ")
+    -- vim.fn.input("Press ENTER to acknowledge: ")
     opts = opts or {}
     -- vim.notify(string.format("🪵 vim.pack diagnostic log → %s", log_file), vim.log.levels.INFO)
-    vim.notify("UUU pkglog initialized", vim.log.levels.INFO)
+    vim.notify("pkglog initialized", vim.log.levels.INFO)
     log_pack_diagnostics()
 end
 

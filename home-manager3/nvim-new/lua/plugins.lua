@@ -15,7 +15,7 @@ local HOME = vim.fn.expand("~")
 vim.opt.packpath:prepend(vim.env.GIT_ROOT)
 local local_dev = "file://" .. vim.env.GIT_ROOT
 print(local_dev)
-vim.fn.input("Press ENTER to acknowledge local dev: ")
+-- vim.fn.input("Press ENTER to acknowledge local dev: ")
 local pkglog = require("util.pkglog")
 pkglog.setup({ clear = true })  -- start clean each session
 
@@ -63,7 +63,7 @@ logger.info("Neovim started")
 logger.debug("LSP initializing...")
 logger.error("Failed to connect to pylsp")
 -- To also show notifications:
-logger.notify("XXXX Python LSP attached", vim.log.levels.INFO)
+-- logger.notify("XXXX Python LSP attached", vim.log.levels.INFO)
 
 vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
