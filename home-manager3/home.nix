@@ -1,26 +1,30 @@
 # By default home manager module gets these input attributes:
-# 
-# config	The result of the entire configuration evaluation up to this point. 
-# You usually refer to config attributes (like config.programs.git.enable) to set options 
+#
+# config	The result of the entire configuration evaluation up to this point.
+# You usually refer to config attributes (like config.programs.git.enable) to set options
 # in one place and reuse them elsewhere.
 # options	A reference to all possible Home Manager configuration options that can be set. This is used when defining new options (less common in home.nix).	Defines new configuration options.
-# 
-# pkgs: The complete set of Nix packages available to Home Manager. 
+#
+# pkgs: The complete set of Nix packages available to Home Manager.
 # This is the package set you passed in using inherit pkgs;.
 #
 # lib	The Nixpkgs library (pkgs.lib), which contains essential helper functions like mkIf, mkDefault, map, filter, and many others.	Access utility functions.
 # pkgs	The complete set of Nix packages available to Home Manager. This is the package set you passed in using inherit pkgs;.	Install packages (e.g., pkgs.neovim).
 #
-# options: A reference to all possible Home Manager configuration options that can be set. 
+# options: A reference to all possible Home Manager configuration options that can be set.
 # This is used when defining new options (less common in home.nix).
 #
-# lib: The Nixpkgs library (pkgs.lib), which contains essential helper functions like 
+# lib: The Nixpkgs library (pkgs.lib), which contains essential helper functions like
 # mkIf, mkDefault, map, filter, and many others.
 #
-# Additional attributes specified in nextraSpecialArgs 
+# Additional attributes specified in nextraSpecialArgs
 
-
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -38,15 +42,15 @@
   home.stateVersion = "25.05"; # Please read the comment before changing.
 
   home.file.".config/luarocks/config.lua".text = ''
-              rocks_trees = {
-                { name = "user", root = home .. "/.luarocks" },
-              }
+    rocks_trees = {
+      { name = "user", root = home .. "/.luarocks" },
+    }
 
-              lua_interpreter = "lua5.1"
-              variables = {
-                LUA_DIR = "/nix/store",
-              }
-            '';
+    lua_interpreter = "lua5.1"
+    variables = {
+      LUA_DIR = "/nix/store",
+    }
+  '';
 
   # fonts.packages = with pkgs; [
   #   nerd-fonts.fira-code
@@ -77,10 +81,12 @@
     # lua
     # lua51Packages.luarocks
     # lua5_1
-    (lua5_1.withPackages (ps: with ps; [
-      luarocks
-      luafilesystem
-    ]))
+    (lua5_1.withPackages (
+      ps: with ps; [
+        luarocks
+        luafilesystem
+      ]
+    ))
 
     uv
     python313
@@ -89,6 +95,8 @@
     python313Packages.python-lsp-ruff
     python313Packages.ruff
     python313Packages.black
+    meson
+    ninja
 
     # Nix Language Server Nix formatting
     # neovide
@@ -167,7 +175,6 @@
     (pkgs.writeShellScriptBin "my-hello" ''
       echo "Hello, ${config.home.username}!"
     '')
-
 
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -294,18 +301,18 @@
 
       # set some aliases, feel free to add more or remove some
       shellAliases = {
-        c  = "clear";
-        h  = "history";
+        c = "clear";
+        h = "history";
         hl = "history|less";
         ht = "history|tail -40";
         he = "n $GIT_ROOT/nix-wsl/home-manager3/home.nix";
-				hs = "home-manager switch -v --flake $GIT_ROOT/nix-wsl/home-manager3;source ~/.bashrc";
+        hs = "home-manager switch -v --flake $GIT_ROOT/nix-wsl/home-manager3;source ~/.bashrc";
         myps = "ps -w -f -u $USER";
         ncd = "cd $NIXOS_CONFIG_ROOT";
         ne = "n $NIXOS_CONFIG_ROOT/flake.nix";
         ns = "sudo nixos-rebuild switch --flake $NIXOS_CONFIG_ROOT#nixos";
         ngc = "nix-collect-garbage -d";
-				nvd = "neovide.exe --wsl";
+        nvd = "neovide.exe --wsl";
         j = "jobs";
         k = "kubectl";
         urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
@@ -351,7 +358,7 @@
     };
 
     # [Firefox](https://nixos.wiki/wiki/Firefox)
-    firefox.enable = true;   
+    firefox.enable = true;
 
     # Enable the Git program configuration
     git = {
@@ -370,7 +377,7 @@
           # autoCrlf = "input"; # For consistent line endings, especially on Windows/WSL
           # pager = "delta"; # If you use a custom pager like delta
         };
-  
+
         # Aliases
         alias = {
           co = "checkout";
@@ -379,7 +386,7 @@
           st = "status";
           lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
         };
-  
+
         # Credential helper (important for GitHub/GitLab authentication)
         credential = {
           helper = "store"; # Or "cache", or a more secure helper if needed
@@ -387,43 +394,43 @@
           #   helper = "cache --timeout=3600"; # Cache credentials for 1 hour
           # };
         };
-  
+
         # Include other files (useful for organizing per-host or sensitive configs)
         # include = {
         #   path = "~/path/to/my/other-git-config";
         # };
-  
+
         # Protocol helpers (e.g., for GitHub CLI or specific protocols)
         # url."git@github.com:".insteadOf = "https://github.com/";
-  
+
         # Push settings
         push = {
           default = "current"; # Pushes the current branch to the same-named remote branch
         };
-  
+
         # Pull settings
         pull = {
           rebase = true; # Prefer rebase over merge for 'git pull'
         };
-  
+
         # Diff settings (e.g., using diff-so-fancy or delta)
         # diff = {
         #   tool = "default-difftool";
         # };
         # difftool."default-difftool".cmd = "nvim -d \"$LOCAL\" \"$REMOTE\"";
-  
+
         # Init template directory (for custom Git hooks or templates)
         # init = {
         #   templatedir = "~/.git_template";
         # };
-  
+
         # Signing commits
         # commit = {
         #   gpgsign = true;
         # };
         # gpg.program = "gpg"; # Path to your GPG program
       };
-  
+
       # Or you can use specific options for common configurations:
       # enableLfs = true; # To enable Git LFS support
       # ignores = [ ".DS_Store" "node_modules/" ]; # Global .gitignore entries
