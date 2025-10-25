@@ -1,3 +1,4 @@
 home-manager/nixvim.session
 *.qcow2
 *.log
+.cache
